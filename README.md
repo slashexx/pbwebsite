@@ -1,11 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#### Link to previous PB Website : [Github](https://github.com/pbdsce/landing-page) [Landing Page](https://www.pointblank.club/)
+
+#### List of Issues to get started on : [Issues](https://github.com/pbdsce/pbwebsite/issues)
 
 ## Getting Started
 
-Install all dependencies
+1. Install all dependencies
 ```bash
 npm install
 ```
+
+2. Create a `.env.local` file in the root directory and add in the firebase config data to connect to firebase : 
+```
+REACT_APP_FIREBASE_API_KEY=xxx
+REACT_APP_FIREBASE_AUTH_DOMAIN=xxx
+REACT_APP_FIREBASE_PROJECT_ID=xxx
+REACT_APP_FIREBASE_STORAGE_BUCKET=xxx
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=xxx
+REACT_APP_FIREBASE_APP_ID=xxx
+```
+
+Contact any of the maintainers for the contents of the `.env.local` file
 
 Then, run the development server:
 
