@@ -1,0 +1,13 @@
+import Link from 'next/link'
+import Image from 'next/image'
+import logo from '@/public/images/logo.svg'
+
+export default function Logo() {
+  return (
+    <Link href="/" className="block" aria-label="Cruip">
+      <div className="flex items-center">
+        <Image src={logo} alt='Logo' height={20} />
+      </div>
+    </Link>
+  )
+}
