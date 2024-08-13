@@ -1,6 +1,6 @@
 import { db } from '@/Firebase';
 import { sihValidate } from '@/lib/utils';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { NextResponse } from 'next/server';  
 
 export async function POST(request: Request) {  
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     if(val.error){
         return NextResponse.json({ message: 'Validation error', error: val.error });
     }
-    
+
     try{
         // Save to Firebase
         const docRef = await addDoc(collection(db, "sih2024"), data);
@@ -25,6 +25,12 @@ export async function POST(request: Request) {
 }  
 
 export async function GET() {  
-    // Handle GET requests  
-    return NextResponse.json({ message: 'GET request received' });  
+    try{
+        const querySnapshot = await getDocs(collection(db, "sih2024"));
+        const data = querySnapshot.docs.map((doc) => doc.data());
+        return NextResponse.json({ data });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: 'An error occurred', error });
+    }
 }
