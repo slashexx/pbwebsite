@@ -3,7 +3,8 @@ export const metadata = {
     description: 'Leads page',
 }
 
-    export default function Leads() {
+export default function Leads() {
+
     return (
         <>
         </>
