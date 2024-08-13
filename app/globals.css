@@ -31,3 +31,17 @@ body {
     text-wrap: balance;
   }
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #151919 inset !important;
+  box-shadow: 0 0 0 1000px #151519 inset !important;
+  -webkit-text-fill-color: white !important;
+  background-color: #151519 !important;
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+
