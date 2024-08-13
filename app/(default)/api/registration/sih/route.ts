@@ -5,14 +5,13 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {  
     const data = await request.json();  
-    // Process the data (e.g., save to a database)  
-    console.log(data);
+    
+    const val = sihValidate(data);
 
-    // const val = sihValidate(data);
-
-    // if(val.error){
-    //     return NextResponse.json({ message: 'Validation error', error: val.error });
-    // }
+    if(val.error){
+        return NextResponse.json({ message: 'Validation error', error: val.error });
+    }
+    
     try{
         // Save to Firebase
         const docRef = await addDoc(collection(db, "sih2024"), data);
