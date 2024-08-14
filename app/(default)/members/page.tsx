@@ -8,16 +8,16 @@ const cards = [
     { name: 'Alice Smith', domain: 'Software Engineer', company: 'Company A', year: "Alumni" },
     { name: 'Bob Johnson', domain: 'Designer', company: 'Company B', year: "Alumni" },
     { name: 'Charlie Brown', domain: 'Project Manager', company: 'Company C', year: "Alumni" },
-    { name: 'Dana White', domain: 'QA Tester', company: 'Company D', year: "1st Year" },
-    { name: 'Eve Davis', domain: 'Data Scientist', company: 'Company E', year: "3rd Year" },
+    { name: 'Dana White', domain: 'QA Tester', company: 'Company D', year: "First Year" },
+    { name: 'Eve Davis', domain: 'Data Scientist', company: 'Company E', year: "Third Year" },
     { name: 'Alice Smith', domain: 'Software Engineer', company: 'Company A', year: "Alumni" },
-    { name: 'Bob Johnson', domain: 'Designer', company: 'Company B', year: "3rd Year" },
-    { name: 'Charlie Brown', domain: 'Project Manager', company: 'Company C', year: "2nd Year" },
-    { name: 'Dana White', domain: 'QA Tester', company: 'Company D', year: "1st Year" },
-    { name: 'Eve Davis', domain: 'Data Scientist', company: 'Company E', year: "4th Year" },
+    { name: 'Bob Johnson', domain: 'Designer', year: "Third Year" },
+    { name: 'Charlie Brown', domain: 'Project Manager', company: 'Company C', year: "Second Year" },
+    { name: 'Dana White', domain: 'QA Tester', company: 'Company D', year: "First Year" },
+    { name: 'Eve Davis', domain: 'Data Scientist', company: 'Company E', year: "Fourth Year" },
 ];
 
-const headings = ["Alumni", "4th Year", "3rd Year", "2nd Year", "1st Year"];
+const headings = ["Alumni", "Fourth Year", "Third Year", "Second Year", "First Year"];
 
 export default function Members() {
     const [openIndex, setOpenIndex] = useState<number>(0);
@@ -45,7 +45,7 @@ export default function Members() {
                                                     key={cardIndex}
                                                     name={profile.name}
                                                     domain={profile.domain}
-                                                    company={profile.company}
+                                                    company={profile.company ? profile.company : ""}
                                                 />
                                             ))}
                                     </div>

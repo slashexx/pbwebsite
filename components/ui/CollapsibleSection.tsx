@@ -19,7 +19,8 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ heading, conten
                 tabIndex={-1}  // Prevent focus scrolling
                 className="flex items-center justify-between p-4 cursor-pointer bg-black text-white"
             >
-                <h2 className={`text-xl ${isOpen ? 'text-4xl font-bold' : 'text-xl'} text-green-600`}>
+                <h2 className={` ${isOpen ? 'text-4xl font-bold' : 'text-xl'} text-[#00C853]
+                `}>
                     {heading}
                 </h2>
 
