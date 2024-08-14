@@ -57,6 +57,13 @@ export default function Header() {
                   </p>
                 </Link>
               </li>
+              <li>
+                <Link href="/login">
+                  <p className={`btn-sm text-black bg-white mx-3 rounded-xl`}>
+                    <span>Login/Signup</span>
+                  </p>
+                </Link>
+              </li>
             </ul>
           </nav>
 
