@@ -27,7 +27,7 @@ export default function Landing()
               COMPETITIVE PROGRAMMING
              </h1>
              <h2 className="text-2xl  font-bold mb-4">
-              Coding Contests
+              PB Hustle
              </h2>
              <p className="text-lg text-center md:text-center">
              Point Blank has organized over 40+ editions of its PB Hustle coding contest,
@@ -54,7 +54,7 @@ export default function Landing()
               DEVELOPMENT
              </h1>
              <h2 className="text-2xl font-bold mb-4">
-              Workshops
+              PB Chronicals
              </h2>
              <p className="text-lg text-center md:text-center ">
              Point Blank has hosted over 100+ workshops, covering a wide range 
@@ -75,13 +75,15 @@ export default function Landing()
              HACKATHONS
              </h1>
              <h2 className="text-2xl  font-bold mb-4">
-              Competitive Hackathons
+              Smart India Hackathon
              </h2>
               <p className="text-lg text-center md:text-center">
-              Smart India Hackathon: Each year, we organize the internal 
+              Each year, we organize the internal 
               round of the Smart India Hackathon. In the 2020 edition, over 300+ 
               individuals from DSCE participated. Two of our teams advanced to the 
               finals, with one emerging as the winner of the software edition.
+              Along with this, teams from Point Blank have won hackathons all across
+                the city and country.
              </p>
            </div>
          </div>
@@ -102,7 +104,7 @@ export default function Landing()
               CYBER SECURITY
             </h1>
             <h2 className="text-2xl font-bold mb-4">
-              CTFs/Sessions
+              PB CTF
             </h2>
             <p className="text-lg text-center md:text-center">
             We organize workshops and sessions on various topics in cybersecurity, 
