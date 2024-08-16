@@ -16,6 +16,7 @@ const CollapsibleSection = forwardRef<HTMLDivElement, CollapsibleSectionProps>(
 
         useEffect(() => {
             if (isOpen && localRef.current) {
+
                 const offset = 200; // Adjust this value to match the height of your navbar
                 const bodyRect = document.body.getBoundingClientRect().top;
                 const elementRect = localRef.current.getBoundingClientRect().top;
@@ -26,8 +27,10 @@ const CollapsibleSection = forwardRef<HTMLDivElement, CollapsibleSectionProps>(
                     top: offsetPosition,
                     behavior: 'smooth',
                 });
+
             }
         }, [isOpen]);
+
 
         return (
             <div className="border-b border-gray-700" ref={localRef}>
