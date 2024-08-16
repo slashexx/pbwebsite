@@ -10,6 +10,11 @@ interface ITeamInfo {
     name: string;
     email: string;
     phone: string;
+    role: string;
+    enrollment_id: string;
+    course: string;
+    year_of_study: string;
+    branch: string;
   };
 }
 
@@ -58,15 +63,20 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
   const [formData, setFormData] = useState<IFormData>({
     team_info: {
       team_name: "",
-      college_name: "",
-      team_size: 6,
+      college_name: "DSCE",
+      team_size: 5,
       team_leader: {
         name: "",
         email: "",
         phone: "",
+        enrollment_id: "",
+        role: "",
+        course: "",
+        year_of_study: "",
+        branch: "",
       },
     },
-    team_members: Array.from({ length: 6 }, () => ({
+    team_members: Array.from({ length: 5 }, () => ({
       name: "",
       email: "",
       phone: "",
