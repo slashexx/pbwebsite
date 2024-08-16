@@ -2,6 +2,10 @@
       background-image: url("../../../public/images/pbimage3.jpeg");
       background-size: cover;
       background-repeat: no-repeat;
+      background-position: center;
+      @media (max-width: 768px) {
+        margin-top: 60px;      
+      }
     };
 
 h1{
@@ -78,6 +82,7 @@ h1{
   height: 100%;
   width: 100%;
   border-radius: 2rem;
+  overflow: hidden;
   box-shadow: 0 0 5px 2px rgba(50, 50, 50, 0.25);
   position: absolute;
   backface-visibility: hidden;

@@ -21,7 +21,7 @@ function AchievementCard({ achiever }: { achiever: Achiever }) {
         <img
           src={achiever.imageUrl}
           alt={`${achiever.Name}'s profile`}
-          className="w-full h-[270px] object-cover object-center"
+          className="w-full h-[300px] object-cover object-center"
         />
       </div>
       <div className="p-4">
@@ -29,6 +29,12 @@ function AchievementCard({ achiever }: { achiever: Achiever }) {
           {achiever.Name}
         </h3>
         <ul className="list-disc list-outside pl-5">
+          {achiever?.CompanyPosition ? (
+            <li className="text-gray-600 text-lg mb-2">
+              {" "}
+              {achiever.CompanyPosition}
+            </li>
+          ) : null}
           {achiever.achievements.map((achievement, index) => (
             <li key={index} className="text-gray-600 text-lg mb-2">
               {achievement}

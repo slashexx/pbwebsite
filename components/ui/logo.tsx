@@ -5,7 +5,7 @@ import logo from '@/public/images/logo.svg'
 export default function Logo() {
   return (
     <Link href="/" className="block" aria-label="Cruip">
-      <div className="flex items-center">
+      <div className="flex items-center md:h-3">
         <Image src={logo} alt='Logo' height={20} />
       </div>
     </Link>

@@ -32,12 +32,12 @@ export default function Header() {
             <ul className="flex grow justify-end flex-wrap items-center">
               <li>
                 <Link href="/events">
-                  <p className={`font-medium ${pathname === '/events' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Events</p>
+                  <p className={`font-medium ${pathname === '/events' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Events</p>
                 </Link>
               </li>
               <li>
                 <Link href="/leads">
-                  <p className={`font-medium ${pathname === '/leads' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Leads</p>
+                  <p className={`font-medium ${pathname === '/leads' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Leads</p>
                 </Link>
               </li>
               <li>
@@ -47,21 +47,17 @@ export default function Header() {
               </li>
               <li>
                 <Link href="/achievements">
-                  <p className={`font-medium ${pathname === '/achievements' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Achievements</p>
+                  <p className={`font-medium ${pathname === '/achievements' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Achievements</p>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="mailto:admin@pointblank.club">
-                  <p className={`btn-sm text-black bg-white mx-3 rounded-xl`}>
-                    <span>Contact Us</span>
-                  </p>
+                <p className={`font-medium ${pathname === '/contact' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Contact Us</p>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/login">
-                  <p className={`btn-sm text-black bg-white mx-3 rounded-xl`}>
-                    <span>Login/Signup</span>
-                  </p>
+                <p className={`font-medium ${pathname === '/login' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Login</p>
                 </Link>
               </li>
             </ul>
