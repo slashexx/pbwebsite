@@ -41,6 +41,11 @@ export default function Header() {
                 </Link>
               </li>
               <li>
+                <Link href="/members">
+                  <p className={`font-medium ${pathname === '/members' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Members</p>
+                </Link>
+              </li>
+              <li>
                 <Link href="/achievements">
                   <p className={`font-medium ${pathname === '/achievements' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Achievements</p>
                 </Link>
