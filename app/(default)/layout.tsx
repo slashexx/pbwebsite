@@ -11,7 +11,7 @@ export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode
-}) {  
+}) {
 
   useEffect(() => {
     AOS.init({

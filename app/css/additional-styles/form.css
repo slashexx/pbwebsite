@@ -1,0 +1,95 @@
+.form-container {
+  width: min(600px, 100%);
+  background: transparent;
+}
+
+.h1,
+.h2 {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+.form-container select {
+  background-color: black;
+}
+
+.form-container select option {
+  color: white;
+  outline: none;
+  width: min(200px, 100%);
+  height: fit-content;
+}
+
+.form-container button {
+  border-radius: 0.5rem;
+}
+
+.container {
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .box {
+  margin-top: 3rem;
+  text-align: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.container .box .title {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.container .box .title .block {
+  width: 0%;
+  height: inherit;
+  background: #52c264;
+  position: absolute;
+  animation: mainBlock 2s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+  display: flex;
+}
+.container .box .title h1 {
+  font-family: "Poppins";
+  color: #fff;
+  -webkit-animation: mainFadeIn 2s forwards;
+  -o-animation: mainFadeIn 2s forwards;
+  animation: mainFadeIn 2s forwards;
+  animation-delay: 1.6s;
+  opacity: 0;
+  display: flex;
+  align-items: baseline;
+  position: relative;
+}
+
+@keyframes mainBlock {
+  0% {
+    width: 0%;
+    left: 0;
+  }
+  50% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0;
+    left: 100%;
+  }
+}
+
+@keyframes mainFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 678px) {
+  .form-container {
+    margin: 3rem 0;
+  }
+}
