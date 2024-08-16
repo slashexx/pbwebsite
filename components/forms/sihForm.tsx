@@ -115,11 +115,10 @@ const SIHMultiStepForm: React.FC = () => {
   return (
     <div className="my-4 mx-auto p-6 rounded-lg">
       <img
-        className="rounded-full h-20 mx-auto mb-6 w-20"
+        className="rounded-full h-20 mx-auto mb-10 w-20"
         src="https://i0.wp.com/opportunitycell.com/wp-content/uploads/2022/03/SIH2.png?fit=327%2C345&ssl=1"
         alt="SIH"
       />
-      <h1 className="mb-6 h1 text-center">SIH Registration Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step 1: Team Information */}
         {step === 1 && (

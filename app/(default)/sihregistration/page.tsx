@@ -7,20 +7,18 @@ import { cn } from "@/lib/utils";
 const RegisterPage = () => {
   return (
     <FormProvider>
-      <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
+      <div className="mt-16 mx-auto flex flex-col items-center justify-center">
         <div className="container">
-          <div className="box">
-            <div className="title">
+            <div className="title items-center justify-center mt-8">
               <span className="block"></span>
               <h1 className="h1">
-                Register for Smart India Hackathon!<span></span>
+                Register for Smart India Hackathon!
               </h1>
-            </div>
           </div>
         </div>
 
         <div className="form-container my-2">
-          <SIHRegistrationForm />
+          <SIHRegistrationForm data-aos="zoom-y-out" data-aos-delay="350" />
         </div>
         <DotPattern
           width={20}
