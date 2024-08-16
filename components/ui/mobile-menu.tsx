@@ -73,10 +73,13 @@ export default function MobileMenu() {
               <Link href="/leads" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Leads</Link>
             </li>
             <li>
+              <Link href="/members" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Members</Link>
+            </li>
+            <li>
               <Link href="/achievements" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Achievements</Link>
             </li>
             <li>
-              <Link href="mailto:admin@pointblank.club" className="btn-sm text-gray-200 text-gray-100 bg-gray-800 hover:bg-gray-800 dark:hover:bg-gray-700 w-full my-2" onClick={() => setMobileNavOpen(false)}>
+              <Link href="mailto:admin@pointblank.club" className="btn-sm text-gray-100 bg-gray-800 hover:bg-gray-800 dark:hover:bg-gray-700 w-full my-2" onClick={() => setMobileNavOpen(false)}>
                 <span>Contact Us</span>
               </Link>
             </li>
