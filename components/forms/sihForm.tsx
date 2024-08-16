@@ -25,7 +25,7 @@ const SIHMultiStepForm: React.FC = () => {
   } = useForm({
     defaultValues: formData,
   });
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit: SubmitHandler<any> = async (data : any) => {
     setFormData({ ...formData, ...data });
     if (step < 3) {
       setStep(step + 1);

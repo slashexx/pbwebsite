@@ -18,7 +18,7 @@ export default function Home() {
         <div className="text-4xl font-bold text-center text-gray-200 mb-4">
           Upcoming Events
         </div>
-        <Link href="/form">
+        <Link href="/sihregistration">
           <Image
             src={"/images/sih.png"}
             alt="sih"
@@ -27,8 +27,8 @@ export default function Home() {
             className="rounded-3xl border-2 border-slate-500"
           />
         </Link>
-        <Link href="/form">
-          <button className="btn-sm text-xl text-black bg-green-500 mx-3 rounded-xl mt-5">
+        <Link href="/sihregistration">
+          <button className="btn-sm text-xl text-black bg-green-500 mx-3 rounded-xl mt-10">
             Register for SIH
           </button>
         </Link>
