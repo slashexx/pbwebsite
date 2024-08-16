@@ -57,7 +57,7 @@ export default function MobileMenu() {
           show={mobileNavOpen}
           as="nav"
           id="mobile-nav"
-          className="absolute top-full h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-black"
+          className="absolute overflow-hidden top-full h-screen pb-16 z-20 left-0 w-full bg-black"
           enter="transition ease-out duration-200 transform"
           enterFrom="opacity-0 -translate-y-2"
           enterTo="opacity-100 translate-y-0"
@@ -76,8 +76,13 @@ export default function MobileMenu() {
               <Link href="/achievements" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Achievements</Link>
             </li>
             <li>
-              <Link href="mailto:admin@pointblank.club" className="btn-sm text-gray-200 text-gray-100 bg-gray-800 hover:bg-gray-800 dark:hover:bg-gray-700 w-full my-2" onClick={() => setMobileNavOpen(false)}>
-                <span>Contact Us</span>
+              <Link href="mailto:admin@pointblank.club" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>
+                Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/login" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>
+                Login
               </Link>
             </li>
           </ul>
