@@ -50,11 +50,11 @@ export default function Header() {
                   <p className={`font-medium ${pathname === '/achievements' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Achievements</p>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="mailto:admin@pointblank.club">
                 <p className={`font-medium ${pathname === '/contact' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Contact Us</p>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/login">
                 <p className={`font-medium ${pathname === '/login' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Login</p>
