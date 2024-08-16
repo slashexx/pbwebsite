@@ -13,7 +13,7 @@ const Card: React.FC<CardProps> = ({ name, domain, company }) => {
                 <div className="relative flex flex-col items-center text-center">
                     <p className="text-xl font-bold text-gray-300 mb-1">{name}</p>
                     <p className="text-md text-gray-400 mb-1">{domain}</p>
-                    <p className="text-sm text-transparent bg-clip-text bg-gradient-to-r from-[#d53369] to-[#cbad6d]">
+                    <p className="text-md text-transparent bg-clip-text bg-gradient-to-r from-[#d53369] to-[#cbad6d]">
                         {company}
                     </p>
                 </div>
