@@ -10,7 +10,7 @@ interface ITeamInfo {
     name: string;
     email: string;
     phone: string;
-  }
+  };
 }
 
 interface ITeamMember {
