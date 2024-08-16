@@ -118,7 +118,6 @@ const SIHMultiStepForm: React.FC = () => {
         src="/images/sih.png"
         alt="SIH"
       />
-      <h1 className="mb-6 h1 text-center">SIH Registration Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step 1: Team Information */}
         {step === 1 && (
