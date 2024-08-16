@@ -36,7 +36,7 @@ const CollapsibleSection = forwardRef<HTMLDivElement, CollapsibleSectionProps>(
                     </h2>
 
                     {isOpen ? (
-                        <FaChevronUp className="h-5 w-5 text-white" />
+                        <FaChevronUp className="h-5 w-5 text-white mt-24" />
                     ) : (
                         <FaChevronDown className="h-5 w-5 text-white" />
                     )}

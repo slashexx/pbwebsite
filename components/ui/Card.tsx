@@ -7,7 +7,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ name, domain, company }) => {
     return (
 
-        <div className="relative w-72 h-44 border rounded-lg overflow-hidden shadow-lg transition-transform transform hover:-translate-y-1 hover:shadow-white hover:shadow-md bg-gray-900">
+        <div className="relative w-72 h-44 border rounded-xl overflow-hidden shadow-lg transition-transform transform hover:-translate-y-1 hover:shadow-white hover:shadow-md bg-gray-900">
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             <div className="absolute inset-0 flex items-center justify-center p-4 text-white">
                 <div className="relative flex flex-col items-center text-center">
