@@ -12,10 +12,10 @@ export default function Activities() {
       {/* CP Post */}
       <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
-          <div className="p-2 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="CP" />
-            <h2 className="text-2xl font-bold mb-4">PB Hustle</h2>
-            <p className="text-lg text-justify">
+          <div className="p-8 md:p-16">
+            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Competitive Programming" />
+            <h2 className="text-2xl font-bold mb-4 px-10">PB Hustle</h2>
+            <p className="text-lg text-justify px-16">
               Point Blank has organized over 40+ editions of its PB Hustle
               coding contest, where participants solve 5-7 increasingly
               difficult problems in their preferred programming language. The
@@ -28,7 +28,7 @@ export default function Activities() {
           </div>
         </div>
         <div className=" highlight flex-1 w-full flex items-center justify-center bg-black-900">
-          <div className="h-96 w-96 flex items-center justify-center bg-black-900 p-2">
+          <div className="h-96 w-96 flex items-center justify-center bg-black-900">
             <Image
               src={"/images/cp.jpeg"}
               alt=""
@@ -43,7 +43,7 @@ export default function Activities() {
       {/* Development Post */}
       <div className="flex flex-col-reverse items-center justify-center md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-500 h-full">
-          <div className="h-96 flex items-center justify-center bg-black-900 p-2">
+          <div className="h-96 flex items-center justify-center bg-black-900">
             <Image
               src={"/images/dev.jpg"}
               alt=""
@@ -54,7 +54,7 @@ export default function Activities() {
           </div>
         </div>
         <div className="highlight flex-1 flex items-center justify-center p-8 bg-black-800">
-          <div className="p-2 md:p-16 text-justify">
+          <div className="p-8 md:p-16 text-justify">
             <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Development" />
             <h2 className="text-2xl font-bold mb-4">PB Chronicles</h2>
             <p className="text-lg text-justify">
@@ -73,7 +73,7 @@ export default function Activities() {
       {/* Hackathon Post */}
       <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
-          <div className="p-2 md:p-16">
+          <div className="p-8 md:p-16">
             <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Hackathons" />
             <h2 className="text-2xl font-bold mb-4">Smart India Hackathon</h2>
             <p className="text-lg text-justify">
@@ -87,7 +87,7 @@ export default function Activities() {
           </div>
         </div>
         <div className="highlight flex-1 flex items-center justify-center bg-black-900">
-          <div className="h-96 flex items-center justify-center bg-black-900 p-2">
+          <div className="h-96 flex items-center justify-center bg-black-900">
             <Image
               src={"/images/hack.jpg"}
               alt=""
@@ -102,7 +102,7 @@ export default function Activities() {
       {/* CyberSec Post */}
       <div className="flex flex-col-reverse items-center justify-center md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-900 h-full">
-          <div className="w-96 h-96 flex items-center justify-center bg-black-900 p-2">
+          <div className="w-96 h-96 flex items-center justify-center bg-black-900">
             <Image
               src={"/images/ctf.jpg"}
               alt=""
@@ -114,7 +114,7 @@ export default function Activities() {
         </div>
 
         <div className="highlight flex-1 flex items-center justify-center p-8 bg-black-800">
-          <div className="p-2 md:p-16">
+          <div className="p-8 md:p-16">
             <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Cybersecurity" />
             <h2 className="text-2xl font-bold mb-4">PB CTF</h2>
             <p className="text-lg text-justify">
