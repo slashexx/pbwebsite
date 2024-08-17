@@ -27,16 +27,30 @@
   
 /* Event Card Styling */
 .event-card {
-    color: #000000; 
-    background-color: #ffffff; 
+    color: #000000;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     max-width: 320px;
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 3px solid yellow; 
-}
+    border: 3px solid yellow;
+    display: flex;
+    flex-direction: column; /* Aligns content vertically */
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically */
+  }
+  
+  /* Event Image Styling */
+  .event-image {
+    width: 100%;
+    max-width: 200px; /* Adjust the maximum width as needed */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+    display: block; /* Ensures the image behaves as a block element */
+  }
   
 /* Event Card Hover Effect */
 .event-card:hover {
@@ -44,13 +58,7 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
 }
   
-/* Event Image Styling */
-.event-image {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    object-fit: cover;
-}
+
   
 /* h2 Styling */
 h2 {
