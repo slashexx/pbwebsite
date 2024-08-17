@@ -609,7 +609,7 @@ const SIHMultiStepForm: React.FC = () => {
                     className="px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                     value={problem}
                   >
-                    {problem}
+                    SIH-{problem}
                   </option>
                 ))}
               </select>
