@@ -13,7 +13,7 @@ export default function Activities() {
       <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
           <div className="p-8 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Competetive Programming" />
+            <HyperText className="text-3xl font-bold mb-4 text-green-500 " text="Competitive Programming" />
             <h2 className="text-2xl font-bold mb-4 px-10">PB Hustle</h2>
             <p className="text-lg text-justify px-16">
               Point Blank has organized over 40+ editions of its PB Hustle
@@ -56,7 +56,7 @@ export default function Activities() {
         <div className="highlight flex-1 flex items-center justify-center p-8 bg-black-800">
           <div className="p-8 md:p-16 text-justify">
             <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Development" />
-            <h2 className="text-2xl font-bold mb-4">PB Chronicals</h2>
+            <h2 className="text-2xl font-bold mb-4">PB Chronicles</h2>
             <p className="text-lg text-justify">
               Point Blank has hosted over 100+ workshops, covering a wide range
               of topics including open source, DevOps, machine learning,
