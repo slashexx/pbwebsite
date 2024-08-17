@@ -17,15 +17,9 @@ export default function Activities() {
       >
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
           <div className="p-8 md:p-16">
-            {/* <HyperText className="text-3xl font-bold mb-4 text-green-500 " text="Competitive Programming" /> */}
-            <div className="w-full max-w-[90%] mx-auto ">
-              <HyperText
-                className="text-3xl font-bold mb-4 text-green-500 text-center whitespace-nowrap overflow-hidden text-ellipsis"
-                text="Competitive Programming"
-              />
-            </div>
-            <h2 className="text-2xl font-bold mb-4 px-10">PB Hustle</h2>
-            <p className="text-lg text-justify px-16">  
+            <HyperText className="text-3xl font-bold mb-4 text-green-500 " text="CP" />
+            <h2 className="text-2xl font-bold mb-4 px-0">PB Hustle</h2>
+            <p className="text-lg text-justify px-0">  
               Point Blank has organized over 40+ editions of its PB Hustle
               coding contest, where participants solve 5-7 increasingly
               difficult problems in their preferred programming language. The
