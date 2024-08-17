@@ -12,6 +12,9 @@ import Link from "next/link";
 import SparklesText from "@/components/magicui/sparkles-text";
 import EventComponent from "@/components/eventcards";
 import Leads from "@/components/leads";
+import Achievements from '@/components/achievements';
+import Founder from "@/components/founder";
+
 
 export default function Home() {
   return (
@@ -36,6 +39,8 @@ export default function Home() {
       </div>
       <Domains />
       <Activities />
+      <Founder />
+      <Achievements/>
       <EventComponent />
       <Leads />
     </>
