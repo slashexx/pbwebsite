@@ -6,7 +6,7 @@ export default function Activities() {
   return (
     <>
       <div className="flex flex-col place-items-center font-bold pt-20 pb-10">
-        <h2 className="text-5xl text-white-800 text-center mb-5">Activities</h2>
+        <h2 className="text-5xl text-white-800 text-center mb-0">Activities</h2>
       </div>
 
       {/* CP Post */}
@@ -56,7 +56,7 @@ export default function Activities() {
         <div className="highlight flex-1 flex items-center justify-center p-8 bg-black-800">
           <div className="p-2 md:p-16 text-justify">
             <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Development" />
-            <h2 className="text-2xl font-bold mb-4">PB Chronicals</h2>
+            <h2 className="text-2xl font-bold mb-4">PB Chronicles</h2>
             <p className="text-lg text-justify">
               Point Blank has hosted over 100+ workshops, covering a wide range
               of topics including open source, DevOps, machine learning,
