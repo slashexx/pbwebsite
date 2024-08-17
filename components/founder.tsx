@@ -5,9 +5,13 @@ export default function founder()
 {
     return (
       <>
-        <div className="container place-items-center font-bold pt-20 pb-5">
-          <h2 className="text-5xl text-white-800 text-center">Founders</h2>
-        </div>
+      <div className="container place-items-center font-bold pt-20 pb-10">
+        <h2 className="text-5xl text-white-800 text-center">Founders</h2>
+        <h5 className="text-2xl text-white-800 text-center">
+          The people who made it possible.
+        </h5>
+      </div>
+ 
         <div className="flex justify-center items-center pb-5">
           <div className="p-10 w-full sm:w-2/3 md:w-1/2 lg:w-5/6">
             {data.map((data) => (
@@ -38,12 +42,12 @@ export default function founder()
 
 const data = [
     {
-        url: '',
+        url: '/images/founder1.png',
         name:"Mohit Agarwal",
         description:"Mohit is currently an SDE2 at Glance (InMobi). Before this, he had stints at Ola and Amazon. Known for his straight, no nonsense attitude, Mohit laid the foundation for Competitive Programming culture in Point Blank. In his time as a student, Mohit won several contests such as the Nokia Collegiate Code Rally and qualified to the Regionals of the ACM-ICPC."
     },
     {
-        url: '',
+        url: '/images/founder2.png',
         name:"Soumya Pattanayak",
         description:"Widely regarded as one of DSCE’s strongest competitive programmers, Soumya was previously an SDE at Amazon and had a stint in Verse Innovation before moving on to do his own thing. Soumya’s skills in solving problems are only exceeded by his ability to grok new languages and build interesting projects. He’s also an ACM-ICPC regionalist."
     },
