@@ -5,6 +5,7 @@ import { useState } from "react";
 import Accordion from "./accordion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
+import Recaptcha from "./reCaptcha";
 import {
   years,
   courses,
@@ -17,6 +18,8 @@ const SIHMultiStepForm: React.FC = () => {
   const { formData, setFormData } = useFormContext();
   const [step, setStep] = useState<number>(1);
   const [isSuccess, setSuccess] = useState<boolean>(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -25,11 +28,17 @@ const SIHMultiStepForm: React.FC = () => {
     defaultValues: formData,
   });
   const onSubmit: SubmitHandler<any> = async (data : any) => {
+
     setFormData({ ...formData, ...data });
     if (step < 3) {
       setStep(step + 1);
       console.log(step);
     } else {
+      if (!recaptchaToken) {
+        alert("Please complete the reCAPTCHA");
+        return;
+      }
+  
       try {
         let response = await fetch("/api/registration/sih", {
           method: "POST",
@@ -647,6 +656,8 @@ const SIHMultiStepForm: React.FC = () => {
             >
               Previous
             </button>
+
+            <Recaptcha onChange={setRecaptchaToken} />
 
             <button
               type="submit"

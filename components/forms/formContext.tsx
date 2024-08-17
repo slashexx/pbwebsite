@@ -64,7 +64,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
     team_info: {
       team_name: "",
       college_name: "DSCE",
-      team_size: 5,
+      team_size: 6,
       team_leader: {
         name: "",
         email: "",
