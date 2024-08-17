@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase"; 
 import "./Events.css"
+import { useRouter } from "next/navigation";
 import { color } from "framer-motion";
 type Event = {
   id: string;
@@ -15,6 +16,12 @@ type Event = {
 };
 
 export default function Events() {
+    const router = useRouter();
+
+    useEffect(() => {
+        router.push("/")
+    });
+
   const [events, setEvents] = useState<Event[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
