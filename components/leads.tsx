@@ -154,7 +154,7 @@ const Leads: React.FC = () => {
   ];
 
   return (
-    <section style={{ textAlign: 'center', padding: '2rem 0', backgroundColor: '#1a1a1a', color: '#fff' }}>
+    <section style={{ textAlign: 'center', padding: '2rem 0', backgroundColor: '#000000', color: '#fff' }}>
       <LeadSection title="Current Leads" leads={currentLeads} />
       <LeadSection title="Alumni Leads" leads={alumniLeads} />
     </section>
