@@ -20,6 +20,26 @@ interface Achiever {
 }
 
 function AchievementCard({ achiever }: { achiever: Achiever }) {
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        //get user uuid
+        const uid = user.uid;
+        //check if uuid present in firestore
+        //if present then set isAdmin to true
+        const querySnapshot = await getDocs(collection(db, "admin"));
+          querySnapshot.forEach((doc) => {
+            if (doc.data().uid === uid) {
+              setIsAdmin(true);
+            }
+          });
+      }
+    });
+  });
+      
+
 
   return (
     <div className="bg-[hsla(0,0%,100%,.079)] rounded-xl shadow-lg overflow-hidden w-[330px]">
@@ -145,14 +165,18 @@ querySnapshot.forEach((doc) => {
           </div>
         ))}
       </div>
-      <div className="text-center mb-8">
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-white text-black py-2 px-4 rounded shadow-lg"
-        >
-          Add Achievements
-        </button>
-      </div>
+      {isAdmin ? (
+          <div className="text-center mb-8">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-white text-black py-2 px-4 rounded shadow-lg"
+          >
+            Add Achievements
+          </button>
+        </div>
+      ) : null
+    }
+      
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
           <div className="bg-black text-white p-8 rounded-lg w-full max-w-md">
