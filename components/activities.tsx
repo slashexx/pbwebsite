@@ -6,16 +6,16 @@ export default function Activities() {
   return (
     <>
       <div className="flex flex-col place-items-center font-bold pt-20 pb-10">
-        <h2 className="text-5xl text-white-800 text-center mb-5">Activities</h2>
+        <h2 className="text-5xl text-white-800 text-center mb-0">Activities</h2>
       </div>
 
       {/* CP Post */}
-      <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
+      <div className="flex flex-col md:flex-row w-full h-full " data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
-          <div className="p-8 md:p-16">
+          <div className="p-8  md:p-16">
             <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Competetive Programming" />
-            <h2 className="text-2xl font-bold mb-4">PB Hustle</h2>
-            <p className="text-lg text-justify">
+            <h2 className="text-2xl font-bold mb-4 px-10">PB Hustle</h2>
+            <p className="text-lg text-justify px-16">
               Point Blank has organized over 40+ editions of its PB Hustle
               coding contest, where participants solve 5-7 increasingly
               difficult problems in their preferred programming language. The
