@@ -10,7 +10,6 @@ interface Achiever {
   Portfolio: string;
   Internship: string;
   CompanyPosition: string;
-  Stipend: number;
   achievements: string[];
 }
 
@@ -235,22 +234,9 @@ export default function AchievementsPage() {
                 />
               </div>
               <div className="mb-4">
-                <label className="block mb-2">Stipend:</label>
-                <input
-                  type="number"
-                  value={newAchievement.Stipend || ""}
-                  onChange={(e) =>
-                    setNewAchievement((prev) => ({
-                      ...prev,
-                      Stipend: Number(e.target.value),
-                    }))
-                  }
-                  className="w-full p-3 bg-gray-800 rounded"
-                  placeholder="Add Stipend"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2">Image:</label>
+                <label className="block mb-2">
+                  Select an image of the person:
+                </label>
                 <input
                   type="file"
                   onChange={(e) => {
