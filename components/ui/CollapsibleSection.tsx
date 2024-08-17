@@ -42,7 +42,7 @@ const CollapsibleSection = forwardRef<HTMLDivElement, CollapsibleSectionProps>(
                     tabIndex={-1}
                     className="flex items-center justify-between p-4 cursor-pointer bg-black text-white"
                 >
-                    <h2 className={`${isOpen ? 'text-4xl font-bold' : 'text-xl'} text-[#00C853]`}>
+                    <h2 className={`${isOpen ? 'text-4xl font-bold text-[#00C853]' : 'text-xl'}`}>
                         {heading}
                     </h2>
 

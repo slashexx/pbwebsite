@@ -16,16 +16,16 @@ export async function POST(request: Request) {
     const formData = await request.formData();
 
     // Extract data from the form
-    const name = formData.get("Name") as string;
-    const email = formData.get("Email address") as string;
-    const batch = formData.get("Batch") as string;
-    const portfolio = formData.get("Portfolio/Github") as string;
-    const internship = formData.get(
-      "Doing internship or have done in past?"
-    ) as string;
-    const companyPosition = formData.get("Company and Position") as string;
-    const stipend = formData.get("Stipend") as string;
-    const achievements = formData.getAll("achievements") as string[];
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const batch = formData.get("batch") as string;
+    const portfolio = formData.get("portfolio") as string;
+    const internship = formData.get("internship") as string;
+    const companyPosition = formData.get("companyPosition") as string;
+    const achievements = JSON.parse(
+      formData.get("achievements") as string
+    ) as string[];
+    const image = formData.get("image") as File;
 
     // Check if a person with the same name already exists
     const existingMembersQuery = query(
@@ -42,16 +42,15 @@ export async function POST(request: Request) {
     }
 
     // Handle image upload
-    const imageFile = formData.get("image") as File;
-    if (!imageFile) {
+    if (!image) {
       return NextResponse.json(
         { error: "Image file is required" },
         { status: 400 }
       );
     }
 
-    const storageRef = ref(storage, `images/${imageFile.name}`);
-    await uploadBytes(storageRef, imageFile);
+    const storageRef = ref(storage, `images/${image.name}`);
+    await uploadBytes(storageRef, image);
     const imageUrl = await getDownloadURL(storageRef);
 
     // Save data to Firestore without Timestamp
@@ -62,15 +61,19 @@ export async function POST(request: Request) {
       Portfolio: portfolio,
       Internship: internship,
       CompanyPosition: companyPosition,
-      Stipend: stipend,
       achievements: achievements,
       imageUrl: imageUrl,
     });
-
     return NextResponse.json({
-      message: "Data saved successfully",
       id: docRef.id,
       imageUrl: imageUrl,
+      name,
+      email,
+      batch,
+      portfolio,
+      internship,
+      companyPosition,
+      achievements,
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -95,13 +98,25 @@ export async function GET() {
     const querySnapshot = await getDocs(collection(db, "achievements"));
 
     // Map through the documents and extract the data
-    const members = querySnapshot.docs.map(
+    const membersRaw = querySnapshot.docs.map(
       (doc: DocumentSnapshot<DocumentData>) => ({
         id: doc.id,
         ...doc.data(),
       })
     );
-
+    const members = membersRaw.map((member: any) => {
+      return {
+        id: member.id,
+        name: member.Name,
+        email: member.Email,
+        batch: member.Batch,
+        portfolio: member.Portfolio,
+        internship: member.Internship,
+        companyPosition: member.CompanyPosition,
+        achievements: member.achievements,
+        imageUrl: member.imageUrl,
+      };
+    });
     // Return the members data
     return NextResponse.json(members);
   } catch (error) {

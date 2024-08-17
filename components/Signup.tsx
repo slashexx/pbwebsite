@@ -149,7 +149,9 @@ const Signup = () => {
                 id="secret-code"
                 placeholder=" "
                 value={secretCode}
-                onChange={(e) => setSecretCode(e.target.value)}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setSecretCode(e.target.value)}}
                 className="peer w-full bg-transparent border-0 border-b-2 border-green-500 text-white placeholder-transparent focus:border-green-400 focus:outline-none focus:ring-0 autofill:shadow-[inset_0_0_0px_1000px_rgba(0,0,0,0.8)] autofill:text-white pt-2 m-1"
                 required
               />
