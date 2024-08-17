@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface Achiever {
-  imageUrl: string;
-  Email: string;
-  Name: string;
-  Batch: number;
-  Portfolio: string;
-  Internship: string;
-  CompanyPosition: string;
+  imageUrl?: string;
+  image?: File;
+  email: string;
+  name: string;
+  batch: number;
+  portfolio: string;
+  internship: string;
+  companyPosition: string;
   achievements: string[];
 }
 
@@ -19,18 +21,18 @@ function AchievementCard({ achiever }: { achiever: Achiever }) {
       <div className="overflow-hidden">
         <img
           src={achiever.imageUrl}
-          alt={`${achiever.Name}'s profile`}
+          alt={`${achiever.name}'s profile`}
           className="w-full h-[300px] object-cover object-center"
         />
       </div>
       <div className="p-4">
         <h3 className="text-center text-2xl font-semibold mb-2 capitalize-first-letter">
-          {achiever.Name}
+          {achiever.name}
         </h3>
         <ul className="list-disc list-outside pl-5">
-          {achiever?.CompanyPosition && (
+          {achiever?.companyPosition && (
             <li className="text-gray-600 text-lg mb-2">
-              {achiever.CompanyPosition}
+              {achiever.companyPosition}
             </li>
           )}
           {achiever.achievements.map((achievement, index) => (
@@ -87,6 +89,22 @@ export default function AchievementsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try{
+      const formData = new FormData();
+      formData.append("image", newAchievement.image || "");
+      formData.append("email", newAchievement.email || "");
+      formData.append("name", newAchievement.name || "");
+      formData.append("batch", String(newAchievement.batch || ""));
+      formData.append("portfolio", newAchievement.portfolio || "");
+      formData.append("internship", newAchievement.internship || "");
+      formData.append("companyPosition", newAchievement.companyPosition || "");
+      formData.append("achievements", JSON.stringify(newAchievement.achievements || []));
+      const response = await axios.post("/api/achievements", formData);
+      setAchievers((prev) => [...prev, response.data]);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
   };
 
   return (
@@ -98,7 +116,7 @@ export default function AchievementsPage() {
             {achievers
               .filter((_, index) => index % 3 === colIndex)
               .map((achiever) => (
-                <AchievementCard key={achiever.Email} achiever={achiever} />
+                <AchievementCard key={achiever.email} achiever={achiever} />
               ))}
           </div>
         ))}
@@ -123,11 +141,13 @@ export default function AchievementsPage() {
                 <label className="block mb-2">Email:</label>
                 <input
                   type="email"
-                  value={newAchievement.Email || ""}
+                  name="email"
+                  id="email"
+                  value={newAchievement.email || ""}
                   onChange={(e) =>
                     setNewAchievement((prev) => ({
                       ...prev,
-                      Email: e.target.value,
+                      email: e.target.value,
                     }))
                   }
                   className="w-full p-3 bg-gray-800 rounded"
@@ -138,11 +158,13 @@ export default function AchievementsPage() {
                 <label className="block mb-2">Name:</label>
                 <input
                   type="text"
-                  value={newAchievement.Name || ""}
+                  name="name"
+                  id="name"
+                  value={newAchievement.name || ""}
                   onChange={(e) =>
                     setNewAchievement((prev) => ({
                       ...prev,
-                      Name: e.target.value,
+                      name: e.target.value,
                     }))
                   }
                   className="w-full p-3 bg-gray-800 rounded"
@@ -153,11 +175,13 @@ export default function AchievementsPage() {
                 <label className="block mb-2">Batch:</label>
                 <input
                   type="number"
-                  value={newAchievement.Batch || ""}
+                  name="batch"
+                  id="batch"
+                  value={newAchievement.batch || ""}
                   onChange={(e) =>
                     setNewAchievement((prev) => ({
                       ...prev,
-                      Batch: Number(e.target.value),
+                      batch: Number(e.target.value),
                     }))
                   }
                   className="w-full p-3 bg-gray-800 rounded"
@@ -168,11 +192,13 @@ export default function AchievementsPage() {
                 <label className="block mb-2">Portfolio:</label>
                 <input
                   type="text"
-                  value={newAchievement.Portfolio || ""}
+                  name="portfolio"
+                  id="portfolio"
+                  value={newAchievement.portfolio || ""}
                   onChange={(e) =>
                     setNewAchievement((prev) => ({
                       ...prev,
-                      Portfolio: e.target.value,
+                      portfolio: e.target.value,
                     }))
                   }
                   className="w-full p-3 bg-gray-800 rounded"
@@ -187,13 +213,13 @@ export default function AchievementsPage() {
                   <label>
                     <input
                       type="radio"
-                      name="Internship"
+                      name="internship"
                       value="Yes"
-                      checked={newAchievement.Internship === "Yes"}
+                      checked={newAchievement.internship === "Yes"}
                       onChange={(e) =>
                         setNewAchievement((prev) => ({
                           ...prev,
-                          Internship: e.target.value,
+                          internship: e.target.value,
                         }))
                       }
                       className="mr-2"
@@ -203,13 +229,13 @@ export default function AchievementsPage() {
                   <label>
                     <input
                       type="radio"
-                      name="Internship"
+                      name="internship"
                       value="No"
-                      checked={newAchievement.Internship === "No"}
+                      checked={newAchievement.internship === "No"}
                       onChange={(e) =>
                         setNewAchievement((prev) => ({
                           ...prev,
-                          Internship: e.target.value,
+                          internship: e.target.value,
                         }))
                       }
                       className="mr-2"
@@ -222,11 +248,13 @@ export default function AchievementsPage() {
                 <label className="block mb-2">Company & Position:</label>
                 <input
                   type="text"
-                  value={newAchievement.CompanyPosition || ""}
+                  name="companyPosition"
+                  id="companyPosition"
+                  value={newAchievement.companyPosition || ""}
                   onChange={(e) =>
                     setNewAchievement((prev) => ({
                       ...prev,
-                      CompanyPosition: e.target.value,
+                      companyPosition: e.target.value,
                     }))
                   }
                   className="w-full p-3 bg-gray-800 rounded"
@@ -239,11 +267,15 @@ export default function AchievementsPage() {
                 </label>
                 <input
                   type="file"
+                  name="image"
+                  id="image"
+                  accept="image/jpeg, image/png, image/jpg"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
                       setNewAchievement((prev) => ({
                         ...prev,
+                        image: file,
                         imageUrl: URL.createObjectURL(file),
                       }));
                     }
@@ -257,6 +289,7 @@ export default function AchievementsPage() {
                   <div key={index} className="mb-2">
                     <input
                       type="text"
+                      name="achievements"
                       value={achievement}
                       onChange={(e) =>
                         handleChangeAchievement(index, e.target.value)
