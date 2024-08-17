@@ -13,7 +13,7 @@ export default function Activities() {
       <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
           <div className="p-8 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Competitive Programming" />
+            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="CP" />
             <h2 className="text-2xl font-bold mb-4 px-10">PB Hustle</h2>
             <p className="text-lg text-justify px-16">
               Point Blank has organized over 40+ editions of its PB Hustle
