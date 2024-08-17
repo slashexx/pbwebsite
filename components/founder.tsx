@@ -1,59 +1,58 @@
-import imageOne from "../public/images/pbach1.jpg";
-import Image from "next/image";
-import "../app/css/additional-styles/landing.css";
-export default function founder()
-{
-    return (
-      <>
-      <div className="container place-items-center font-bold pt-20 pb-10">
-        <h2 className="text-5xl text-white-800 text-center">Founders</h2>
-        <h5 className="text-2xl text-white-800 text-center">
-          The people who made it possible.
-        </h5>
-      </div>
- 
-        <div className="flex justify-center items-center pb-5">
-          <div className="p-10 w-full sm:w-2/3 md:w-1/2 lg:w-5/6">
-            {data.map((data) => (
-              <div className=" h-auto w-auto lg:flex p-5 transition-transform duration-1000 ease-in-out transform hover:scale-105 hover:shadow-2xl">
-                <div
-                  className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden shadow-lg"
-                  style={{ backgroundImage: `url(${data.url})` }}
-                  title=""
-                ></div>
-                <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-grey rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                  <div className="mb-8">
-                    <div className="font-bold text-2xl  text-green-600 mb-2 p-2">
-                      {data.name}
-                    </div>
-                    <p className="text-green-600 text-base">
-                      {data.description}
-                    </p>
-                  </div>
+import Image from 'next/image';
+import React from 'react';
+export default function Teams() {
+
+  const teamData = [
+    {
+      url: '/images/founder1.png',
+      name: "Mohit Agarwal",
+      description: "Mohit, SDE2 at Glance, is the driving force behind Point Blank's Competitive Programming culture. He has won several contests, including the Nokia Collegiate Code Rally, and qualified for ACM-ICPC Regionals."
+    },
+    {
+      url: '/images/founder2.png',
+      name: "Soumya Pattanayak",
+      description: "A top coder at DSCE, Soumya has worked at Amazon and Verse Innovation. He's an ACM-ICPC regionalist known for his problem-solving skills and innovative projects."
+    },
+    {
+      url: '/images/founder3.jpg',
+      name: "Ashutosh Pandey",
+      description: "Ashutosh, Compiler Engineer at AMD, excelled in Open Source and Hackathons. As a student, he did GSoC with Arduino, won the Smart India Hackathon, and mentored students for prestigious programs."
+    }
+  ];  
+
+  return (
+    <section className="relative" data-aos="zoom-y-out" data-aos-delay="150">
+      <div className="py-20">
+        <div className="container mx-auto px-6 md:px-12 xl:px-32">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-center text-3xl text-white font-extrabold md:text-4xl">
+              Our Founding Members
+            </h2>
+            <p className="text-gray-300 text-xl lg:w-8/12 lg:mx-auto">
+              Point Blank started as a project by three friends who wanted to induce a change by providing a platform for like minded smart students to come together and learn from each other.
+            </p>
+          </div>
+          <div className="grid gap-12 items-center md:grid-cols-3">
+            {teamData.map((member, index) => (
+              <div key={index} className="space-y-4 text-center">
+                <Image
+                  className="w-64 h-64 mx-auto object-cover rounded-xl md:w-40 md:h-40 lg:w-64 lg:h-64"
+                  src={member.url}
+                  alt={member.name}
+                  width="640"
+                  height="805"
+                />
+                <div>
+                  <h4 className="text-2xl font-bold text-green-500">{member.name}</h4>
                 </div>
+                <p className="text-gray-300 text-xl md:text-justify">
+                  {member.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
-      </>
-    );
+      </div>
+    </section>
+  );
 }
-
-
-const data = [
-    {
-        url: '/images/founder1.png',
-        name:"Mohit Agarwal",
-        description:"Mohit is currently an SDE2 at Glance (InMobi). Before this, he had stints at Ola and Amazon. Known for his straight, no nonsense attitude, Mohit laid the foundation for Competitive Programming culture in Point Blank. In his time as a student, Mohit won several contests such as the Nokia Collegiate Code Rally and qualified to the Regionals of the ACM-ICPC."
-    },
-    {
-        url: '/images/founder2.png',
-        name:"Soumya Pattanayak",
-        description:"Widely regarded as one of DSCE’s strongest competitive programmers, Soumya was previously an SDE at Amazon and had a stint in Verse Innovation before moving on to do his own thing. Soumya’s skills in solving problems are only exceeded by his ability to grok new languages and build interesting projects. He’s also an ACM-ICPC regionalist."
-    },
-    {
-        url: '/images/founder3.jpg',
-        name:"Ashutosh Pandey",
-        description:"Ashutosh is currently a Compiler Engineer at AMD. As a student he did Google Summer of Code with Arduino, was a Linux Foundation mentee with ELISA, and won several Hackathons including the Smart India Hackathon in 2019. He built up the Open Source and Hackathon culture in Point Blank, with numerous students going on to do prestigious programmes."
-    }
-]

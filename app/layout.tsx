@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <body className={`${inter.variable} font-inter antialiased bg-black text-white tracking-tight`}>
-        <NextThemesProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+        <NextThemesProvider>
           <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
             <Header />
             {children}
