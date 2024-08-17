@@ -13,7 +13,7 @@ function Achievements() {
       <div className="container place-items-center font-bold pt-20 pb-5">
         <h2 className="text-5xl text-white-800 text-center">Achievements</h2>
       </div>
-      <div className="w-[40%]  m-auto pt-11">
+      <div className="w-[30%]  m-auto pt-11">
         <Carousel slides={slides} />
       </div>
     </>
