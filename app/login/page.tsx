@@ -1,11 +1,21 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from '../../components/Login';
 import Signup from '../../components/Signup';
-
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/Firebase';
+import { useRouter } from 'next/navigation';
 export default function Home() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push('/');
+      }
+    });
+  });
   return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-20">
       <div className="flex space-x-4 mb-6">

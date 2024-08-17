@@ -1,10 +1,11 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Accordion from "./accordion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
+import Recaptcha from "./reCaptcha";
 import {
   years,
   courses,
@@ -12,11 +13,23 @@ import {
   problems,
 } from "@/lib/constants/dropdownOptions";
 import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/Firebase";
 
 const SIHMultiStepForm: React.FC = () => {
   const { formData, setFormData } = useFormContext();
   const [step, setStep] = useState<number>(1);
   const [isSuccess, setSuccess] = useState<boolean>(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const router = useRouter();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/login");
+      }
+    });
+  });
+
   const {
     register,
     handleSubmit,
@@ -25,11 +38,17 @@ const SIHMultiStepForm: React.FC = () => {
     defaultValues: formData,
   });
   const onSubmit: SubmitHandler<any> = async (data : any) => {
+
     setFormData({ ...formData, ...data });
     if (step < 3) {
       setStep(step + 1);
       console.log(step);
     } else {
+      if (!recaptchaToken) {
+        alert("Please complete the reCAPTCHA");
+        return;
+      }
+  
       try {
         let response = await fetch("/api/registration/sih", {
           method: "POST",
@@ -113,11 +132,6 @@ const SIHMultiStepForm: React.FC = () => {
 
   return (
     <div className="my-4 mx-auto p-6 rounded-lg">
-      <img
-        className="rounded-full h-20 mx-auto mb-6 w-20"
-        src="/images/sih.png"
-        alt="SIH"
-      />
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step 1: Team Information */}
         {step === 1 && (
@@ -609,7 +623,7 @@ const SIHMultiStepForm: React.FC = () => {
                     className="px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                     value={problem}
                   >
-                    {problem}
+                    SIH-{problem}
                   </option>
                 ))}
               </select>
@@ -647,6 +661,8 @@ const SIHMultiStepForm: React.FC = () => {
             >
               Previous
             </button>
+
+            <Recaptcha onChange={setRecaptchaToken} />
 
             <button
               type="submit"
