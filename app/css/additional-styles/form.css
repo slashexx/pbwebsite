@@ -3,10 +3,6 @@
   background: transparent;
 }
 
-.h1,
-.h2 {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-}
 .form-container select {
   background-color: black;
 }
@@ -29,31 +25,21 @@
   justify-content: center;
   align-items: center;
 }
-.container .box {
-  margin-top: 3rem;
-  text-align: center;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-.container .box .title {
+.container .title {
   width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   height: 50px;
 }
-.container .box .title .block {
-  width: 0%;
+.container .title .block {
   height: inherit;
   background: #52c264;
   position: absolute;
   animation: mainBlock 2s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
   display: flex;
 }
-.container .box .title h1 {
-  font-family: "Poppins";
+.container .title h1 {
   color: #fff;
   -webkit-animation: mainFadeIn 2s forwards;
   -o-animation: mainFadeIn 2s forwards;

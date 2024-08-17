@@ -127,7 +127,6 @@ const SIHMultiStepForm: React.FC = () => {
         src="/images/sih.png"
         alt="SIH"
       />
-      <h1 className="mb-6 h1 text-center">SIH Registration Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step 1: Team Information */}
         {step === 1 && (
@@ -619,7 +618,7 @@ const SIHMultiStepForm: React.FC = () => {
                     className="px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                     value={problem}
                   >
-                    {problem}
+                    SIH-{problem}
                   </option>
                 ))}
               </select>

@@ -6,35 +6,49 @@ export const metadata = {
 import Hero from "@/components/hero";
 import Domains from "@/components/domains";
 import "../css/additional-styles/landing.css";
-import Landing from "@/components/landing";
+import Activities from "@/components/activities";
 import Image from "next/image";
 import Link from "next/link";
+import SparklesText from "@/components/magicui/sparkles-text";
+import EventComponent from "@/components/eventcards";
+import Leads from "@/components/leads";
+import Achievements from '@/components/achievements';
+import Founder from "@/components/founder";
+
 
 export default function Home() {
   return (
     <>
       <Hero />
       <div className="flex flex-col justify-center items-center py-10 px-5 mb-20">
-        <div className="text-4xl font-bold text-center text-gray-200 mb-4">
-          Upcoming Events
-        </div>
+        <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" /> 
         <Link href="/sihregistration">
           <Image
             src={"/images/sih.png"}
             alt="sih"
             height={400}
             width={1100}
-            className="rounded-3xl border-2 border-slate-500"
+            className="rounded-3xl mt-20"
           />
         </Link>
         <Link href="/sihregistration">
-          <button className="btn-sm text-xl text-black bg-green-500 mx-3 rounded-xl mt-10">
+          <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
             Register for SIH
           </button>
         </Link>
+        {/* Add a download button  */}
+        <a href="/Shortlisted.pdf" download>
+          <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
+            Download Shortlisted Problem Statements
+          </button>
+        </a>
       </div>
       <Domains />
-      <Landing />
+      <Activities />
+      <Founder />
+      <Achievements/>
+      <EventComponent />
+      <Leads />
     </>
   );
 }
