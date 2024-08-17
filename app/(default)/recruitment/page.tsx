@@ -1,35 +1,29 @@
 'use client'
-import SIHRegistrationForm from "@/components/forms/sihForm";
-import { FormProvider } from "@/components/forms/formContext";
+import RecruitmentForm from "@/components/forms/recruitmentForm";
 import DotPattern from "@/components/magicui/dot-pattern";
 import "../../css/additional-styles/form.css";
 import { cn } from "@/lib/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 const RegisterPage = () => {
   const router = useRouter();
 
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      router.push("/login");
-    }
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/login");
+      } 
+    });
   });
-
   return (
-    <FormProvider>
-      <div className="mt-16 mx-auto flex flex-col items-center justify-center">
-        <div className="container">
-            <div className="title items-center justify-center mt-8">
-              <span className="block"></span>
-              <h1 className="h1">
-                Register for Smart India Hackathon!
-              </h1>
-          </div>
-        </div>
-
+    
+      <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
+ 
         <div className="form-container my-2">
-          <SIHRegistrationForm data-aos="zoom-y-out" data-aos-delay="350" />
+          <RecruitmentForm />
         </div>
         <DotPattern
           width={20}
@@ -42,7 +36,7 @@ const RegisterPage = () => {
           )}
         />
       </div>
-    </FormProvider>
+    
   );
 };
 

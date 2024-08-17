@@ -5,10 +5,28 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Logo from './logo'
 import MobileMenu from './mobile-menu'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '@/Firebase'
+
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true)
   const pathname = usePathname()
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogout = async () => {
+    await auth.signOut();
+    setLoggedIn(false);
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      }
+    });
+  });
 
   // Detect whether the user has scrolled the page down by 10px
   const scrollHandler = () => {
@@ -56,9 +74,15 @@ export default function Header() {
                 </Link>
               </li> */}
               <li>
-                <Link href="/login">
-                <p className={`font-medium ${pathname === '/login' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Login</p>
-                </Link>
+                {loggedIn ? (
+                  <button onClick={handleLogout}>
+                    <p className={`font-medium ${pathname === '/logout' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Logout</p>
+                  </button>
+                ) : (
+                  <Link href="/login">
+                    <p className={`font-medium ${pathname === '/login' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Login</p>
+                  </Link>
+                )}
               </li>
             </ul>
           </nav>
