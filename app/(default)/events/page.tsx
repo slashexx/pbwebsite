@@ -6,6 +6,9 @@ import { db } from "@/Firebase";
 import "./Events.css"
 import { useRouter } from "next/navigation";
 import { color } from "framer-motion";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/Firebase";
+
 type Event = {
   id: string;
   title: string;
@@ -24,6 +27,23 @@ export default function Events() {
 
   const [events, setEvents] = useState<Event[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        //get user uuid
+        const uid = user.uid;
+        //check if uuid present in firestore
+        //if present then set isAdmin to true
+        const querySnapshot = await getDocs(collection(db, "admin"));
+querySnapshot.forEach((doc) => {
+  if (doc.data().uid === uid) {
+    setIsAdmin(true);
+  }
+});
+      }
+    } );
+  });
+
 
   useEffect(() => {
     const fetchEvents = async () => {

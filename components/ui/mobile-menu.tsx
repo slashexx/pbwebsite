@@ -3,6 +3,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import Link from 'next/link';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/Firebase';
+
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -10,6 +13,20 @@ export default function MobileMenu() {
 
   const trigger = useRef<HTMLButtonElement>(null);
   const mobileNav = useRef<HTMLDivElement>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogout = async () => {
+    await auth.signOut();
+    setLoggedIn(false);
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      }
+    });
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -83,11 +100,19 @@ export default function MobileMenu() {
                 Contact Us
               </Link>
             </li> */}
-            <li>
-              <Link href="/login" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>
-                Login
-              </Link>
-            </li>
+            {loggedIn ? (
+              <li>
+                <button onClick={handleLogout} className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" >
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <li>
+                <Link href="/login" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </Transition>
       </div>
