@@ -6,6 +6,7 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import Footer from '@/components/ui/footer'
+import { Toaster } from 'react-hot-toast'
 
 export default function DefaultLayout({
   children,
@@ -27,7 +28,7 @@ export default function DefaultLayout({
       <main className="grow">
 
         {children}
-
+        <Toaster position='top-right' />
       </main>
 
       <Footer />

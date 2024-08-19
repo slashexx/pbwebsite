@@ -1,17 +1,56 @@
 import { db } from "@/Firebase";
 import { recruitValidate } from "@/lib/utils";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { error } from "console";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  limit,
+  query,
+  where,
+} from "firebase/firestore";
 import { NextResponse } from "next/server";
-
-// Verify reCAPTCHA Token
 
 // Add a new registration
 export async function POST(request: Request) {
   const formData = await request.json();
   const { recaptcha_token, ...data } = formData;
+  const { email } = formData;
+
+  // Only one Registration per Email
+
+  const q = query(
+    collection(db, "recruitment2024"),
+    where("email", "==", email)
+  );
+  const querySnapshot = await getDocs(q);
+
+  console.log(!querySnapshot.empty);
+
+  if (!querySnapshot.empty) {
+    return NextResponse.json(
+      {
+        message: "Email is already registered!",
+        error: "Email is already registered!",
+      },
+
+      {
+        status: 500,
+      }
+    );
+  }
+
   const recaptchaToken = recaptcha_token;
   if (!recaptchaToken) {
-    throw new Error("Token not found!");
+    return NextResponse.json(
+      {
+        message: "reCAPTCHA token not found! Refresh and try again",
+        error: "reCAPTCHA token not found!",
+      },
+      {
+        status: 500,
+      }
+    );
   }
   const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
 
@@ -21,7 +60,7 @@ export async function POST(request: Request) {
     { method: "POST" }
   );
   const recaptchaResult = await recaptchaResponse.json();
-  console.log(data);
+
   console.log(recaptchaResult);
   if (!recaptchaResult.success) {
     return NextResponse.json({
@@ -34,19 +73,26 @@ export async function POST(request: Request) {
   const val = recruitValidate(data);
 
   if (val.error) {
-    return NextResponse.json({ message: "Validation error", error: val.error });
+    return NextResponse.json(
+      { message: "Validation error", error: val.error },
+      { status: 500 }
+    );
   }
 
+  // Save to Firebase
+
   try {
-    // Save to Firebase
     const docRef = await addDoc(collection(db, "recruitment2024"), data);
     console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "An error occurred", error });
+    return NextResponse.json(
+      { message: "An error occurred", error },
+      { status: 500 }
+    );
   }
   // Return a response
-  return NextResponse.json({ message: "Registration successful", data });
+  return NextResponse.json({ message: "Registration successful" });
 }
 
 // Get all registrations

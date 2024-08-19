@@ -4,6 +4,7 @@ import { FormProvider } from "@/components/forms/formContext";
 import DotPattern from "@/components/magicui/dot-pattern";
 import "../../css/additional-styles/form.css";
 import { cn } from "@/lib/utils";
+
 const RegisterPage = () => {
   return (
     <FormProvider>
