@@ -16,6 +16,9 @@ const RegisterPage = () => {
       if (!user) {
         router.push("/login");
       } 
+      else{
+        router.push("/dashboard");  //remove during recruitment
+      }
     });
   });
   return (
