@@ -95,16 +95,4 @@ export async function POST(request: Request) {
   return NextResponse.json({ message: "Registration successful" });
 }
 
-// Get all registrations
-export async function GET() {
-  try {
-    // Get all registrations in recruitment2024 collection
-    const querySnapshot = await getDocs(collection(db, "recruitment2024"));
-    // Map the data to get only the data
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    return NextResponse.json({ data });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "An error occurred", error });
-  }
-}
+

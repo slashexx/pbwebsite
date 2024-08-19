@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import Accordion from "./accordion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { getErrorMessage } from "./recruitmentForm";
 
 import {
   years,
@@ -50,21 +51,27 @@ const SIHMultiStepForm: React.FC = () => {
     setFormData({ ...formData, ...data });
     if (step < 3) {
       setStep(step + 1);
-      console.log(step);
     } else {
       try {
         const response = await fetch("/api/registration/sih", {
           method: "POST",
           body: JSON.stringify(data),
         });
+
         const res = await response.json();
-        if (!res.error) {
-          setSuccess(true);
+
+        if (!response.ok || res.error) {
+          console.log(response.json);
+          toast.error(res.message);
+          return;
         }
+
+        setSuccess(true);
       } catch (error) {
-        toast.error(`Error submitting form: ${error}`);
         setRefreshReCaptcha(!refreshReCaptcha);
         console.error("Error submitting form:", error);
+
+        toast.error(getErrorMessage(error));
       }
     }
   };
@@ -72,12 +79,14 @@ const SIHMultiStepForm: React.FC = () => {
   if (isSuccess) {
     const router = useRouter();
     return (
-      <Success message="Data Saved ! Good Luck for the Test!" joinLink="https://chat.whatsapp.com/EGnzKX13Xmi3pii7KOp7w5"/>
+      <Success
+        message="Data Saved ! Good Luck for the Test!"
+        joinLink="https://chat.whatsapp.com/EGnzKX13Xmi3pii7KOp7w5"
+      />
     );
   }
 
   return (
-
     <div className="my-4 mx-auto p-6 rounded-lg">
       <img
         className="rounded-full h-20 mx-auto mb-6 w-20"
@@ -85,7 +94,6 @@ const SIHMultiStepForm: React.FC = () => {
         alt="SIH"
       />
       <form onSubmit={handleSubmit(onSubmit)}>
-
         {/* Step 1: Team Information */}
         {step === 1 && (
           <div>

@@ -10,7 +10,7 @@ import {
 } from "react-google-recaptcha-v3";
 import Success from "./success";
 import toast from "react-hot-toast";
-const getErrorMessage = (error: unknown): string => {
+export const getErrorMessage = (error: unknown): string => {
   let message: string;
   if (error instanceof Error) {
     message = error.message;
@@ -88,7 +88,7 @@ const RecruitmentForm: React.FC = () => {
      
     } catch (error) {
       setRefreshReCaptcha(!refreshReCaptcha);
-      console.log("Error submitting form:", error);
+      console.error("Error submitting form:", error);
       toast.error(getErrorMessage(error));
     }
   };

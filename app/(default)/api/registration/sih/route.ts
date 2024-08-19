@@ -1,15 +1,49 @@
 import { db } from "@/Firebase";
 import { sihValidate } from "@/lib/utils";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { NextResponse } from "next/server";
 
 // Add a new registration
 export async function POST(request: Request) {
   const formData = await request.json();
   const { recaptcha_token, ...data } = formData;
+ 
+  console.log(formData);
+  const { team_info } = data;
+  const{team_leader} = team_info;
+  const {email } = team_leader;
+
+  // Only one Registration per Email
+
+  const q = query(collection(db, "sih2024"), where("team_info.team_leader.email", "==", email));
+  const querySnapshot = await getDocs(q);
+
+  console.log(!querySnapshot.empty);
+
+  if (!querySnapshot.empty) {
+    return NextResponse.json(
+      {
+        message: "Email is already registered!",
+        error: "Email is already registered!",
+      },
+
+      {
+        status: 500,
+      }
+    );
+  }
+
   const recaptchaToken = recaptcha_token;
   if (!recaptchaToken) {
-    throw new Error("Token not found!");
+    return NextResponse.json(
+      {
+        message: "reCAPTCHA token not found! Refresh and try again",
+        error: "reCAPTCHA token not found!",
+      },
+      {
+        status: 500,
+      }
+    );
   }
   const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
 
@@ -19,13 +53,18 @@ export async function POST(request: Request) {
     { method: "POST" }
   );
   const recaptchaResult = await recaptchaResponse.json();
-  console.log(data);
+
   console.log(recaptchaResult);
   if (!recaptchaResult.success) {
-    return NextResponse.json({
-      message: "reCAPTCHA validation failed",
-      error: recaptchaResult["error-codes"],
-    });
+    return NextResponse.json(
+      {
+        message: "reCAPTCHA validation failed",
+        error: recaptchaResult["error-codes"],
+      },
+      {
+        status: 500,
+      }
+    );
   }
 
   // Validate the data
@@ -44,19 +83,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "An error occurred", error });
   }
   // Return a response
-  return NextResponse.json({ message: "Registration successful", data });
-}
-
-//get all registrations
-export async function GET() {
-  try {
-    // Get all registrations in sih2024 collection
-    const querySnapshot = await getDocs(collection(db, "sih2024"));
-    // Map the data to get only the data
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    return NextResponse.json({ data });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "An error occurred", error });
-  }
+  return NextResponse.json({ message: "Registration successful" });
 }

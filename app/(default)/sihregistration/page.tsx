@@ -12,7 +12,7 @@ const RegisterPage = () => {
         <div className="container">
             <div className="title items-center justify-center mt-8">
               <span className="block"></span>
-              <h1 className="h1">
+              <h1 className="h1 text-center">
                 Register for Smart India Hackathon!
               </h1>
           </div>
