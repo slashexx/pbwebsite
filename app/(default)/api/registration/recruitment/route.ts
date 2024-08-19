@@ -4,34 +4,47 @@ import { addDoc, collection, getDocs } from "firebase/firestore";
 import { NextResponse } from "next/server";
 
 // Verify reCAPTCHA Token
+async function verifyRecaptcha(token: string) {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const response = await fetch(
+    `https://www.google.com/recaptcha/api/siteverify`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        secret: secretKey || "",
+        response: token,
+      }),
+    }
+  );
+  const data = await response.json();
+  return data.success;
+}
 
 // Add a new registration
 export async function POST(request: Request) {
-  const formData = await request.json();
-  const { recaptcha_token, ...data } = formData;
-  const recaptchaToken = recaptcha_token;
-  if (!recaptchaToken) {
-    throw new Error("Token not found!");
-  }
-  const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const data = await request.json();
+  const recaptchaToken = data.recaptchaToken; // Extract the reCAPTCHA token from the request
 
-  // Verify reCAPTCHA token
-  const recaptchaResponse = await fetch(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaToken}`,
-    { method: "POST" }
-  );
-  const recaptchaResult = await recaptchaResponse.json();
-  console.log(data);
-  console.log(recaptchaResult);
-  if (!recaptchaResult.success) {
+  // Verify the reCAPTCHA token
+  const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
+
+  if (!isRecaptchaValid) {
     return NextResponse.json({
-      message: "reCAPTCHA validation failed",
-      error: recaptchaResult["error-codes"],
+      message: "reCAPTCHA verification failed",
+      error: true,
     });
   }
 
   // Validate the data
   const val = recruitValidate(data);
+
+  if (!Array.isArray(data)) {
+    return NextResponse.json({
+      message: "Expected an array of JSON objects",
+      error: true,
+    });
+  }
 
   if (val.error) {
     return NextResponse.json({ message: "Validation error", error: val.error });
