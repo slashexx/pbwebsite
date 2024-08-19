@@ -43,8 +43,8 @@ export const recruitValidate = (data: any) => {
   if (!data.year_of_study) {
     return { error: 'year of study is required' }
   }
-  if (!data.admission_number) {
-    return { error: 'admission_number is required' }
+  if (!data.college_id) {
+    return { error: 'college_id is required' }
   }
   if (!data.about) {
     return { error: 'about detail is required' }

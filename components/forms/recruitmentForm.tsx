@@ -1,17 +1,28 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { years, branches } from "@/lib/constants/dropdownOptions";
-import Recaptcha from "./reCaptcha";
+import {
+  GoogleReCaptchaProvider,
+  GoogleReCaptcha,
+} from "react-google-recaptcha-v3";
+import toast from "react-hot-toast";
 
 const RecruitmentForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const [mode, setMode] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [token, setToken] = useState("");
+  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=your_site_key`;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
   const {
     register,
     handleSubmit,
@@ -29,31 +40,32 @@ const RecruitmentForm: React.FC = () => {
   });
 
   const changeMode = (e: any) => {
-    console.log(e.target.value);
     if (e.target.value === "1st year") setMode(true);
     else setMode(false);
     setDisplay(true);
   };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    if (!recaptchaToken) {
-      alert("Please complete the reCAPTCHA");
-      return;
-    }
+  const setTokenFunc = (getToken: string) => {
+    setToken(getToken);
+  };
 
-    
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
     try {
-      let response = await fetch("/api/registration/recruitment", {
+      data.recaptcha_token = token;
+
+      const response = await fetch("/api/registration/recruitment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (response.status == 200) {
+      const res = await response.json();
+
+      if (!res.error) {
         setSuccess(true);
       }
-      response = await response.json();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      setRefreshReCaptcha(!refreshReCaptcha);
+      console.log("Error submitting form:", error);
     }
   };
 
@@ -306,14 +318,24 @@ const RecruitmentForm: React.FC = () => {
             )}
           </div>
 
-          <Recaptcha onChange={setRecaptchaToken} />
-
           <button
             type="submit"
             className="bg-green-500 text-white rounded-lg py-2 px-4  hover:bg-green-600 "
           >
             Submit
           </button>
+          <GoogleReCaptchaProvider
+            reCaptchaKey={
+              process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                : ""
+            }
+          >
+            <GoogleReCaptcha
+              onVerify={setTokenFunc}
+              refreshReCaptcha={refreshReCaptcha}
+            />
+          </GoogleReCaptchaProvider>
         </div>
       </form>
     </div>
