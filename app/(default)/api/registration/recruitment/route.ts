@@ -1,6 +1,11 @@
 import { db } from "@/Firebase";
-import { recruitValidate } from "@/lib/utils";
-import { error } from "console";
+import {
+  createCSRFToken,
+  getSessionIdFromRequest,
+  verifyCSRFToken,
+} from "@/lib/server/csrf";
+import { recruitValidate } from "@/lib/server/utils";
+
 import {
   addDoc,
   collection,
@@ -68,6 +73,18 @@ export async function POST(request: Request) {
       error: recaptchaResult["error-codes"],
     });
   }
+  const sessionId = getSessionIdFromRequest(request);
+  const csrfToken = createCSRFToken(sessionId);
+
+  // Verify the CSRF token
+  if (!verifyCSRFToken(sessionId, csrfToken)) {
+    return NextResponse.json(
+      { message: "Invalid CSRF token" },
+      {
+        status: 403,
+      }
+    );
+  }
 
   // Validate the data
   const val = recruitValidate(data);
@@ -94,5 +111,3 @@ export async function POST(request: Request) {
   // Return a response
   return NextResponse.json({ message: "Registration successful" });
 }
-
-

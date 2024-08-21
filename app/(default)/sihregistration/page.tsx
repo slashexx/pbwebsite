@@ -1,20 +1,19 @@
-
 import SIHRegistrationForm from "@/components/forms/sihForm";
 import { FormProvider } from "@/components/forms/formContext";
 import DotPattern from "@/components/magicui/dot-pattern";
 import "../../css/additional-styles/form.css";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/server/utils";
 
 const RegisterPage = () => {
   return (
     <FormProvider>
       <div className="mt-16 mx-auto flex flex-col items-center justify-center">
         <div className="container">
-            <div className="title items-center justify-center mt-8">
-              <span className="block"></span>
-              <h1 className="h1 text-center">
-                Register for Smart India Hackathon!
-              </h1>
+          <div className="title items-center justify-center mt-8">
+            <span className="block"></span>
+            <h1 className="h1 text-center">
+              Register for Smart India Hackathon!
+            </h1>
           </div>
         </div>
 

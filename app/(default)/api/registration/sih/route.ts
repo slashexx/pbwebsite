@@ -1,5 +1,10 @@
 import { db } from "@/Firebase";
-import { sihValidate } from "@/lib/utils";
+import {
+  createCSRFToken,
+  getSessionIdFromRequest,
+  verifyCSRFToken,
+} from "@/lib/server/csrf";
+import { sihValidate } from "@/lib/server/utils";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { NextResponse } from "next/server";
 
@@ -7,15 +12,17 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   const formData = await request.json();
   const { recaptcha_token, ...data } = formData;
- 
+
   console.log(formData);
-  const { team_info } = data;
-  const{team_leader} = team_info;
-  const {email } = team_leader;
+  
 
   // Only one Registration per Email
 
-  const q = query(collection(db, "sih2024"), where("team_info.team_leader.email", "==", email));
+  const { team_info: { team_leader: { email } } } = data;
+  const q = query(
+    collection(db, "sih2024"),
+    where("team_info.team_leader.email", "==", email)
+  );
   const querySnapshot = await getDocs(q);
 
   console.log(!querySnapshot.empty);
@@ -63,6 +70,19 @@ export async function POST(request: Request) {
       },
       {
         status: 500,
+      }
+    );
+  }
+
+  const sessionId = getSessionIdFromRequest(request);
+  const csrfToken = createCSRFToken(sessionId);
+
+  // Verify the CSRF token
+  if (!verifyCSRFToken(sessionId, csrfToken)) {
+    return NextResponse.json(
+      { message: "Invalid CSRF token" },
+      {
+        status: 403,
       }
     );
   }

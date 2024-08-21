@@ -10,19 +10,7 @@ import {
 } from "react-google-recaptcha-v3";
 import Success from "./success";
 import toast from "react-hot-toast";
-export const getErrorMessage = (error: unknown): string => {
-  let message: string;
-  if (error instanceof Error) {
-    message = error.message;
-  } else if (error && typeof error === "object" && "message" in error) {
-    message = String(error.message);
-  } else if (typeof error === "string") {
-    message = error;
-  } else {
-  }
-  message = "Something went wrong! Try refreshing and submitting again.";
-  return message;
-};
+import { getErrorMessage, fetchCsrfToken } from "@/lib/client/clientUtils";
 
 const RecruitmentForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
@@ -30,6 +18,7 @@ const RecruitmentForm: React.FC = () => {
   const [display, setDisplay] = useState<boolean>(false);
   const [token, setToken] = useState("");
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  const [csrfToken, setCsrfToken] = useState<string>("");
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -37,7 +26,6 @@ const RecruitmentForm: React.FC = () => {
     script.async = true;
     document.body.appendChild(script);
   }, []);
-
 
   const {
     register,
@@ -69,9 +57,16 @@ const RecruitmentForm: React.FC = () => {
     try {
       data.recaptcha_token = token;
 
+      const csrftoken = await fetchCsrfToken();
+      setCsrfToken(csrftoken);
+
       const response = await fetch("/api/registration/recruitment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+
         body: JSON.stringify(data),
       });
 
@@ -84,8 +79,6 @@ const RecruitmentForm: React.FC = () => {
       }
 
       setSuccess(true);
-
-     
     } catch (error) {
       setRefreshReCaptcha(!refreshReCaptcha);
       console.error("Error submitting form:", error);
@@ -95,7 +88,10 @@ const RecruitmentForm: React.FC = () => {
 
   if (isSuccess) {
     return (
-      <Success joinLink="https://chat.whatsapp.com/EGnzKX13Xmi3pii7KOp7w5" />
+      <Success
+        message="Data Saved ! Good Luck for the Test!"
+        joinLink="https://chat.whatsapp.com/EGnzKX13Xmi3pii7KOp7w5"
+      />
     );
   }
 

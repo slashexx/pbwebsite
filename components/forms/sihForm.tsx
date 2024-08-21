@@ -6,7 +6,7 @@ import Accordion from "./accordion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
 import toast from "react-hot-toast";
-import { getErrorMessage } from "./recruitmentForm";
+import { getErrorMessage, fetchCsrfToken } from "@/lib/client/clientUtils";
 
 import {
   years,
@@ -27,6 +27,7 @@ const SIHMultiStepForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const [token, setToken] = useState("");
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  const [csrfToken, setCsrfToken] = useState<string>("");
 
   const setTokenFunc = (getToken: string) => {
     setToken(getToken);
@@ -48,6 +49,10 @@ const SIHMultiStepForm: React.FC = () => {
   });
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     data.recaptcha_token = token;
+
+    const csrftoken = await fetchCsrfToken();
+    setCsrfToken(csrftoken);
+
     setFormData({ ...formData, ...data });
     if (step < 3) {
       setStep(step + 1);
@@ -55,6 +60,10 @@ const SIHMultiStepForm: React.FC = () => {
       try {
         const response = await fetch("/api/registration/sih", {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
           body: JSON.stringify(data),
         });
 
@@ -76,11 +85,11 @@ const SIHMultiStepForm: React.FC = () => {
     }
   };
 
+
   if (isSuccess) {
-    const router = useRouter();
     return (
       <Success
-        message="Data Saved ! Good Luck for the Test!"
+        message="Data Saved ! You're successfully registered for SIH!"
         joinLink="https://chat.whatsapp.com/EGnzKX13Xmi3pii7KOp7w5"
       />
     );
