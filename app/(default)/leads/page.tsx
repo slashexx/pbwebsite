@@ -1,4 +1,4 @@
-import Leads from "@/components/leads"
+import LeadsPage from "@/components/leadspage"
 
 
 export const metadata = {
@@ -10,7 +10,7 @@ export default function leads() {
 
     return (
         <>
-        <Leads/>
+        <LeadsPage/>
         </>
     )
 }

@@ -11,13 +11,16 @@ import { useRouter } from "next/navigation";
 const RegisterPage = () => {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (!user) {
+  //       router.push("/login");
+  //     } 
+  //   });
+  // });\
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/login");
-      } 
-    });
-  });
+    router.push("/");
+  })
   return (
     
       <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">

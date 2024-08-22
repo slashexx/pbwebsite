@@ -68,7 +68,7 @@ export default function Members() {
 
     return (
         <div className="flex flex-col justify-center items-center w-full space-y-4 mt-24 bg-black">
-            <h1 className="text-center font-bold text-4xl text-white">PB Members</h1>
+            <h1 className="text-center font-bold text-4xl text-white">Point Blank's Team</h1>
             <div className="w-full max-w-6xl px-2 ">
                 {loading ? (
                     <div className="flex justify-center py-10">
