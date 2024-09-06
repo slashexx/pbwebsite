@@ -14,6 +14,7 @@ import EventComponent from "@/components/eventcards";
 import Leads from "@/components/leads";
 import Achievements from '@/components/achievements';
 import Founder from "@/components/founder";
+import Announce from "@/components/announcement";
 
 
 export default function Home() {
@@ -24,14 +25,14 @@ export default function Home() {
         <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" /> 
         <Link href="/sihregistration">
           <Image
-            src={"/images/sih.png"}
+            src={"/images/announce.png"}
             alt="sih"
             height={400}
             width={1100}
             className="rounded-3xl mt-20"
           />
         </Link>
-        <div className="flex md:flex-row flex-col justify-center items-center py-10 px-5 mb-20">
+        <div className="flex md:flex-row flex-col justify-center items-center py-10 px-5">
         <Link href="/sihregistration">
           <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
             Register for SIH
@@ -44,6 +45,7 @@ export default function Home() {
           </button>
         </a>
         </div>
+        <Announce />
       </div>
       <Domains />
       <Activities />
