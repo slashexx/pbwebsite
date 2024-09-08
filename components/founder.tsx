@@ -18,7 +18,7 @@ export default function Teams() {
       name: "Ashutosh Pandey",
       description: "Ashutosh, Compiler Engineer at AMD, excelled in Open Source and Hackathons. As a student, he did GSoC with Arduino, won the Smart India Hackathon, and mentored students for prestigious programs."
     }
-  ];  
+  ];
 
   return (
     <section className="relative" data-aos="zoom-y-out" data-aos-delay="150">
