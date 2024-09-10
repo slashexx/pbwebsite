@@ -1,7 +1,7 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import Accordion from "./accordion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
@@ -22,6 +22,12 @@ const SIHMultiStepForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const router = useRouter();
+  
+  useEffect(() => {
+    router.push("/");
+  }
+)
+  
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -29,6 +35,8 @@ const SIHMultiStepForm: React.FC = () => {
       }
     });
   });
+
+  
 
   const {
     register,
