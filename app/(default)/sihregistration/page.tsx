@@ -2,6 +2,7 @@
 import SIHRegistrationForm from "@/components/forms/sihForm";
 import { FormProvider } from "@/components/forms/formContext";
 import DotPattern from "@/components/magicui/dot-pattern";
+import {  useEffect } from "react";
 import "../../css/additional-styles/form.css";
 import { cn } from "@/lib/utils";
 import { onAuthStateChanged } from "firebase/auth";
@@ -10,6 +11,10 @@ import { useRouter } from "next/navigation";
 const RegisterPage = () => {
   const router = useRouter();
 
+  useEffect(() => {
+    router.push("/");
+  }
+)
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       router.push("/login");
