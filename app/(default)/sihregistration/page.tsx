@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 const RegisterPage = () => {
   const router = useRouter();
 
-//   useEffect(() => {
-//     router.push("/");
-//   }
-// )
+  useEffect(() => {
+    router.push("/");
+  }
+)
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       router.push("/login");
