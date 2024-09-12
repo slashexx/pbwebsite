@@ -23,10 +23,10 @@ const SIHMultiStepForm: React.FC = () => {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const router = useRouter();
   
-//   useEffect(() => {
-//     router.push("/");
-//   }
-// )
+  useEffect(() => {
+    router.push("/");
+  }
+)
   
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
