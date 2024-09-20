@@ -1,14 +1,12 @@
-/* General styles for section headers (upcoming, past, ongoing events) */
 h2 {
   font-family: 'Arial Narrow Bold', sans-serif;
   margin-top: 60px;
   padding-bottom: 30px;
-  font-size: 2.5em; /* Size of the section title */
-  color: yellow; /* Bright yellow to contrast with black cards */
+  font-size: 2.5em;
+  color: yellow;
   text-align: center;
 }
 
-/* CSS styles for the event cards */
 .event-cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -16,10 +14,10 @@ h2 {
 }
 
 .event-card {
-  width: 300px; /* Each card is now fixed at 300px width */
-  height: 400px; /* Height remains the same */
+  width: 300px;
+  height: 400px;
   perspective: 1000px;
-  margin: 20px; /* Space around each card */
+  margin: 20px;
 }
 
 .event-card-inner {
@@ -40,11 +38,11 @@ h2 {
   height: 100%;
   position: absolute;
   backface-visibility: hidden;
-  background-color: black; /* Card background color is now black */
-  color: white; /* Text color is now white */
-  border-radius: 10px; /* Rounded corners for a nicer look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for elevation */
-  border: 2px solid yellow; /* Yellow border to match section title */
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid yellow;
 }
 
 .event-card-front {
@@ -67,7 +65,7 @@ h2 {
   width: 100%;
   height: auto;
   max-height: 150px;
-  opacity: 0.2; /* Makes the image appear faint in the background */
+  opacity: 0.2;
   object-fit: cover;
   position: absolute;
   top: 0;
@@ -78,29 +76,28 @@ h2 {
 .event-card-back p {
   z-index: 1;
   position: relative;
-  color: white; /* Ensure the description text is white */
+  color: white;
   font-size: 1.2em;
   text-align: center;
 }
 
-/* Event poster container with fixed aspect ratio */
 .event-poster-container {
   position: relative;
-  width: 280px; /* Full width of the card */
-  padding-bottom: 75%; /* 3/4 = 75% to maintain a 4:3 aspect ratio */
+  width: 280px;
+  padding-bottom: 75%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .event-poster {
-  position: absolute; /* This ensures the image is placed inside the container */
+  position: absolute;
   top: -40px;
   left: 0;
-  width: 100%; /* Full width of the container */
-  height: 100%; /* Full height of the container */
-  object-fit: cover; /* Ensures the image covers the entire container without distortion */
-  border-radius: 10px; /* Rounds the image edges */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .event-content-container {
@@ -109,7 +106,7 @@ h2 {
 
 .event-content-container h3 {
   margin-bottom: 0;
-  font-size: 1.4em; /* Slightly larger font size */
+  font-size: 1.4em;
 }
 
 .event-content-container p {
@@ -117,39 +114,37 @@ h2 {
   font-size: 1em;
 }
 
-/* Button Styling */
 button {
   margin-top: 70px !important;
-  background-color: black; /* Black button to match the card theme */
-  color: yellow; /* Yellow text to contrast the black background */
-  border: 2px solid yellow; /* Matching yellow border */
-  border-radius: 5px; /* Slight rounding of the edges */
-  padding: 10px 20px; /* Adequate padding for a comfortable size */
-  font-size: 1em; /* Regular button text size */
-  cursor: pointer; /* Changes cursor to pointer on hover */
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+  background-color: black;
+  color: yellow;
+  border: 2px solid yellow;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
   margin: 10px;
 }
 
 button:hover {
-  background-color: yellow; /* Yellow background on hover */
-  color: black; /* Black text on hover to reverse colors */
+  background-color: yellow;
+  color: black;
 }
 
-/* Form Styling */
 form {
-  background-color: black; /* Black form background */
-  color: white; /* White text for form labels and input text */
+  background-color: black;
+  color: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for elevation */
-  border: 2px solid yellow; /* Yellow border for the form */
-  width: 80%; /* Adjust the width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid yellow;
+  width: 80%;
   margin: 40px auto;
 }
 
 form label {
-  color: yellow; /* Yellow labels */
+  color: yellow;
   font-weight: bold;
   display: block;
   margin-bottom: 10px;
@@ -161,48 +156,44 @@ form select {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
-  border: 2px solid yellow; /* Yellow border for consistency */
+  border: 2px solid yellow;
   border-radius: 5px;
-  background-color: black !important; /* Force black background */
-  color: white !important; /* Force white input text */
+  background-color: black !important;
+  color: white !important;
   font-size: 1em;
 }
 
-/* Placeholder styling */
 form input::placeholder,
 form textarea::placeholder {
-  color: grey !important; /* Force grey placeholder text */
-  opacity: 1; /* Ensure the placeholder is fully visible */
+  color: grey !important;
+  opacity: 1;
 }
 
 form input:focus,
 form textarea:focus,
 form select:focus {
-  border-color: yellow; /* Yellow border when focused */
-  outline: none; /* Removes default outline */
+  border-color: yellow;
+  outline: none;
 }
 
-/* Force the input background to black */
 input[type="text"],
 input[type="date"],
 textarea {
-  background-color: black !important; /* Black background for text and date inputs */
-  color: white !important; /* White input text */
+  background-color: black !important;
+  color: white !important;
 }
 
 input[type="text"]::placeholder,
 input[type="date"]::placeholder,
 textarea::placeholder {
-  color: grey !important; /* Grey placeholder text */
-  opacity: 1; /* Ensure visibility */
+  color: grey !important;
+  opacity: 1;
 }
 
-/* Submit Button Styling */
 form button {
   margin-top: 20px;
 }
 
-/* Additional styling for sections */
 section {
   margin-bottom: 40px;
 }
