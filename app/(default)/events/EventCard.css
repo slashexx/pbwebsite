@@ -1,173 +1,214 @@
-.event-cards-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-content: center;
-  margin-bottom: 40px;
-}
-
-.event-card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  background-color: #fff;
-  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.event-card:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
-}
-
-.event-container {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-}
-
-.event-poster-container {
-  max-height: 220px;
-  overflow: hidden;
-  border-bottom: 1px solid #eee;
-}
-
-.event-poster {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.event-poster-container:hover .event-poster {
-  transform: scale(1.05);
-}
-
-.event-content-container {
-  padding: 20px;
-}
-
-.event-content-container h3 {
-  margin: 0 0 12px;
-  font-size: 1.6em;
-  color: #333;
-}
-
-.event-content-container p {
-  margin: 6px 0;
-  color: #666;
-  line-height: 1.5;
-  font-size: 1em;
-}
-
-.event-content-container p:last-child {
-  color: #999;
-  font-size: 0.9em;
-}
-
-form {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-form div {
-  margin-bottom: 16px;
-}
-
-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #333;
-}
-
-form input[type="text"],
-form input[type="date"],
-form textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-sizing: border-box;
-  font-size: 1em;
-  color: #333;
-}
-
-form button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-form button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-button {
-  display: block;
-  margin: 60px auto;
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #218838;
-}
-
+/* General styles for section headers (upcoming, past, ongoing events) */
 h2 {
   font-family: 'Arial Narrow Bold', sans-serif;
-  margin-top: 40px;
+  margin-top: 60px;
   padding-bottom: 30px;
-  font-size: 2.5em;
-  color: yellow;
+  font-size: 2.5em; /* Size of the section title */
+  color: yellow; /* Bright yellow to contrast with black cards */
   text-align: center;
 }
 
-.event-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s ease-in-out;
-}
-
-.event-card-front,
-.event-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  top: 0;
-  left: 0;
-}
-
-.event-card-back {
-  transform: rotateY(180deg);
-  padding: 20px;
-  background-color: #000000;
+/* CSS styles for the event cards */
+.event-cards-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.event-card {
+  width: 300px; /* Each card is now fixed at 300px width */
+  height: 400px; /* Height remains the same */
+  perspective: 1000px;
+  margin: 20px; /* Space around each card */
+}
+
+.event-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
 }
 
 .event-card:hover .event-card-inner {
   transform: rotateY(180deg);
+}
+
+.event-card-front,
+.event-card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  background-color: black; /* Card background color is now black */
+  color: white; /* Text color is now white */
+  border-radius: 10px; /* Rounded corners for a nicer look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for elevation */
+  border: 2px solid yellow; /* Yellow border to match section title */
+}
+
+.event-card-front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.event-card-back {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform: rotateY(180deg);
+}
+
+.event-card-back img {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  opacity: 0.2; /* Makes the image appear faint in the background */
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.event-card-back p {
+  z-index: 1;
+  position: relative;
+  color: white; /* Ensure the description text is white */
+  font-size: 1.2em;
+  text-align: center;
+}
+
+/* Event poster container with fixed aspect ratio */
+.event-poster-container {
+  position: relative;
+  width: 280px; /* Full width of the card */
+  padding-bottom: 75%; /* 3/4 = 75% to maintain a 4:3 aspect ratio */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.event-poster {
+  position: absolute; /* This ensures the image is placed inside the container */
+  top: -40px;
+  left: 0;
+  width: 100%; /* Full width of the container */
+  height: 100%; /* Full height of the container */
+  object-fit: cover; /* Ensures the image covers the entire container without distortion */
+  border-radius: 10px; /* Rounds the image edges */
+}
+
+.event-content-container {
+  text-align: center;
+}
+
+.event-content-container h3 {
+  margin-bottom: 0;
+  font-size: 1.4em; /* Slightly larger font size */
+}
+
+.event-content-container p {
+  margin-top: 5px;
+  font-size: 1em;
+}
+
+/* Button Styling */
+button {
+  margin-top: 70px !important;
+  background-color: black; /* Black button to match the card theme */
+  color: yellow; /* Yellow text to contrast the black background */
+  border: 2px solid yellow; /* Matching yellow border */
+  border-radius: 5px; /* Slight rounding of the edges */
+  padding: 10px 20px; /* Adequate padding for a comfortable size */
+  font-size: 1em; /* Regular button text size */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+  margin: 10px;
+}
+
+button:hover {
+  background-color: yellow; /* Yellow background on hover */
+  color: black; /* Black text on hover to reverse colors */
+}
+
+/* Form Styling */
+form {
+  background-color: black; /* Black form background */
+  color: white; /* White text for form labels and input text */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for elevation */
+  border: 2px solid yellow; /* Yellow border for the form */
+  width: 80%; /* Adjust the width as needed */
+  margin: 40px auto;
+}
+
+form label {
+  color: yellow; /* Yellow labels */
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid yellow; /* Yellow border for consistency */
+  border-radius: 5px;
+  background-color: black !important; /* Force black background */
+  color: white !important; /* Force white input text */
+  font-size: 1em;
+}
+
+/* Placeholder styling */
+form input::placeholder,
+form textarea::placeholder {
+  color: grey !important; /* Force grey placeholder text */
+  opacity: 1; /* Ensure the placeholder is fully visible */
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: yellow; /* Yellow border when focused */
+  outline: none; /* Removes default outline */
+}
+
+/* Force the input background to black */
+input[type="text"],
+input[type="date"],
+textarea {
+  background-color: black !important; /* Black background for text and date inputs */
+  color: white !important; /* White input text */
+}
+
+input[type="text"]::placeholder,
+input[type="date"]::placeholder,
+textarea::placeholder {
+  color: grey !important; /* Grey placeholder text */
+  opacity: 1; /* Ensure visibility */
+}
+
+/* Submit Button Styling */
+form button {
+  margin-top: 20px;
+}
+
+/* Additional styling for sections */
+section {
+  margin-bottom: 40px;
+}
+
+.upcoming-events,
+.ongoing-events,
+.past-events {
+  margin-top: 60px;
 }
