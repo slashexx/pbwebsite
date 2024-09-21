@@ -3,7 +3,7 @@ import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase";
 import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
@@ -30,10 +30,9 @@ type FormData = {
 
 const PBCTFForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
-  const [participationType, setParticipationType] = useState<"solo" | "duo">(
-    "solo"
-  );
+  const [participationType, setParticipationType] = useState<"solo" | "duo">("solo");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [usnError, setUsnError] = useState<string | null>(null);
 
   const [headingText, setHeadingText] = useState("");
   const heading = "Be a Part of PBCTF       Register Now!";
@@ -64,11 +63,57 @@ const PBCTFForm: React.FC = () => {
 
   const watchYear1 = watch("participant1.year");
   const watchYear2 = watch("participant2.year");
+  const watchUsn1 = watch("participant1.usn");
+  const watchUsn2 = watch("participant2.usn");
+
+  const checkUsnUniqueness = async (usn: string): Promise<boolean> => {
+    const q = query(collection(db, "pbctf_registrations"), 
+      where("participant1.usn", "==", usn));
+    const querySnapshot = await getDocs(q);
+    
+    if (!querySnapshot.empty) {
+      return false;
+    }
+
+    const q2 = query(collection(db, "pbctf_registrations"), 
+      where("participant2.usn", "==", usn));
+    const querySnapshot2 = await getDocs(q2);
+
+    return querySnapshot2.empty;
+  };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setUsnError(null);
+
     try {
+      // Check if USNs are the same for duo participation
+      if (data.participationType === "duo" && data.participant2 && data.participant1.usn === data.participant2.usn) {
+        setUsnError("USNs for Participant 1 and Participant 2 cannot be the same");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Check USN uniqueness for participant1
+      const isUnique1 = await checkUsnUniqueness(data.participant1.usn);
+      if (!isUnique1) {
+        setUsnError("USN for Participant 1 already exists");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Check USN uniqueness for participant2 if it exists
+      if (data.participationType === "duo" && data.participant2) {
+        const isUnique2 = await checkUsnUniqueness(data.participant2.usn);
+        if (!isUnique2) {
+          setUsnError("USN for Participant 2 already exists");
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      // If all checks pass, submit the form
       await addDoc(collection(db, "pbctf_registrations"), data);
       setSuccess(true);
     } catch (error) {
@@ -77,6 +122,7 @@ const PBCTFForm: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
   if (isSuccess) {
     return (
       <div className="w-full max-w-md mx-auto px-4 sm:px-6 lg:px-8">
@@ -244,8 +290,8 @@ const PBCTFForm: React.FC = () => {
               },
             })}
             placeholder="Phone Number"
-            maxLength={10} // Restrict to 10 digits
-            type="tel" // Show numeric keyboard on mobile
+            maxLength={10}
+            type="tel"
             className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
           />
           {errors[`participant${participantNumber}`]?.phone && (
@@ -296,6 +342,10 @@ const PBCTFForm: React.FC = () => {
 
         {renderParticipantFields(1)}
         {participationType === "duo" && renderParticipantFields(2)}
+
+        {usnError && (
+          <p className="text-red-500 text-center font-bold">{usnError}</p>
+        )}
 
         <div className="flex justify-center w-full">
           <button
