@@ -1,7 +1,7 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { years, branches } from "@/lib/constants/dropdownOptions";
 import {
@@ -20,12 +20,6 @@ const RecruitmentForm: React.FC = () => {
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const [csrfToken, setCsrfToken] = useState<string>("");
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=your_site_key`;
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
 
   const {
     register,
@@ -44,19 +38,15 @@ const RecruitmentForm: React.FC = () => {
   });
 
   const changeMode = (e: any) => {
+    console.log(e.target.value);
     if (e.target.value === "1st year") setMode(true);
     else setMode(false);
     setDisplay(true);
   };
 
-  const setTokenFunc = (getToken: string) => {
-    setToken(getToken);
-  };
-
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    try {
-      data.recaptcha_token = token;
-
+  
+try {
       const csrftoken = await fetchCsrfToken();
       setCsrfToken(csrftoken);
 
@@ -279,24 +269,13 @@ const RecruitmentForm: React.FC = () => {
             )}
           </div>
 
+
           <button
             type="submit"
             className="bg-green-500 text-white rounded-lg py-2 px-4  hover:bg-green-600 "
           >
             Submit
           </button>
-          <GoogleReCaptchaProvider
-            reCaptchaKey={
-              process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                : ""
-            }
-          >
-            <GoogleReCaptcha
-              onVerify={setTokenFunc}
-              refreshReCaptcha={refreshReCaptcha}
-            />
-          </GoogleReCaptchaProvider>
         </div>
       </form>
     </div>

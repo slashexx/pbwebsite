@@ -1,7 +1,7 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import Accordion from "./accordion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
@@ -20,6 +20,8 @@ import {
   GoogleReCaptchaProvider,
 } from "react-google-recaptcha-v3";
 import Success from "./success";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/Firebase";
 
 const SIHMultiStepForm: React.FC = () => {
   const { formData, setFormData } = useFormContext();
@@ -33,12 +35,23 @@ const SIHMultiStepForm: React.FC = () => {
     setToken(getToken);
   };
 
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const router = useRouter();
+  
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=your_site_key`;
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
+    router.push("/");
+  }
+)
+  
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/login");
+      }
+    });
+  });
+
+  
 
   const {
     register,
@@ -57,8 +70,13 @@ const SIHMultiStepForm: React.FC = () => {
     if (step < 3) {
       setStep(step + 1);
     } else {
+      if (!recaptchaToken) {
+        alert("Please complete the reCAPTCHA");
+        return;
+      }
+  
       try {
-        const response = await fetch("/api/registration/sih", {
+        let response = await fetch("/api/registration/sih", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -144,7 +162,7 @@ const SIHMultiStepForm: React.FC = () => {
 
             <div className="mb-4">
               <label className="block mb-2">
-                Team Leader's Email<span className="text-red-600"> * </span>
+                Team Leader's  Email<span className="text-red-600"> * </span>
               </label>
               <input
                 {...register("team_info.team_leader.email", {
@@ -185,133 +203,127 @@ const SIHMultiStepForm: React.FC = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block">
-                Team Leader's Role in Team
-                <span className="text-red-600"> * </span>
-              </label>
-              <input
-                {...register(`team_info.team_leader.role`, {
-                  required: "Role is required",
-                })}
-                name={`team_info.team_leader.role`}
-                type="text"
-                placeholder="Enter role in team"
-                className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-              />
-              {errors.team_info?.team_leader?.role && (
-                <p className="text-red-500">
-                  {errors.team_info.team_leader.role.message}
-                </p>
-              )}
-            </div>
+                  <label className="block">
+                    Team Leader's Role in Team<span className="text-red-600"> * </span>
+                  </label>
+                  <input
+                    {...register(`team_info.team_leader.role`, {
+                      required: "Role is required",
+                    })}
+                    name={`team_info.team_leader.role`}
+                    type="text"
+                    placeholder="Enter role in team"
+                    className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
+                  />
+                  {errors.team_info?.team_leader?.role && (
+                    <p className="text-red-500">
+                      {errors.team_info.team_leader.role.message}
+                    </p>
+                  )}
+                </div>
 
-            <div className="mb-4">
-              <label className="block">
-                Team Leader's College ID/USN
-                <span className="text-red-600"> * </span>
-              </label>
-              <input
-                {...register(`team_info.team_leader.enrollment_id`, {
-                  required: "College ID is required",
-                })}
-                name={`team_info.team_leader.enrollment_id`}
-                pattern="[1][D][S][1-2][0-9][A-Z][A-Z][0-9]{3}"
-                type="text"
-                placeholder="Enter college ID"
-                className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-              />
-              {errors.team_info?.team_leader?.enrollment_id && (
-                <p className="text-red-500">
-                  {errors.team_info.team_leader.enrollment_id.message}
-                </p>
-              )}
-            </div>
+                <div className="mb-4">
+                  <label className="block">
+                    Team Leader's College ID/USN
+                    <span className="text-red-600"> * </span>
+                  </label>
+                  <input
+                    {...register(`team_info.team_leader.enrollment_id`, {
+                      required: "College ID is required",
+                    })}
+                    name={`team_info.team_leader.enrollment_id`}
+                    pattern="[1][D][S][1-2][0-9][A-Z][A-Z][0-9]{3}"
+                    type="text"
+                    placeholder="Enter college ID"
+                    className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
+                  />
+                  {errors.team_info?.team_leader?.enrollment_id && (
+                    <p className="text-red-500">
+                      {errors.team_info.team_leader.enrollment_id.message}
+                    </p>
+                  )}
+                </div>
 
-            <div className="mb-4">
-              <label className="block">
-                Team Leader's Course/Department
-                <span className="text-red-600"> * </span>
-              </label>
-              <select
-                {...register(`team_info.team_leader.course`, {
-                  required: "Course is required",
-                })}
-                name={`team_info.team_leader.course`}
-                className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:outline-none focus:border-2 focus:border-green-500"
-              >
-                {courses.map((course, index) => (
-                  <option
-                    key={index}
-                    className="w-full px-4 py-2 border bg-black t rounded-md form-input focus:outline-none focus:border-2 focus:border-green-500"
-                    value={course}
+                <div className="mb-4">
+                  <label className="block">
+                    Team Leader's Course/Department<span className="text-red-600"> * </span>
+                  </label>
+                  <select
+                    {...register(`team_info.team_leader.course`, {
+                      required: "Course is required",
+                    })}
+                    name={`team_info.team_leader.course`}
+                    className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:outline-none focus:border-2 focus:border-green-500"
                   >
-                    {course}
-                  </option>
-                ))}
-              </select>
-              {errors.team_info?.team_leader?.course && (
-                <p className="text-red-500">
-                  {errors.team_info.team_leader.course.message}
-                </p>
-              )}
-            </div>
+                    {courses.map((course) => (
+                      <option
+                        className="w-full px-4 py-2 border bg-black t rounded-md form-input focus:outline-none focus:border-2 focus:border-green-500"
+                        value={course}
+                      >
+                        {course}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.team_info?.team_leader?.course && (
+                    <p className="text-red-500">
+                      {errors.team_info.team_leader.course.message}
+                    </p>
+                  )}
+                </div>
 
-            <div className="mb-4">
-              <label className="block">
-                Team Leaders's Year of Study
-                <span className="text-red-600"> * </span>
-              </label>
-              <select
-                {...register(`team_info.team_leader.year_of_study`, {
-                  required: "Year of study is required",
-                })}
-                name={`team_info.team_leader.year_of_study`}
-                className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-              >
-                {years.map((year, index) => (
-                  <option
-                    key={index}
-                    className="w-full px-4 py-2 border rounded-md bg-black form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-                    value={year}
+                <div className="mb-4">
+                  <label className="block">
+                    Team Leaders's Year of Study<span className="text-red-600"> * </span>
+                  </label>
+                  <select
+                    {...register(`team_info.team_leader.year_of_study`, {
+                      required: "Year of study is required",
+                    })}
+                    name={`team_info.team_leader.year_of_study`}
+                    className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                   >
-                    {year}
-                  </option>
-                ))}
-              </select>
-              {errors.team_info?.team_leader?.year_of_study && (
-                <p className="text-red-500">
-                  {errors.team_info.team_leader.year_of_study.message}
-                </p>
-              )}
-            </div>
+                    {years.map((year) => (
+                      <option
+                        className="w-full px-4 py-2 border rounded-md bg-black form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
+                        value={year}
+                      >
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.team_info?.team_leader?.year_of_study && (
+                    <p className="text-red-500">
+                      {errors.team_info.team_leader.year_of_study.message}
+                    </p>
+                  )}
+                </div>
 
-            <div className="mb-4">
-              <label className="block">
-                Team Leader's Branch<span className="text-red-600"> * </span>
-              </label>
-              <select
-                {...register(`team_info.team_leader.branch`, {
-                  required: "Branch is required",
-                })}
-                name={`team_info.team_leader.branch`}
-                className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-              >
-                {branches.map((branch, index) => (
-                  <option
-                    key={index}
-                    className="w-50 text-wrap px-4 py-2 border rounded-md bg-black form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-                    value={branch}
+                <div className="mb-4">
+                  <label className="block">
+                    Team Leader's Branch<span className="text-red-600"> * </span>
+                  </label>
+                  <select
+                    {...register(`team_info.team_leader.branch`, {
+                      required: "Branch is required",
+                    })}
+                    name={`team_info.team_leader.branch`}
+                    className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                   >
-                    {branch}
-                  </option>
-                ))}
-              </select>
-              {errors.team_info?.team_leader?.branch && (
-                <p className="text-red-500">
-                  {errors.team_info.team_leader.branch.message}
-                </p>
-              )}
-            </div>
+                    {branches.map((branch) => (
+                      <option
+                        className="w-50 text-wrap px-4 py-2 border rounded-md bg-black form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
+                        value={branch}
+                      >
+                        {branch}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.team_info?.team_leader?.branch && (
+                    <p className="text-red-500">
+                      {errors.team_info.team_leader.branch.message}
+                    </p>
+                  )}
+                </div>
 
             <button
               type="submit"
@@ -443,9 +455,8 @@ const SIHMultiStepForm: React.FC = () => {
                     name={`team_members.${index}.course`}
                     className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:outline-none focus:border-2 focus:border-green-500"
                   >
-                    {courses.map((course, index) => (
+                    {courses.map((course) => (
                       <option
-                        key={index}
                         className="w-full px-4 py-2 border bg-black t rounded-md form-input focus:outline-none focus:border-2 focus:border-green-500"
                         value={course}
                       >
@@ -471,9 +482,8 @@ const SIHMultiStepForm: React.FC = () => {
                     name={`team_members.${index}.year_of_study`}
                     className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                   >
-                    {years.map((year, index) => (
+                    {years.map((year) => (
                       <option
-                        key={index}
                         className="w-full px-4 py-2 border rounded-md bg-black form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                         value={year}
                       >
@@ -499,9 +509,8 @@ const SIHMultiStepForm: React.FC = () => {
                     name={`team_members.${index}.branch`}
                     className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                   >
-                    {branches.map((branch, index) => (
+                    {branches.map((branch) => (
                       <option
-                        key={index}
                         className="w-50 text-wrap px-4 py-2 border rounded-md bg-black form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                         value={branch}
                       >
@@ -592,9 +601,8 @@ const SIHMultiStepForm: React.FC = () => {
                 name="project_information.problem_statement"
                 className="w-full px-4 py-2 border rounded-md bg-transparent form-textarea focus:border-0 focus:outline-offset-0 focus:outline-green-500"
               >
-                {problems.map((problem, index) => (
+                {problems.map((problem) => (
                   <option
-                    key={index}
                     className="px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
                     value={problem}
                   >
@@ -636,7 +644,6 @@ const SIHMultiStepForm: React.FC = () => {
             >
               Previous
             </button>
-
             <button
               type="submit"
               className="bg-green-500 text-white rounded-lg py-2 px-4 hover:bg-green-600 focus:border-0 focus:outline-offset-0 focus:outline-green-500"
@@ -646,18 +653,6 @@ const SIHMultiStepForm: React.FC = () => {
           </div>
         )}
       </form>
-      <GoogleReCaptchaProvider
-        reCaptchaKey={
-          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-            ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-            : ""
-        }
-      >
-        <GoogleReCaptcha
-          onVerify={setTokenFunc}
-          refreshReCaptcha={refreshReCaptcha}
-        />
-      </GoogleReCaptchaProvider>
     </div>
   );
 };

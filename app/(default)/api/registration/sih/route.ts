@@ -87,12 +87,12 @@ export async function POST(request: Request) {
     );
   }
 
-  // Validate the data
-  const val = sihValidate(data);
+    // if (!isRecaptchaValid) {
+    //     return NextResponse.json({ message: 'reCAPTCHA verification failed', error: true });
+    // }
 
-  if (val.error) {
-    return NextResponse.json({ message: "Validation error", error: val.error });
-  }
+    // Validate the data
+    const val = sihValidate(data);
 
   try {
     // Save to Firebase

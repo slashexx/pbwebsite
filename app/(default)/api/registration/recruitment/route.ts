@@ -68,9 +68,9 @@ export async function POST(request: Request) {
 
   console.log(recaptchaResult);
   if (!recaptchaResult.success) {
-    return NextResponse.json({
-      message: "reCAPTCHA validation failed",
-      error: recaptchaResult["error-codes"],
+     return NextResponse.json({
+      message: "reCAPTCHA verification failed",
+      error: true,
     });
   }
   const sessionId = getSessionIdFromRequest(request);
@@ -88,6 +88,13 @@ export async function POST(request: Request) {
 
   // Validate the data
   const val = recruitValidate(data);
+
+  if (!Array.isArray(data)) {
+    return NextResponse.json({
+      message: "Expected an array of JSON objects",
+      error: true,
+    });
+  }
 
   if (val.error) {
     return NextResponse.json(
