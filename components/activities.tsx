@@ -6,16 +6,20 @@ export default function Activities() {
   return (
     <>
       <div className="flex flex-col place-items-center font-bold pt-20 pb-10">
-        <h2 className="text-5xl text-white-800 text-center mb-5">Activities</h2>
+        <h2 className="text-5xl text-white-800 text-center mb-0">Activities</h2>
       </div>
 
       {/* CP Post */}
-      <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
+      <div
+        className="flex flex-col md:flex-row w-full h-full"
+        data-aos="zoom-y-out"
+        data-aos-delay="150"
+      >
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
           <div className="p-8 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Competetive Programming" />
-            <h2 className="text-2xl font-bold mb-4">PB Hustle</h2>
-            <p className="text-lg text-justify">
+            <HyperText className="text-3xl font-bold mb-4 text-green-500 " text="CP" />
+            <h2 className="text-2xl font-bold mb-4 px-0">PB Hustle</h2>
+            <p className="text-lg text-justify px-0">  
               Point Blank has organized over 40+ editions of its PB Hustle
               coding contest, where participants solve 5-7 increasingly
               difficult problems in their preferred programming language. The
@@ -41,7 +45,11 @@ export default function Activities() {
       </div>
 
       {/* Development Post */}
-      <div className="flex flex-col-reverse items-center justify-center md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
+      <div
+        className="flex flex-col-reverse items-center justify-center md:flex-row w-full h-full"
+        data-aos="zoom-y-out"
+        data-aos-delay="150"
+      >
         <div className="highlight flex-1 flex items-center justify-center bg-black-500 h-full">
           <div className="h-96 flex items-center justify-center bg-black-900">
             <Image
@@ -55,8 +63,11 @@ export default function Activities() {
         </div>
         <div className="highlight flex-1 flex items-center justify-center p-8 bg-black-800">
           <div className="p-8 md:p-16 text-justify">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Development" />
-            <h2 className="text-2xl font-bold mb-4">PB Chronicals</h2>
+            <HyperText
+              className="text-3xl font-bold mb-4 text-green-500"
+              text="Development"
+            />
+            <h2 className="text-2xl font-bold mb-4">PB Chronicles</h2>
             <p className="text-lg text-justify">
               Point Blank has hosted over 100+ workshops, covering a wide range
               of topics including open source, DevOps, machine learning,
@@ -71,10 +82,17 @@ export default function Activities() {
       </div>
 
       {/* Hackathon Post */}
-      <div className="flex flex-col md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
+      <div
+        className="flex flex-col md:flex-row w-full h-full"
+        data-aos="zoom-y-out"
+        data-aos-delay="150"
+      >
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
           <div className="p-8 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Hackathons" />
+            <HyperText
+              className="text-3xl font-bold mb-4 text-green-500"
+              text="Hackathons"
+            />
             <h2 className="text-2xl font-bold mb-4">Smart India Hackathon</h2>
             <p className="text-lg text-justify">
               Each year, we organize the internal round of the Smart India
@@ -100,7 +118,11 @@ export default function Activities() {
       </div>
 
       {/* CyberSec Post */}
-      <div className="flex flex-col-reverse items-center justify-center md:flex-row w-full h-full" data-aos="zoom-y-out" data-aos-delay="150">
+      <div
+        className="flex flex-col-reverse items-center justify-center md:flex-row w-full h-full"
+        data-aos="zoom-y-out"
+        data-aos-delay="150"
+      >
         <div className="highlight flex-1 flex items-center justify-center bg-black-900 h-full">
           <div className="w-96 h-96 flex items-center justify-center bg-black-900">
             <Image
@@ -115,7 +137,10 @@ export default function Activities() {
 
         <div className="highlight flex-1 flex items-center justify-center p-8 bg-black-800">
           <div className="p-8 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500" text="Cybersecurity" />
+            <HyperText
+              className="text-3xl font-bold mb-4 text-green-500"
+              text="Cybersecurity"
+            />
             <h2 className="text-2xl font-bold mb-4">PB CTF</h2>
             <p className="text-lg text-justify">
               We organize workshops and sessions on various topics in
