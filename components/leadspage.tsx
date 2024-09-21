@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 
 interface Lead {
   id: string;
@@ -10,6 +12,8 @@ interface Lead {
 }
 
 const Leads: React.FC = () => {
+  const [showForm, setShowForm] = useState(false);
+
   const currentLeads: Lead[] = [
     {
       id: '10',
@@ -20,13 +24,13 @@ const Leads: React.FC = () => {
       imageUrl: "https://media.licdn.com/dms/image/v2/D5603AQFeShMi1sbKLg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718481763562?e=1729123200&v=beta&t=60HO7YQ53F44tUfCHikuDNYHZPojS2SJD0msO1Sm3eY",
     },
     {
-        id: '1',
-        name: 'Saalim Quadri',
-        position: '4th year',
-        organization: 'Raptee',
-        additionalInfo: 'LFX 23',
-        imageUrl: 'https://ik.imagekit.io/qx5kklh3ls/WhatsApp%20Image%202023-10-29%20at%2011.12.20%20AM.jpeg?updatedAt=1698558279266',
-      },
+      id: '1',
+      name: 'Saalim Quadri',
+      position: '4th year',
+      organization: 'Raptee',
+      additionalInfo: 'LFX 23',
+      imageUrl: 'https://ik.imagekit.io/qx5kklh3ls/WhatsApp%20Image%202023-10-29%20at%2011.12.20%20AM.jpeg?updatedAt=1698558279266',
+    },
     {
       id: '3',
       name: 'Pratyush Singh',
@@ -96,8 +100,32 @@ const Leads: React.FC = () => {
     },
   ];
 
+  const toggleForm = () => {
+    setShowForm(!showForm);
+  };
+
   return (
     <section style={{ textAlign: 'center', padding: '2rem 0', backgroundColor: '#000000', color: '#fff' }}>
+      <button 
+        onClick={toggleForm} 
+        style={{
+          position: 'fixed',
+          top: '85px',
+          right: '85px',
+          padding: '10px 20px',
+          backgroundColor: '#00ff33',
+          color: '#000',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          zIndex: 1000, // Ensures the button stays on top
+        }}
+      >
+        Add Lead
+      </button>
+      
+      {showForm && <LeadForm closeForm={toggleForm} />}
+
       <LeadSection title="Current Leads" leads={currentLeads} />
       <LeadSection title="Alumni Leads" leads={alumniLeads} />
     </section>
@@ -110,13 +138,13 @@ interface LeadSectionProps {
 }
 
 const LeadSection: React.FC<LeadSectionProps> = ({ title, leads }) => (
-  <div style={{ padding: '1rem', marginTop: title === "Alumni Leads" ? '2rem' : '2rem' }}>
+  <div style={{ padding: '1rem', marginTop: '2rem' }}>
     <h3 style={{
       textAlign: 'center',
       color: '#fff',
       fontSize: '2rem',
       fontWeight: 'bold',
-      borderBottom: '2px solid #00ff33',
+      borderBottom: '2px solid #000000',
       paddingBottom: '0.5rem',
       marginBottom: '1rem'
     }}>
@@ -160,5 +188,113 @@ const LeadSection: React.FC<LeadSectionProps> = ({ title, leads }) => (
     </div>
   </div>
 );
+
+interface LeadFormProps {
+  closeForm: () => void;
+}
+
+const LeadForm: React.FC<LeadFormProps> = ({ closeForm }) => {
+  const [formData, setFormData] = useState<Lead>({
+    id: '',
+    name: '',
+    position: '',
+    organization: '',
+    additionalInfo: '',
+    imageUrl: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log(formData);
+    closeForm();
+  };
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '2rem',
+      backgroundColor: '#fff',
+      borderRadius: '10px',
+      zIndex: 1001,
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+    }}>
+      <h2>Add a New Lead</h2>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="text" 
+          name="name" 
+          placeholder="Name" 
+          value={formData.name} 
+          onChange={handleChange} 
+          required 
+          style={{ display: 'block', margin: '1rem 0' }}
+        />
+        <input 
+          type="text" 
+          name="position" 
+          placeholder="Position" 
+          value={formData.position} 
+          onChange={handleChange} 
+          required 
+          style={{ display: 'block', margin: '1rem 0' }}
+        />
+        <input 
+          type="text" 
+          name="organization" 
+          placeholder="Organization" 
+          value={formData.organization} 
+          onChange={handleChange} 
+          required 
+          style={{ display: 'block', margin: '1rem 0' }}
+        />
+        <input 
+          type="text" 
+          name="additionalInfo" 
+          placeholder="Additional Info" 
+          value={formData.additionalInfo} 
+          onChange={handleChange} 
+          style={{ display: 'block', margin: '1rem 0' }}
+        />
+        <input 
+          type="text" 
+          name="imageUrl" 
+          placeholder="Image URL" 
+          value={formData.imageUrl} 
+          onChange={handleChange} 
+          required 
+          style={{ display: 'block', margin: '1rem 0' }}
+        />
+        <button type="submit" style={{
+          padding: '10px 20px',
+          backgroundColor: '#00ff33',
+          color: '#000',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        }}>Submit</button>
+        <button onClick={closeForm} style={{
+          marginLeft: '10px',
+          padding: '10px 20px',
+          backgroundColor: '#ff0033',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        }}>Cancel</button>
+      </form>
+    </div>
+  );
+};
 
 export default Leads;
