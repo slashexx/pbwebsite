@@ -21,7 +21,7 @@ interface Achiever {
 
 function AchievementCard({ achiever }: { achiever: Achiever }) {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  
+
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -30,15 +30,15 @@ function AchievementCard({ achiever }: { achiever: Achiever }) {
         //check if uuid present in firestore
         //if present then set isAdmin to true
         const querySnapshot = await getDocs(collection(db, "admin"));
-          querySnapshot.forEach((doc) => {
-            if (doc.data().uid === uid) {
-              setIsAdmin(true);
-            }
-          });
+        querySnapshot.forEach((doc) => {
+          if (doc.data().uid === uid) {
+            setIsAdmin(true);
+          }
+        });
       }
     });
   });
-      
+
 
 
   return (
@@ -87,13 +87,13 @@ export default function AchievementsPage() {
         //check if uuid present in firestore
         //if present then set isAdmin to true
         const querySnapshot = await getDocs(collection(db, "admin"));
-querySnapshot.forEach((doc) => {
-  if (doc.data().uid === uid) {
-    setIsAdmin(true);
-  }
-});
+        querySnapshot.forEach((doc) => {
+          if (doc.data().uid === uid) {
+            setIsAdmin(true);
+          }
+        });
       }
-    } );
+    });
   });
 
 
@@ -133,7 +133,7 @@ querySnapshot.forEach((doc) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try{
+    try {
       const formData = new FormData();
       formData.append("image", newAchievement.image || "");
       formData.append("email", newAchievement.email || "");
@@ -166,7 +166,7 @@ querySnapshot.forEach((doc) => {
         ))}
       </div>
       {isAdmin ? (
-          <div className="text-center mb-8">
+        <div className="text-center mb-8">
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-white text-black py-2 px-4 rounded shadow-lg"
@@ -175,8 +175,8 @@ querySnapshot.forEach((doc) => {
           </button>
         </div>
       ) : null
-    }
-      
+      }
+
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
           <div className="bg-black text-white p-8 rounded-lg w-full max-w-md">
