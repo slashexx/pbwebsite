@@ -183,7 +183,11 @@ const EventCard: React.FC = () => {
                   </div>
                   <div className="event-content-container">
                     <h3>{event.eventName || 'Unnamed Event'}</h3>
-                    <p>{event.startDate} {event.endDate && ` - ${event.endDate}`}</p>
+                    <p>
+  {event.startDate} 
+  {event.endDate && ` - ${event.endDate}`}
+</p>
+
 
                   </div>
                 </div>
