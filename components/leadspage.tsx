@@ -1,6 +1,11 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth } from "@/Firebase";
+import { db } from "@/Firebase";
 
 interface Lead {
   id: string;
@@ -13,92 +18,66 @@ interface Lead {
 
 const Leads: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [currentLeads, setCurrentLeads] = useState<Lead[]>([]);
+  const [alumniLeads, setAlumniLeads] = useState<Lead[]>([]);
 
-  const currentLeads: Lead[] = [
-    {
-      id: '10',
-      name: 'Akash Singh',
-      position: '3rd year',
-      organization: 'CloudSek',
-      additionalInfo: 'Gsoc 24',
-      imageUrl: "https://media.licdn.com/dms/image/v2/D5603AQFeShMi1sbKLg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718481763562?e=1729123200&v=beta&t=60HO7YQ53F44tUfCHikuDNYHZPojS2SJD0msO1Sm3eY",
-    },
-    {
-      id: '1',
-      name: 'Saalim Quadri',
-      position: '4th year',
-      organization: 'Raptee',
-      additionalInfo: 'LFX 23',
-      imageUrl: 'https://ik.imagekit.io/qx5kklh3ls/WhatsApp%20Image%202023-10-29%20at%2011.12.20%20AM.jpeg?updatedAt=1698558279266',
-    },
-    {
-      id: '3',
-      name: 'Pratyush Singh',
-      position: 'Alumni',
-      organization: 'Ultrahuman',
-      additionalInfo: 'Gsoc 23, 24',
-      imageUrl: 'https://github-production-user-asset-6210df.s3.amazonaws.com/90026952/279694915-c7693363-6623-4bd2-9503-ee092b0e3593.jpeg',
-    },
-  ];
+  useEffect(() => {
+    // const auth = getAuth();
+    // const db = getFirestore();
 
-  const alumniLeads: Lead[] = [
-    {
-      id: '2',
-      name: 'Prathik Singh',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://ik.imagekit.io/qx5kklh3ls/index.jpeg?updatedAt=1678781533632',
-    },
-    {
-      id: '4',
-      name: 'Ashutosh Pandey',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://avatars.githubusercontent.com/u/36353507?v=4',
-    },
-    {
-      id: '5',
-      name: 'Bapu Pruthvidhar',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://avatars.githubusercontent.com/u/37359679?v=4',
-    },
-    {
-      id: '6',
-      name: 'Anukul Anand',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://avatars.githubusercontent.com/u/64669326?v=4',
-    },
-    {
-      id: '7',
-      name: 'Madhur Mehta',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://avatars.githubusercontent.com/u/77354138?v=4',
-    },
-    {
-      id: '8',
-      name: 'Debayan Ghosh Dastider',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://avatars.githubusercontent.com/u/77199373?v=4',
-    },
-    {
-      id: '9',
-      name: 'Rithik Raj Pandey',
-      position: '',
-      organization: '',
-      additionalInfo: '',
-      imageUrl: 'https://avatars.githubusercontent.com/u/83706503?s=400&u=2d00114433bc28b8e28252e41bbc919229b9a7f4&v=4',
-    },
-  ];
+    const checkAdmin = async (uid: string) => {
+      try {
+        console.log(uid);
+        const docRef = doc(db, "admin", uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          console.log("helo")
+          setIsAdminLoggedIn(true);
+          console.log("checked")
+          // isAdminLoggedIn(true);
+        } else {
+          setIsAdminLoggedIn(false);
+          console.log(docRef)
+        }
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+        setIsAdminLoggedIn(false);
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        checkAdmin(user.uid);
+      } else {
+        setIsAdminLoggedIn(false);
+      }
+    });
+
+    // Fetch leads from Firestore
+    const fetchLeads = async () => {
+      const leadsRef = collection(db, "leads");
+      const querySnapshot = await getDocs(leadsRef);
+      const currentLeads: Lead[] = [];
+      const alumniLeads: Lead[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const leadData = doc.data() as Lead;
+        if (leadData.position === "Current") {
+          currentLeads.push({ ...leadData, id: doc.id });
+        } else {
+          alumniLeads.push({ ...leadData, id: doc.id });
+        }
+      });
+
+      setCurrentLeads(currentLeads);
+      setAlumniLeads(alumniLeads);
+    };
+
+    fetchLeads();
+
+    return () => unsubscribe();
+  }, []);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -106,24 +85,26 @@ const Leads: React.FC = () => {
 
   return (
     <section style={{ textAlign: 'center', padding: '2rem 0', backgroundColor: '#000000', color: '#fff' }}>
-      <button 
-        onClick={toggleForm} 
-        style={{
-          position: 'fixed',
-          top: '85px',
-          right: '85px',
-          padding: '10px 20px',
-          backgroundColor: '#00ff33',
-          color: '#000',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          zIndex: 1000, // Ensures the button stays on top
-        }}
-      >
-        Add Lead
-      </button>
-      
+      {isAdminLoggedIn && (
+        <button
+          onClick={toggleForm}
+          style={{
+            position: 'fixed',
+            top: '85px',
+            right: '85px',
+            padding: '10px 20px',
+            backgroundColor: '#00ff33',
+            color: '#000',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            zIndex: 1000,
+          }}
+        >
+          Add Lead
+        </button>
+      )}
+
       {showForm && <LeadForm closeForm={toggleForm} />}
 
       <LeadSection title="Current Leads" leads={currentLeads} />
@@ -194,106 +175,135 @@ interface LeadFormProps {
 }
 
 const LeadForm: React.FC<LeadFormProps> = ({ closeForm }) => {
-  const [formData, setFormData] = useState<Lead>({
-    id: '',
+  const [newLead, setNewLead] = useState<Partial<Lead>>({
     name: '',
-    position: '',
+    position: 'Current',
     organization: '',
     additionalInfo: '',
-    imageUrl: '',
   });
+  const [image, setImage] = useState<File | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setNewLead({
+      ...newLead,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
-    closeForm();
+    if (!newLead.name || !image) {
+      alert("Please provide the lead name and image.");
+      return;
+    }
+
+    const db = getFirestore();
+    const storage = getStorage();
+
+    try {
+      // Upload the image to Firebase Storage
+      const imageRef = ref(storage, `images/${newLead.name}`);
+      await uploadBytes(imageRef, image);
+      const imageUrl = await getDownloadURL(imageRef);
+
+      // Add lead to Firestore
+      await addDoc(collection(db, 'leads'), {
+        ...newLead,
+        imageUrl: imageUrl,
+      });
+
+      console.log("New Lead Submitted:", { ...newLead, imageUrl });
+      closeForm();
+    } catch (error) {
+      console.error("Error adding new lead:", error);
+    }
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      padding: '2rem',
-      backgroundColor: '#fff',
-      borderRadius: '10px',
-      zIndex: 1001,
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-    }}>
-      <h2>Add a New Lead</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          name="name" 
-          placeholder="Name" 
-          value={formData.name} 
-          onChange={handleChange} 
-          required 
-          style={{ display: 'block', margin: '1rem 0' }}
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        backgroundColor: '#222',
+        color: '#fff',
+        padding: '1rem',
+        margin: '2rem auto',
+        width: '300px',
+        borderRadius: '10px',
+        border: '1px solid #555',
+      }}
+    >
+      <h2 style={{ textAlign: 'center' }}>Add New Lead</h2>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={newLead.name || ''}
+          onChange={handleChange}
+          style={{ display: 'block', width: '100%', padding: '0.5rem', marginBottom: '0.5rem', color: '#000' }} // Make text color black for visibility
         />
-        <input 
-          type="text" 
-          name="position" 
-          placeholder="Position" 
-          value={formData.position} 
-          onChange={handleChange} 
-          required 
-          style={{ display: 'block', margin: '1rem 0' }}
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Position:</label>
+        <select
+          name="position"
+          value={newLead.position}
+          onChange={handleChange}
+          style={{ display: 'block', width: '100%', padding: '0.5rem', marginBottom: '0.5rem', color: '#000' }} // Dropdown menu
+        >
+          <option value="Current">Current</option>
+          <option value="Alumni">Alumni</option>
+        </select>
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Organization:</label>
+        <input
+          type="text"
+          name="organization"
+          value={newLead.organization || ''}
+          onChange={handleChange}
+          style={{ display: 'block', width: '100%', padding: '0.5rem', marginBottom: '0.5rem', color: '#000' }} // Make text color black for visibility
         />
-        <input 
-          type="text" 
-          name="organization" 
-          placeholder="Organization" 
-          value={formData.organization} 
-          onChange={handleChange} 
-          required 
-          style={{ display: 'block', margin: '1rem 0' }}
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Additional Info:</label>
+        <input
+          type="text"
+          name="additionalInfo"
+          value={newLead.additionalInfo || ''}
+          onChange={handleChange}
+          style={{ display: 'block', width: '100%', padding: '0.5rem', marginBottom: '0.5rem', color: '#000' }} // Make text color black for visibility
         />
-        <input 
-          type="text" 
-          name="additionalInfo" 
-          placeholder="Additional Info" 
-          value={formData.additionalInfo} 
-          onChange={handleChange} 
-          style={{ display: 'block', margin: '1rem 0' }}
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Image:</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          style={{ display: 'block', width: '100%', padding: '0.5rem', marginBottom: '0.5rem', color: '#000' }} // File input
         />
-        <input 
-          type="text" 
-          name="imageUrl" 
-          placeholder="Image URL" 
-          value={formData.imageUrl} 
-          onChange={handleChange} 
-          required 
-          style={{ display: 'block', margin: '1rem 0' }}
-        />
-        <button type="submit" style={{
-          padding: '10px 20px',
+      </div>
+      <button
+        type="submit"
+        style={{
           backgroundColor: '#00ff33',
           color: '#000',
+          padding: '0.5rem 1rem',
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',
-        }}>Submit</button>
-        <button onClick={closeForm} style={{
-          marginLeft: '10px',
-          padding: '10px 20px',
-          backgroundColor: '#ff0033',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}>Cancel</button>
-      </form>
-    </div>
+        }}
+      >
+        Submit
+      </button>
+    </form>
   );
 };
 
