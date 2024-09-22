@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/server/utils";
 
 interface GridPatternProps {
   width?: number;
@@ -57,11 +57,11 @@ export function GridPattern({
       currentSquares.map((sq) =>
         sq.id === id
           ? {
-            ...sq,
-            pos: getPos(),
-          }
-          : sq,
-      ),
+              ...sq,
+              pos: getPos(),
+            }
+          : sq
+      )
     );
   };
 
@@ -100,7 +100,7 @@ export function GridPattern({
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
-        className,
+        className
       )}
       {...props}
     >
