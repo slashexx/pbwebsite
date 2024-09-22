@@ -1,9 +1,4 @@
 import { db } from "@/Firebase";
-import {
-  createCSRFToken,
-  getSessionIdFromRequest,
-  verifyCSRFToken,
-} from "@/lib/server/csrf";
 import { sihValidate } from "@/lib/server/utils";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { NextResponse } from "next/server";
@@ -73,20 +68,6 @@ export async function POST(request: Request) {
       }
     );
   }
-
-  const sessionId = getSessionIdFromRequest(request);
-  const csrfToken = createCSRFToken(sessionId);
-
-  // Verify the CSRF token
-  if (!verifyCSRFToken(sessionId, csrfToken)) {
-    return NextResponse.json(
-      { message: "Invalid CSRF token" },
-      {
-        status: 403,
-      }
-    );
-  }
-
     // if (!isRecaptchaValid) {
     //     return NextResponse.json({ message: 'reCAPTCHA verification failed', error: true });
     // }
