@@ -7,6 +7,7 @@ import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase";
 import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
+import toast from "react-hot-toast";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -33,6 +34,7 @@ const PBCTFForm: React.FC = () => {
   const [participationType, setParticipationType] = useState<"solo" | "duo">("solo");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [usnError, setUsnError] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>();
 
   const [headingText, setHeadingText] = useState("");
   const heading = "Be a Part of PBCTF       Register Now!";
@@ -66,6 +68,10 @@ const PBCTFForm: React.FC = () => {
   const watchUsn1 = watch("participant1.usn");
   const watchUsn2 = watch("participant2.usn");
 
+  const setTokenFunc = (getToken: string) => {
+    setToken(getToken);
+  };
+
   const checkUsnUniqueness = async (usn: string): Promise<boolean> => {
     const q = query(collection(db, "pbctf_registrations"), 
       where("participant1.usn", "==", usn));
@@ -88,6 +94,27 @@ const PBCTFForm: React.FC = () => {
     setUsnError(null);
 
     try {
+
+      grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+        );
+        setTokenFunc(token);
+      });
+
+      const recaptcha_token = token;
+      const response = await fetch("/api/registration/pbctf", {
+        method: "POST",
+        body: JSON.stringify({recaptcha_token}),
+      });
+
+      const res = await response.json();
+
+      if (!response.ok || res.error) {
+        toast.error(res.message);
+        return;
+      }
+
       // Check if USNs are the same for duo participation
       if (data.participationType === "duo" && data.participant2 && data.participant1.usn === data.participant2.usn) {
         setUsnError("USNs for Participant 1 and Participant 2 cannot be the same");

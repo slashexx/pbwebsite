@@ -10,13 +10,13 @@ import { useRouter } from "next/navigation";
 const PBCTFRegisterPage = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/login");
-      }
-    });
-  }, [router]);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (!user) {
+  //       router.push("/login");
+  //     }
+  //   });
+  // }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
