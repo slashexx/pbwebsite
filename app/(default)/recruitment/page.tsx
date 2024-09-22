@@ -18,9 +18,9 @@ const RegisterPage = () => {
   //     } 
   //   });
   // });\
-  useEffect(() => {
-    router.push("/");
-  })
+  // useEffect(() => {
+  //   router.push("/");
+  // })
   return (
     <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
       <div className="form-container my-2">

@@ -4,10 +4,6 @@ import "../../app/css/additional-styles/theme.css";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { years, branches } from "@/lib/constants/dropdownOptions";
-import {
-  GoogleReCaptchaProvider,
-  GoogleReCaptcha,
-} from "react-google-recaptcha-v3";
 import Success from "./success";
 import toast from "react-hot-toast";
 import { getErrorMessage, fetchCsrfToken } from "@/lib/client/clientUtils";
@@ -17,8 +13,6 @@ const RecruitmentForm: React.FC = () => {
   const [mode, setMode] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(false);
   const [token, setToken] = useState("");
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
-  const [csrfToken, setCsrfToken] = useState<string>("");
 
 
   const {
@@ -37,26 +31,28 @@ const RecruitmentForm: React.FC = () => {
     },
   });
 
+  const setTokenFunc = (getToken: string) => {
+    setToken(getToken);
+  };
   const changeMode = (e: any) => {
-    console.log(e.target.value);
     if (e.target.value === "1st year") setMode(true);
     else setMode(false);
     setDisplay(true);
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-  
-try {
-      const csrftoken = await fetchCsrfToken();
-      setCsrfToken(csrftoken);
+    try {
+      grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+        );
+        setTokenFunc(token);
+      });
+
+      data.recaptcha_token = token;
 
       const response = await fetch("/api/registration/recruitment", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
-        },
-
         body: JSON.stringify(data),
       });
 
@@ -70,7 +66,6 @@ try {
 
       setSuccess(true);
     } catch (error) {
-      setRefreshReCaptcha(!refreshReCaptcha);
       console.error("Error submitting form:", error);
       toast.error(getErrorMessage(error));
     }
@@ -269,9 +264,9 @@ try {
             )}
           </div>
 
-
           <button
             type="submit"
+            disabled={isSuccess}
             className="bg-green-500 text-white rounded-lg py-2 px-4  hover:bg-green-600 "
           >
             Submit

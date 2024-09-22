@@ -1,9 +1,5 @@
 import { db } from "@/Firebase";
-import {
-  createCSRFToken,
-  getSessionIdFromRequest,
-  verifyCSRFToken,
-} from "@/lib/server/csrf";
+
 import { recruitValidate } from "@/lib/server/utils";
 
 import {
@@ -20,19 +16,39 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   const formData = await request.json();
   const { recaptcha_token, ...data } = formData;
-  const { email } = formData;
+  const { email, whatsapp_number, college_id } = formData;
 
-  // Only one Registration per Email
+  // Only one Registration per person
+  
+ // Query for email
+const emailQuery = query(
+  collection(db, "recruitment2024"),
+  where("email", "==", email)
+);
 
-  const q = query(
-    collection(db, "recruitment2024"),
-    where("email", "==", email)
-  );
-  const querySnapshot = await getDocs(q);
+// Query for phone number
+const phoneQuery = query(
+  collection(db, "recruitment2024"),
+  where("whatsapp_number", "==", whatsapp_number)
+);
 
-  console.log(!querySnapshot.empty);
+// Query for college ID
+const collegeIdQuery = query(
+  collection(db, "recruitment2024"),
+  where("college_id", "==", college_id)
+);
 
-  if (!querySnapshot.empty) {
+// Fetch results from all queries
+const [emailSnapshot, phoneSnapshot, collegeIdSnapshot] = await Promise.all([
+  getDocs(emailQuery),
+  getDocs(phoneQuery),
+  getDocs(collegeIdQuery)
+]);
+
+
+  console.log(!emailSnapshot.empty);
+
+  if (!emailSnapshot.empty) {
     return NextResponse.json(
       {
         message: "Email is already registered!",
@@ -44,12 +60,45 @@ export async function POST(request: Request) {
       }
     );
   }
+  if (!phoneSnapshot.empty) {
+    return NextResponse.json(
+      {
+        message: "Whatsapp No. is already registered!",
+        error: "Whatsapp No. is already registered!",
+      },
+
+      {
+        status: 500,
+      }
+    );
+  }
+  if (!collegeIdSnapshot.empty) {
+    return NextResponse.json(
+      {
+        message: "College Id is already registered!",
+        error: "College Id is already registered!",
+      },
+
+      {
+        status: 500,
+      }
+    );
+  }
 
   const recaptchaToken = recaptcha_token;
+
+  const details = {
+    event: {
+      token: recaptchaToken,
+      siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+    },
+  };
+
+
   if (!recaptchaToken) {
     return NextResponse.json(
       {
-        message: "reCAPTCHA token not found! Refresh and try again",
+        message: "reCAPTCHA token not found! Try again",
         error: "reCAPTCHA token not found!",
       },
       {
@@ -57,44 +106,28 @@ export async function POST(request: Request) {
       }
     );
   }
-  const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
 
-  // Verify reCAPTCHA token
+  // Verify the reCATPTCHA token
+
   const recaptchaResponse = await fetch(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaToken}`,
-    { method: "POST" }
+    `https://recaptchaenterprise.googleapis.com/v1/projects/${process.env.RECAPTCHA_PROJECT}/assessments?key=${process.env.RECAPTCHA_API_KEY}`,
+    {
+      method: "POST",
+      body: JSON.stringify(details),
+    }
   );
+
   const recaptchaResult = await recaptchaResponse.json();
-
-  console.log(recaptchaResult);
-  if (!recaptchaResult.success) {
-     return NextResponse.json({
-      message: "reCAPTCHA verification failed",
-      error: true,
+  console.log(recaptchaResult.riskAnalysis.score);
+  if (recaptchaResult.riskAnalysis.score < 0.7) {
+    return NextResponse.json({
+      message: "reCAPTCHA validation failed",
+      error: recaptchaResult["error-codes"],
     });
-  }
-  const sessionId = getSessionIdFromRequest(request);
-  const csrfToken = createCSRFToken(sessionId);
-
-  // Verify the CSRF token
-  if (!verifyCSRFToken(sessionId, csrfToken)) {
-    return NextResponse.json(
-      { message: "Invalid CSRF token" },
-      {
-        status: 403,
-      }
-    );
   }
 
   // Validate the data
   const val = recruitValidate(data);
-
-  if (!Array.isArray(data)) {
-    return NextResponse.json({
-      message: "Expected an array of JSON objects",
-      error: true,
-    });
-  }
 
   if (val.error) {
     return NextResponse.json(

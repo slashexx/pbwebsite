@@ -7,6 +7,7 @@ import 'aos/dist/aos.css'
 
 import Footer from '@/components/ui/footer'
 import { Toaster } from 'react-hot-toast'
+import Script from 'next/script'
 
 export default function DefaultLayout({
   children,
@@ -25,6 +26,7 @@ export default function DefaultLayout({
 
   return (
     <>
+    
       <main className="grow">
 
         {children}
