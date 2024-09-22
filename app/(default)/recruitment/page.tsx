@@ -17,7 +17,7 @@ const RegisterPage = () => {
   //       router.push("/login");
   //     } 
   //   });
-  // });\
+  // });
   // useEffect(() => {
   //   router.push("/");
   // })
