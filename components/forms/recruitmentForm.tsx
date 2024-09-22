@@ -1,7 +1,7 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { years, branches } from "@/lib/constants/dropdownOptions";
 import Success from "./success";
@@ -40,34 +40,42 @@ const RecruitmentForm: React.FC = () => {
     setDisplay(true);
   };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    try {
+  useEffect(() => {
+    const getRecaptcha = async () => {
       grecaptcha.enterprise.ready(async () => {
         const token = await grecaptcha.enterprise.execute(
           process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
         );
-        setTokenFunc(token);
-      });
 
+        if (token) {
+          setTokenFunc(token);
+        }
+      });
+    };
+    getRecaptcha();
+  }, []);
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
       data.recaptcha_token = token;
+      if (token) {
+        const response = await fetch("/api/registration/recruitment", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
 
-      const response = await fetch("/api/registration/recruitment", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+        const res = await response.json();
 
-      const res = await response.json();
+        if (!response.ok || res.error) {
+          console.log(response.json);
+          toast.error(res.message);
+          return;
+        }
 
-      if (!response.ok || res.error) {
-        console.log(response.json);
-        toast.error(res.message);
-        return;
+        setSuccess(true);
       }
-
-      setSuccess(true);
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error(getErrorMessage(error));
