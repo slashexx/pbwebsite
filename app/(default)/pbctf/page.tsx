@@ -1,7 +1,7 @@
 "use client";
 import PBCTFForm from "@/components/forms/pbctfForm";
 import DotPattern from "@/components/magicui/dot-pattern";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/server/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useEffect } from "react";
