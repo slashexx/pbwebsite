@@ -5,7 +5,7 @@ import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { db } from "@/Firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 interface Achiever {
   imageUrl?: string;
@@ -20,27 +20,6 @@ interface Achiever {
 }
 
 function AchievementCard({ achiever }: { achiever: Achiever }) {
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        //get user uuid
-        const uid = user.uid;
-        //check if uuid present in firestore
-        //if present then set isAdmin to true
-        const querySnapshot = await getDocs(collection(db, "admin"));
-        querySnapshot.forEach((doc) => {
-          if (doc.data().uid === uid) {
-            setIsAdmin(true);
-          }
-        });
-      }
-    });
-  });
-
-
-
   return (
     <div className="bg-[hsla(0,0%,100%,.079)] rounded-xl shadow-lg overflow-hidden w-[330px]">
       <div className="overflow-hidden">
@@ -82,20 +61,19 @@ export default function AchievementsPage() {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        //get user uuid
         const uid = user.uid;
-        //check if uuid present in firestore
-        //if present then set isAdmin to true
-        const querySnapshot = await getDocs(collection(db, "admin"));
-        querySnapshot.forEach((doc) => {
-          if (doc.data().uid === uid) {
+        try {
+          const adminDocRef = await doc(db, "admin", uid);
+          const adminDocSnap = await getDoc(adminDocRef);
+          if (adminDocSnap.exists()) {
             setIsAdmin(true);
           }
-        });
+        } catch (error) {
+          console.log("Error getting document:", error);
+        }
       }
     });
   });
-
 
   useEffect(() => {
     async function fetchAchievers() {
@@ -142,7 +120,10 @@ export default function AchievementsPage() {
       formData.append("portfolio", newAchievement.portfolio || "");
       formData.append("internship", newAchievement.internship || "");
       formData.append("companyPosition", newAchievement.companyPosition || "");
-      formData.append("achievements", JSON.stringify(newAchievement.achievements || []));
+      formData.append(
+        "achievements",
+        JSON.stringify(newAchievement.achievements || [])
+      );
       const response = await axios.post("/api/achievements", formData);
       setAchievers((prev) => [...prev, response.data]);
       setIsModalOpen(false);
@@ -174,8 +155,7 @@ export default function AchievementsPage() {
             Add Achievements
           </button>
         </div>
-      ) : null
-      }
+      ) : null}
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
