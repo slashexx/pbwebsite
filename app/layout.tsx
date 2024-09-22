@@ -29,7 +29,7 @@ export default function RootLayout({
       <head>
         <Script
           src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="lazyOnload" // Set reCAPTCHA ready state when the script is loaded
+          strategy="beforeInteractive"
         />
       </head>
       <body

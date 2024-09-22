@@ -1,19 +1,19 @@
 "use client";
 import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { years, branches } from "@/lib/constants/dropdownOptions";
 import Success from "./success";
 import toast from "react-hot-toast";
-import { getErrorMessage, fetchCsrfToken } from "@/lib/client/clientUtils";
+import { getErrorMessage } from "@/lib/client/clientUtils";
 
 const RecruitmentForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const [mode, setMode] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(false);
-  const [token, setToken] = useState("");
-
+  const [token, setToken] = useState<string | null>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const {
     register,
@@ -40,34 +40,47 @@ const RecruitmentForm: React.FC = () => {
     setDisplay(true);
   };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    try {
+  useEffect(() => {
+    const getRecaptcha = async () => {
       grecaptcha.enterprise.ready(async () => {
         const token = await grecaptcha.enterprise.execute(
           process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
         );
-        setTokenFunc(token);
-      });
 
+        if (token) {
+          setTokenFunc(token);
+        }
+      });
+    };
+    getRecaptcha();
+  }, []);
+
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
       data.recaptcha_token = token;
+      if (token) {
+        const response = await fetch("/api/registration/recruitment", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
 
-      const response = await fetch("/api/registration/recruitment", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+        const res = await response.json();
 
-      const res = await response.json();
+        if (!response.ok || res.error) {
+          console.log(response.json);
+          toast.error(res.message);
+          return;
+        }
 
-      if (!response.ok || res.error) {
-        console.log(response.json);
-        toast.error(res.message);
-        return;
+        setSuccess(true);
       }
-
-      setSuccess(true);
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error(getErrorMessage(error));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -232,10 +245,13 @@ const RecruitmentForm: React.FC = () => {
             <input
               {...register("whatsapp_number", {
                 required: "Whatsapp Number is required",
+                pattern: {
+                  value: /^[6-9]\d{9}$/,
+                  message: "Invalid phone number (10 digits starting with 6-9)",
+                },
               })}
+              maxLength={10}
               name="whatsapp_number"
-              type="tel"
-              pattern="[1-9]{1}[0-9]{9}"
               placeholder="Enter your whatsapp number"
               className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
             />
@@ -266,10 +282,10 @@ const RecruitmentForm: React.FC = () => {
 
           <button
             type="submit"
-            disabled={isSuccess}
+            disabled={isSubmitting}
             className="bg-green-500 text-white rounded-lg py-2 px-4  hover:bg-green-600 "
           >
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>

@@ -14,7 +14,7 @@ import EventComponent from "@/components/eventcards";
 import Leads from "@/components/leads";
 import Achievements from '@/components/achievements';
 import Founder from "@/components/founder";
-import Announce from "@/components/announcement";
+// import Announce from "@/components/announcement";
 
 
 export default function Home() {
@@ -22,32 +22,41 @@ export default function Home() {
     <>
       <Hero />
       <div className="flex flex-col justify-center items-center py-10 px-5 mb-20">
-        <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" /> 
-          <Image
+        <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" />
+        {/* <Image
             src={"/images/announce.png"}
             alt="sih"
             height={400}
             width={1100}
             className="rounded-3xl mt-20"
-          />
+          /> */}
+        <Image
+          src={"/images/pbctf.png"}
+          alt="pbctf"
+          height={400}
+          width={1100}
+          className="rounded-3xl mt-20"
+        />
         <div className="flex md:flex-row flex-col justify-center items-center py-10 px-5">
-          <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
-          Registrations Closed
-          </button>
-        {/* Add a download button  */}
-        <a href="/Shortlisted.pdf" download>
+          <a href="/pbctf">
+            <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
+              Register Now
+            </button>
+          </a>
+          {/* Add a download button  */}
+          {/* <a href="/Shortlisted.pdf" download>
           <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
             Download Shortlisted Problem Statements
           </button>
-        </a>
+        </a> */}
         </div>
-        <Announce />
+        {/* <Announce /> */}
       </div>
       <Domains />
       <Activities />
       <Founder />
       <Leads />
-      <Achievements/>
+      <Achievements />
       <EventComponent />
     </>
   );
