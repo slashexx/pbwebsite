@@ -4,7 +4,7 @@ import { FormProvider } from "@/components/forms/formContext";
 import DotPattern from "@/components/magicui/dot-pattern";
 import {  useEffect } from "react";
 import "../../css/additional-styles/form.css";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/server/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useRouter } from "next/navigation";
@@ -25,11 +25,11 @@ const RegisterPage = () => {
     <FormProvider>
       <div className="mt-16 mx-auto flex flex-col items-center justify-center">
         <div className="container">
-            <div className="title items-center justify-center mt-8">
-              <span className="block"></span>
-              <h1 className="h1">
-                Register for Smart India Hackathon!
-              </h1>
+          <div className="title items-center justify-center mt-8">
+            <span className="block"></span>
+            <h1 className="h1 text-center">
+              Register for Smart India Hackathon!
+            </h1>
           </div>
         </div>
 

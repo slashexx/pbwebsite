@@ -1,32 +1,40 @@
+import "./css/style.css";
+import { Inter } from "next/font/google";
+import Header from "@/components/ui/header";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import Script from "next/script";
 
-import './css/style.css'
-import { Inter } from 'next/font/google'
-import Header from '@/components/ui/header'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-import { config } from '@fortawesome/fontawesome-svg-core'
-import { ThemeProvider as NextThemesProvider } from 'next-themes'
-
-config.autoAddCss = false
+config.autoAddCss = false;
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap'
-})
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata = {
-  title: 'Point Blank',
-  description: 'Hello World',
-}
+  title: "Point Blank",
+  description: "Hello World",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
-      <body className={`${inter.variable} font-inter antialiased bg-black text-white tracking-tight`}>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+      <head>
+        <Script
+          src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          strategy="beforeInteractive"
+        />
+      </head>
+      <body
+        className={`${inter.variable} font-inter antialiased bg-black text-white tracking-tight`}
+      >
         <NextThemesProvider>
           <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
             <Header />
@@ -35,5 +43,5 @@ export default function RootLayout({
         </NextThemesProvider>
       </body>
     </html>
-  )
+  );
 }

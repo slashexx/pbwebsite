@@ -3,7 +3,7 @@
 import { CSSProperties, ReactElement, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/server/utils";
 
 interface Sparkle {
   id: string;
@@ -94,7 +94,7 @@ const SparklesText: React.FC<SparklesTextProps> = ({
           } else {
             return { ...star, lifespan: star.lifespan - 0.1 };
           }
-        }),
+        })
       );
     };
 

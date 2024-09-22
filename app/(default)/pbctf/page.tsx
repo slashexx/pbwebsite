@@ -1,30 +1,27 @@
 "use client";
-import RecruitmentForm from "@/components/forms/recruitmentForm";
+import PBCTFForm from "@/components/forms/pbctfForm";
 import DotPattern from "@/components/magicui/dot-pattern";
-import "../../css/additional-styles/form.css";
 import { cn } from "@/lib/server/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const RegisterPage = () => {
+const PBCTFRegisterPage = () => {
   const router = useRouter();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         router.push("/login");
-      } 
+      }
     });
-  });
-  // useEffect(() => {
-  //   router.push("/");
-  // })
+  }, [router]);
+
   return (
-    <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
-      <div className="form-container my-2">
-        <RecruitmentForm />
+    <div className="min-h-screen flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="w-full max-w-2xl space-y-8 relative z-10">
+        <PBCTFForm />
       </div>
       <DotPattern
         width={20}
@@ -33,11 +30,12 @@ const RegisterPage = () => {
         cy={1}
         cr={1}
         className={cn(
-          "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
+          "absolute inset-0 scale-150 opacity-50 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
         )}
       />
     </div>
   );
 };
 
-export default RegisterPage;
+export default PBCTFRegisterPage;
+
