@@ -1,10 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { db, auth } from '@/Firebase';
-import { collection, addDoc, getDocs, orderBy, query, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import './EventCard.css';
+import React, { useState, useEffect } from "react";
+import { db, auth } from "@/Firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+  doc,
+  deleteDoc,
+  getDoc,
+} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import "./EventCard.css";
 
 interface Event {
   eventName: string;
@@ -17,14 +27,14 @@ interface Event {
 
 const EventCard: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [eventName, setEventName] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [eventName, setEventName] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [formVisible, setFormVisible] = useState(false);
   const [editFormVisible, setEditFormVisible] = useState(false);
-  const [eventToEdit, setEventToEdit] = useState('');
+  const [eventToEdit, setEventToEdit] = useState("");
   const [eventDataToEdit, setEventDataToEdit] = useState<Event | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
@@ -33,12 +43,16 @@ const EventCard: React.FC = () => {
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           const uid = user.uid;
-          const querySnapshot = await getDocs(collection(db, 'admin'));
-          querySnapshot.forEach((doc) => {
-            if (doc.data().uid === uid) {
+          try {
+            const adminDocRef = await doc(db, "admin", uid);
+            const adminDocSnap = await getDoc(adminDocRef);
+            console.log("here =", adminDocSnap.exists());
+            if (adminDocSnap.exists()) {
               setIsAdmin(true);
             }
-          });
+          } catch (error) {
+            console.log("Error getting document:", error);
+          }
         }
       });
     };
@@ -48,7 +62,7 @@ const EventCard: React.FC = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const q = query(collection(db, 'events'), orderBy('startDate'));
+      const q = query(collection(db, "events"), orderBy("startDate"));
       const querySnapshot = await getDocs(q);
       const eventsList: Event[] = [];
       querySnapshot.forEach((doc) => {
@@ -74,21 +88,24 @@ const EventCard: React.FC = () => {
     };
 
     try {
-      await addDoc(collection(db, 'events'), newEvent);
+      await addDoc(collection(db, "events"), newEvent);
 
       setEvents((prevEvents) =>
-        [...prevEvents, newEvent].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+        [...prevEvents, newEvent].sort(
+          (a, b) =>
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        )
       );
 
-      setEventName('');
-      setDescription('');
-      setImageUrl('');
-      setStartDate('');
-      setEndDate('');
+      setEventName("");
+      setDescription("");
+      setImageUrl("");
+      setStartDate("");
+      setEndDate("");
 
       setFormVisible(false);
     } catch (error) {
-      console.error('Error adding document: ', error);
+      console.error("Error adding document: ", error);
     }
   };
 
@@ -97,7 +114,7 @@ const EventCard: React.FC = () => {
     if (!eventDataToEdit || !eventDataToEdit.id) return;
 
     try {
-      const eventRef = doc(db, 'events', eventDataToEdit.id);
+      const eventRef = doc(db, "events", eventDataToEdit.id);
       await updateDoc(eventRef, {
         eventName: eventToEdit,
         description: description,
@@ -107,17 +124,29 @@ const EventCard: React.FC = () => {
       });
 
       setEvents((prevEvents) =>
-        prevEvents.map((event) =>
-          event.id === eventDataToEdit.id
-            ? { ...eventDataToEdit, eventName, description, imageUrl, startDate, endDate }
-            : event
-        ).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+        prevEvents
+          .map((event) =>
+            event.id === eventDataToEdit.id
+              ? {
+                  ...eventDataToEdit,
+                  eventName,
+                  description,
+                  imageUrl,
+                  startDate,
+                  endDate,
+                }
+              : event
+          )
+          .sort(
+            (a, b) =>
+              new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+          )
       );
 
       setEditFormVisible(false);
-      setEventToEdit('');
+      setEventToEdit("");
     } catch (error) {
-      console.error('Error updating document: ', error);
+      console.error("Error updating document: ", error);
     }
   };
 
@@ -125,12 +154,14 @@ const EventCard: React.FC = () => {
     if (!eventDataToEdit || !eventDataToEdit.id) return;
 
     try {
-      await deleteDoc(doc(db, 'events', eventDataToEdit.id));
-      setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventDataToEdit.id));
+      await deleteDoc(doc(db, "events", eventDataToEdit.id));
+      setEvents((prevEvents) =>
+        prevEvents.filter((event) => event.id !== eventDataToEdit.id)
+      );
       setEditFormVisible(false);
-      setEventToEdit('');
+      setEventToEdit("");
     } catch (error) {
-      console.error('Error deleting document: ', error);
+      console.error("Error deleting document: ", error);
     }
   };
 
@@ -151,9 +182,17 @@ const EventCard: React.FC = () => {
   };
 
   const currentDate = new Date();
-  const upcomingEvents = events.filter(event => new Date(event.startDate) > currentDate);
-  const ongoingEvents = events.filter(event => new Date(event.startDate) <= currentDate && new Date(event.endDate) >= currentDate);
-  const pastEvents = events.filter(event => new Date(event.endDate) < currentDate);
+  const upcomingEvents = events.filter(
+    (event) => new Date(event.startDate) > currentDate
+  );
+  const ongoingEvents = events.filter(
+    (event) =>
+      new Date(event.startDate) <= currentDate &&
+      new Date(event.endDate) >= currentDate
+  );
+  const pastEvents = events.filter(
+    (event) => new Date(event.endDate) < currentDate
+  );
 
   const renderEventCards = (events: Event[]) => {
     if (!events || events.length === 0) {
@@ -168,11 +207,17 @@ const EventCard: React.FC = () => {
               <div className="event-card-front">
                 <div className="event-container">
                   <div className="event-poster-container">
-                    <img src={event.imageUrl} alt={event.eventName} className="event-poster" />
+                    <img
+                      src={event.imageUrl}
+                      alt={event.eventName}
+                      className="event-poster"
+                    />
                   </div>
                   <div className="event-content-container">
                     <h3>{event.eventName}</h3>
-                    <p>{event.startDate} {event.endDate && ` - ${event.endDate}`}</p>
+                    <p>
+                      {event.startDate} {event.endDate && ` - ${event.endDate}`}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -191,11 +236,11 @@ const EventCard: React.FC = () => {
       {isAdmin && (
         <>
           <button onClick={() => setFormVisible(!formVisible)}>
-            {formVisible ? 'Hide Form' : 'Show Form'}
+            {formVisible ? "Hide Form" : "Show Form"}
           </button>
 
           {formVisible && (
-            <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+            <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
               <div>
                 <label>Event Name:</label>
                 <input
@@ -244,11 +289,13 @@ const EventCard: React.FC = () => {
           )}
 
           <button onClick={() => setEditFormVisible(!editFormVisible)}>
-            {editFormVisible ? 'Hide Edit/Remove Form' : 'Show Edit/Remove Form'}
+            {editFormVisible
+              ? "Hide Edit/Remove Form"
+              : "Show Edit/Remove Form"}
           </button>
 
           {editFormVisible && (
-            <form onSubmit={handleEditSubmit} style={{ marginBottom: '20px' }}>
+            <form onSubmit={handleEditSubmit} style={{ marginBottom: "20px" }}>
               <div>
                 <label>Event Name to Edit/Remove:</label>
                 <input
@@ -295,7 +342,9 @@ const EventCard: React.FC = () => {
                     />
                   </div>
                   <button type="submit">Update Event</button>
-                  <button type="button" onClick={handleRemoveEvent}>Remove Event</button>
+                  <button type="button" onClick={handleRemoveEvent}>
+                    Remove Event
+                  </button>
                 </>
               )}
             </form>
