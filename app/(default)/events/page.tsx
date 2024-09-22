@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import "./EventCard.css";
+import Image from "next/image";
 
 interface Event {
   eventName: string;
@@ -207,7 +208,9 @@ const EventCard: React.FC = () => {
               <div className="event-card-front">
                 <div className="event-container">
                   <div className="event-poster-container">
-                    <img
+                    <Image
+                      width={300}
+                      height={300}
                       src={event.imageUrl}
                       alt={event.eventName}
                       className="event-poster"
