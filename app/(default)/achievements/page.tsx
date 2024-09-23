@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { db } from "@/Firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import Image from "next/image";
 
 interface Achiever {
   imageUrl?: string;
@@ -23,8 +24,10 @@ function AchievementCard({ achiever }: { achiever: Achiever }) {
   return (
     <div className="bg-[hsla(0,0%,100%,.079)] rounded-xl shadow-lg overflow-hidden w-[330px]">
       <div className="overflow-hidden">
-        <img
-          src={achiever.imageUrl}
+        <Image
+          width={500}
+          height={500}
+          src={achiever.imageUrl || ""}
           alt={`${achiever.name}'s profile`}
           className="w-full h-[300px] object-cover object-center"
         />
