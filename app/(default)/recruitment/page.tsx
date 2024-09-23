@@ -18,6 +18,7 @@ const RegisterPage = () => {
       } 
     });
   });
+  
   // useEffect(() => {
   //   router.push("/");
   // })

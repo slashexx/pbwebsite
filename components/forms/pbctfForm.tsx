@@ -290,17 +290,28 @@ const PBCTFForm: React.FC = () => {
         <div>
           <input
             {...register(`participant${participantNumber}.usn` as const, {
-              required: "USN required",
+              required: participantNumber === 1 && watchYear1 === "1" 
+              || participantNumber === 2 && watchYear2 === "1" 
+              ? "Admission Number required" 
+              : "USN required",
               pattern: {
                 value:
                   (participantNumber === 1 && watchYear1 === "1") ||
                   (participantNumber === 2 && watchYear2 === "1")
                     ? /^[1-9][0-9][A-Z]{4}[0-9]{4}$/
                     : /^1DS[1-3][0-9][A-Z]{2}[0-9]{3}$/,
-                message: "Invalid USN",
+                    message: participantNumber === 1 && watchYear1 === "1" 
+                    || participantNumber === 2 && watchYear2 === "1" 
+                    ? "Invalid Admission Number" 
+                    : "Invalid USN",
               },
             })}
-            placeholder="USN"
+            placeholder={
+              (participantNumber === 1 && watchYear1 === "1") || 
+              (participantNumber === 2 && watchYear2 === "1") 
+              ? "Admission Number" 
+              : "USN"
+            }
             className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
           />
           {errors[`participant${participantNumber}`]?.usn && (
