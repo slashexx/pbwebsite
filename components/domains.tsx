@@ -1,5 +1,6 @@
 import { cn } from "@/lib/server/utils";
 import Marquee from "@/components/magicui/marquee";
+import Image from "next/image";
 
 const domains = [
   {
@@ -48,7 +49,13 @@ const Card = ({ img, name }: { img: string; name: string }) => {
       )}
     >
       <div className="flex flex-col items-center gap-4">
-        <img className="rounded-full" width="64" height="64" alt="" src={img} />
+        <Image
+          className="rounded-full"
+          width="64"
+          height="64"
+          alt=""
+          src={img}
+        />
         <figcaption className="font-bold">{name}</figcaption>
       </div>
     </figure>

@@ -17,17 +17,20 @@ export default function Activities() {
       >
         <div className="highlight flex-1 flex items-center justify-center bg-black-800 p-8">
           <div className="p-8 md:p-16">
-            <HyperText className="text-3xl font-bold mb-4 text-green-500 " text="CP" />
+            <HyperText
+              className="text-3xl font-bold mb-4 text-green-500 "
+              text="CP"
+            />
             <h2 className="text-2xl font-bold mb-4 px-0">PB Hustle</h2>
-            <p className="text-lg text-justify px-0">  
+            <p className="text-lg text-justify px-0">
               Point Blank has organized over 40+ editions of its PB Hustle
               coding contest, where participants solve 5-7 increasingly
               difficult problems in their preferred programming language. The
               contest aims to enhance the programming culture in colleges and
-              help teams qualify for the ACM ICPC. Impressively, DSCE's leading
-              programmers have risen through this platform, with participation
-              in the CodeChef Long Challenge expanding from just 3 to over 70+
-              participants.
+              help teams qualify for the ACM ICPC. Impressively, DSCE&apos;s
+              leading programmers have risen through this platform, with
+              participation in the CodeChef Long Challenge expanding from just 3
+              to over 70+ participants.
             </p>
           </div>
         </div>
