@@ -287,20 +287,20 @@ const LeadForm: React.FC<LeadFormProps> = ({ closeForm, selectedLead, onLeadUpda
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Check if e.target and e.target.files exist and have a file
-    if (e.target && e.target.files && e.target.files.length > 0) {
-      // Get the first file from the FileList
-      const file = e.target.files[0];
-
-      // Create an object URL for the selected file and update state
+    const files = e.target.files; 
+    if (files && files.length > 0) {
+    
       setLead((prevLead) => ({
         ...prevLead,
-        imageUrl: URL.createObjectURL(file),
+        imageUrl: URL.createObjectURL(files[0]), 
       }));
     } else {
-      console.error("No file selected or input event is not valid.");
+      console.error("No file selected or invalid file input");
     }
   };
+  
+  
+  
 
 
   const handleSubmit = async (e: React.FormEvent) => {

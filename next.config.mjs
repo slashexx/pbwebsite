@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreDuringBuilds: true, // Disables lint checks during the build process
   },
   images: {
-    domains: ["firebasestorage.googleapis.com", "img.icons8.com"],
+    domains: ["firebasestorage.googleapis.com", "img.icons8.com","icpc.global"],
   },
 };
 
