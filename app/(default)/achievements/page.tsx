@@ -5,10 +5,12 @@ import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { db } from "@/Firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
+import AchievementCard from "@/components/AchievementCard";
 
 interface Achiever {
+  id?: string;
   imageUrl?: string;
   image?: File;
   email: string;
@@ -20,39 +22,6 @@ interface Achiever {
   achievements: string[];
 }
 
-function AchievementCard({ achiever }: { achiever: Achiever }) {
-  return (
-    <div className="bg-[hsla(0,0%,100%,.079)] rounded-xl shadow-lg overflow-hidden w-[330px]">
-      <div className="overflow-hidden">
-        <Image
-          width={500}
-          height={500}
-          src={achiever.imageUrl || ""}
-          alt={`${achiever.name}'s profile`}
-          className="w-full h-[300px] object-cover object-center"
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="text-center text-2xl font-semibold mb-2 capitalize-first-letter">
-          {achiever.name}
-        </h3>
-        <ul className="list-disc list-outside pl-5">
-          {achiever?.companyPosition && (
-            <li className="text-gray-600 text-lg mb-2">
-              {achiever.companyPosition}
-            </li>
-          )}
-          {achiever.achievements.map((achievement, index) => (
-            <li key={index} className="text-gray-600 text-lg mb-2">
-              {achievement}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
 export default function AchievementsPage() {
   const [achievers, setAchievers] = useState<Achiever[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +29,11 @@ export default function AchievementsPage() {
     achievements: [""],
   });
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editAchievements, setEditAchievements] = useState<Partial<Achiever>>({
+    achievements: [""],
+  });
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -108,8 +82,27 @@ export default function AchievementsPage() {
     }));
   };
 
+  const handleEditAddAchievement = () => {
+    setEditAchievements((prev) => ({
+      ...prev,
+      achievements: [...(prev.achievements || []), ""],
+    }));
+  };
+
+  const handleEditChangeAchievement = (index: number, value: string) => {
+    const updatedAchievements = [...(editAchievements.achievements || [])];
+    updatedAchievements[index] = value;
+    setEditAchievements((prev) => ({
+      ...prev,
+      achievements: updatedAchievements,
+    }));
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setIsEditModalOpen(false);
+    setEditName("");
+    setEditAchievements({ achievements: [""] });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,6 +128,53 @@ export default function AchievementsPage() {
     }
   };
 
+  const handleFetch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(`/api/achievements?name=${editName}`);
+      const data = response.data;
+      if (data.length === 0) {
+        alert("No user found");
+      } else {
+        const user = data[0];
+        setEditAchievements(user);
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const updatedAchievements =
+      editAchievements.achievements?.filter((ach) => ach.trim() !== "") || [];
+    if (updatedAchievements.length === 0) {
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("name", editName);
+      formData.append("email", editAchievements.email || "");
+      formData.append("batch", String(editAchievements.batch || ""));
+      formData.append("portfolio", editAchievements.portfolio || "");
+      formData.append("internship", editAchievements.internship || "");
+      formData.append(
+        "companyPosition",
+        editAchievements.companyPosition || ""
+      );
+      formData.append("achievements", JSON.stringify(updatedAchievements));
+      if (editAchievements.image) {
+        formData.append("image", editAchievements.image);
+      }
+
+      const response = await axios.put("/api/achievements", formData);
+      console.log(response.data);
+      setIsEditModalOpen(false);
+    } catch (error) {
+      console.error("Error updating achievements:", error);
+    }
+  };
+
   return (
     <div className="container w-full mx-auto pt-32">
       <h1 className="text-center text-4xl font-bold mb-8">Achievements</h1>
@@ -149,7 +189,7 @@ export default function AchievementsPage() {
           </div>
         ))}
       </div>
-      {isAdmin ? (
+      {!isAdmin ? (
         <div className="text-center mb-8">
           <button
             onClick={() => setIsModalOpen(true)}
@@ -163,9 +203,7 @@ export default function AchievementsPage() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
           <div className="bg-black text-white p-8 rounded-lg w-full max-w-md">
-            {isAdmin ? (
-              <h2 className="text-2xl font-bold mb-6">Add Achievement</h2>
-            ) : null}
+            <h2 className="text-2xl font-bold mb-6">Add Achievement</h2>
             <form
               className="space-y-6 overflow-y-auto max-h-[80vh]"
               onSubmit={handleSubmit}
@@ -356,6 +394,120 @@ export default function AchievementsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {!isAdmin ? (
+        <div className="text-center mb-8">
+          <button
+            onClick={() => setIsEditModalOpen(true)}
+            className="bg-white text-black py-2 px-4 rounded shadow-lg"
+          >
+            Edit Achievements
+          </button>
+        </div>
+      ) : null}
+
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
+          <div className="bg-black text-white p-8 rounded-lg w-full max-w-md">
+            <h2 className="text-2xl font-bold mb-6">Edit Achievements</h2>
+            <form
+              className="space-y-6 overflow-y-auto max-h-[50vh] mb-4"
+              onSubmit={handleFetch}
+            >
+              <div className="mb-4">
+                <label className="block mb-2">Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="w-full p-3 bg-gray-800 rounded"
+                  placeholder="Enter Name"
+                />
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white py-2 px-4 rounded"
+                >
+                  Fetch
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="bg-red-500 text-white py-2 px-4 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+            {editAchievements.name && (
+              <form
+                className="space-y-6 overflow-y-auto max-h-[50vh]"
+                onSubmit={handleEditSubmit}
+              >
+                <div className="mb-4">
+                  <label className="block mb-2">Company & Position:</label>
+                  <input
+                    type="text"
+                    name="companyPosition"
+                    id="companyPosition"
+                    value={editAchievements.companyPosition || ""}
+                    onChange={(e) =>
+                      setEditAchievements((prev) => ({
+                        ...prev,
+                        companyPosition: e.target.value,
+                      }))
+                    }
+                    className="w-full p-3 bg-gray-800 rounded"
+                    placeholder="Position, Company"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block mb-2">Achievements:</label>
+                  {editAchievements.achievements?.map((achievement, index) => (
+                    <div key={index} className="mb-2">
+                      <input
+                        type="text"
+                        name="achievements"
+                        value={achievement}
+                        onChange={(e) =>
+                          handleEditChangeAchievement(index, e.target.value)
+                        }
+                        className="w-full p-3 bg-gray-800 rounded"
+                        placeholder="Add an achievement"
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={handleEditAddAchievement}
+                    className="bg-gray-600 text-white py-2 px-4 rounded"
+                  >
+                    Add More
+                  </button>
+                </div>
+                <div className="flex gap-4 mt-4">
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="bg-red-500 text-white py-2 px-4 rounded"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
