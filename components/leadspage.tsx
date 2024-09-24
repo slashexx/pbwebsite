@@ -292,7 +292,7 @@ const LeadForm: React.FC<LeadFormProps> = ({ closeForm, selectedLead, onLeadUpda
       // Check if files exist and are not empty
       setLead((prevLead) => ({
         ...prevLead,
-        imageUrl: URL.createObjectURL(files[0]), // Safely access the first file
+        imageUrl: URL.createObjectURL(files[0]), 
       }));
     } else {
       console.error("No file selected or invalid file input");
