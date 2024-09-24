@@ -48,7 +48,7 @@ const Leads: React.FC = () => {
       setCurrentLeads(currentLeads);
       setAlumniLeads(alumniLeads);
       await fetchLeads();
-        setLoading(false);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching leads:", error);
       setLoading(false);
@@ -281,19 +281,27 @@ const LeadForm: React.FC<LeadFormProps> = ({ closeForm, selectedLead, onLeadUpda
     selectedLead || { id: '', name: '', position: '', organization: '', additionalInfo: '', imageUrl: '' }
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setLead((prevLead) => ({ ...prevLead, [name]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
+    const files = e.target.files; 
+    if (files && files.length > 0) {
+    
       setLead((prevLead) => ({
         ...prevLead,
-        imageUrl: URL.createObjectURL(e.target.files[0]),
+        imageUrl: URL.createObjectURL(files[0]), 
       }));
+    } else {
+      console.error("No file selected or invalid file input");
     }
   };
+  
+  
+  
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -355,14 +363,8 @@ const LeadForm: React.FC<LeadFormProps> = ({ closeForm, selectedLead, onLeadUpda
           />
         </div>
         <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="position" style={{
-            display: 'block',
-            fontSize: '1rem',
-            // marginBottom: '0.5rem',
-            color: '#333',
-          }}>Position:</label>
-          <input
-            type="text"
+          <label htmlFor="position">Position:</label>
+          <select
             id="position"
             name="position"
             value={lead.position}
@@ -370,14 +372,18 @@ const LeadForm: React.FC<LeadFormProps> = ({ closeForm, selectedLead, onLeadUpda
             required
             style={{
               width: '100%',
-              // padding: '0.5rem',
               borderRadius: '5px',
               border: '1px solid #ccc',
               fontSize: '1rem',
               outline: 'none',
               boxSizing: 'border-box',
             }}
-          />
+          >
+            <option value="">Select Position</option> {/* Placeholder option */}
+            <option value="Alumni">Alumni</option>
+            <option value="Current">Current</option>
+          </select>
+
         </div>
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="organization" style={{
