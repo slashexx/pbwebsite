@@ -32,7 +32,6 @@ h2 {
   transform: rotateY(180deg);
 }
 
-
 .event-card-front,
 .event-card-back {
   width: 100%;
@@ -116,7 +115,12 @@ h2 {
   font-size: 1em;
 }
 
-button {
+/* Updated button styles */
+.toggle-form-button,
+.toggle-edit-button,
+.submit-event-button,
+.update-event-button,
+.remove-event-button {
   margin-top: 70px !important;
   background-color: black;
   color: yellow;
@@ -129,7 +133,11 @@ button {
   margin: 10px;
 }
 
-button:hover {
+.toggle-form-button:hover,
+.toggle-edit-button:hover,
+.submit-event-button:hover,
+.update-event-button:hover,
+.remove-event-button:hover {
   background-color: yellow;
   color: black;
 }
