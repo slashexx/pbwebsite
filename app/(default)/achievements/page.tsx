@@ -189,7 +189,7 @@ export default function AchievementsPage() {
           </div>
         ))}
       </div>
-      {!isAdmin ? (
+      {isAdmin ? (
         <div className="text-center mb-8">
           <button
             onClick={() => setIsModalOpen(true)}
@@ -398,7 +398,7 @@ export default function AchievementsPage() {
         </div>
       )}
 
-      {!isAdmin ? (
+      {isAdmin ? (
         <div className="text-center mb-8">
           <button
             onClick={() => setIsEditModalOpen(true)}
