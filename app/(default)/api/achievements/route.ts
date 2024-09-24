@@ -162,16 +162,8 @@ export async function PUT(request: Request) {
   try {
     const formData = await request.formData();
     const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const batch = formData.get("batch") as string;
-    const portfolio = formData.get("portfolio") as string;
-    const internship = formData.get("internship") as string;
-    const companyPosition = formData.get("companyPosition") as string;
-    const achievements = JSON.parse(
-      formData.get("achievements") as string
-    ) as string[];
-    const image = formData.get("image") as File;
 
+    // Fetch the existing document
     const memberQuery = query(
       collection(db, "achievements"),
       where("Name", "==", name)
@@ -186,7 +178,24 @@ export async function PUT(request: Request) {
     }
 
     const docRef = querySnapshot.docs[0].ref;
-    let imageUrl = querySnapshot.docs[0].data().imageUrl;
+    const existingData = querySnapshot.docs[0].data();
+
+    // Extract data from the form
+    const email = (formData.get("email") as string) || existingData.Email;
+    const batch = (formData.get("batch") as string) || existingData.Batch;
+    const portfolio =
+      (formData.get("portfolio") as string) || existingData.Portfolio;
+    const internship =
+      (formData.get("internship") as string) || existingData.Internship;
+    const companyPosition =
+      (formData.get("companyPosition") as string) ||
+      existingData.CompanyPosition;
+    const achievements = formData.get("achievements")
+      ? JSON.parse(formData.get("achievements") as string)
+      : existingData.achievements;
+    const image = formData.get("image") as File;
+
+    let imageUrl = existingData.imageUrl;
 
     if (image) {
       const storageRef = ref(storage, `images/${image.name}`);
@@ -194,7 +203,7 @@ export async function PUT(request: Request) {
       imageUrl = await getDownloadURL(storageRef);
     }
 
-    await updateDoc(docRef, {
+    const updateData = {
       Name: name,
       Email: email,
       Batch: batch,
@@ -203,18 +212,11 @@ export async function PUT(request: Request) {
       CompanyPosition: companyPosition,
       achievements: achievements,
       imageUrl: imageUrl,
-    });
+    };
 
-    return NextResponse.json({
-      name,
-      email,
-      batch,
-      portfolio,
-      internship,
-      companyPosition,
-      achievements,
-      imageUrl,
-    });
+    await updateDoc(docRef, updateData);
+
+    return NextResponse.json(updateData);
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error updating member:", error.message);
