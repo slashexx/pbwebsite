@@ -44,13 +44,23 @@ const EventCard: React.FC = () => {
   // Fetch admin status
   useEffect(() => {
     const checkAdminStatus = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const adminDocSnap = await getDoc(doc(db, "admin", user.uid));
-        setIsAdmin(adminDocSnap.exists());
-      }
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const uid = user.uid;
+          try {
+            const adminDocRef = doc(db, "admin", uid);
+            const adminDocSnap = await getDoc(adminDocRef);
+            if (adminDocSnap.exists()) {
+              setIsAdmin(true);
+            }
+          } catch (error) {
+            console.log("Error getting document:", error);
+          }
+        }
+      });
     };
-    onAuthStateChanged(auth, checkAdminStatus);
+
+    checkAdminStatus();
   }, []);
 
   // Fetch events from Firestore
@@ -219,8 +229,11 @@ const EventCard: React.FC = () => {
     <div>
       {isAdmin && (
         <>
-          <button onClick={() => setFormVisible(!formVisible)}>
-            {formVisible ? "Hide Form" : "Show Form"}
+          <button
+            className="toggle-form-button"
+            onClick={() => setFormVisible(!formVisible)}
+          >
+            {formVisible ? "Hide Event Form" : "Add New Event"}
           </button>
 
           {formVisible && (
@@ -274,16 +287,21 @@ const EventCard: React.FC = () => {
                   required
                 />
               </div>
-              <button type="submit">Submit</button>
+              <button type="submit" className="submit-event-button">
+                Add Event
+              </button>
             </form>
           )}
 
-          <button onClick={() => setEditFormVisible(!editFormVisible)}>
-            {editFormVisible ? "Hide Edit Form" : "Show Edit Form"}
+          <button
+            className="toggle-edit-button"
+            onClick={() => setEditFormVisible(!editFormVisible)}
+          >
+            {editFormVisible ? "Hide Edit Form" : "Edit Event"}
           </button>
 
           {editFormVisible && (
-            <form onSubmit={handleEditSubmit}>
+            <form onSubmit={handleEditSubmit} style={{ marginBottom: "20px" }}>
               <div>
                 <label>Select Event to Edit:</label>
                 <select
@@ -292,9 +310,8 @@ const EventCard: React.FC = () => {
                     setEventToEdit(e.target.value);
                     handleEventToEditChange(e.target.value);
                   }}
-                  required
                 >
-                  <option value="">Select an event</option>
+                  <option value="">Select Event</option>
                   {events.map((event) => (
                     <option key={event.id} value={event.eventName}>
                       {event.eventName}
@@ -302,76 +319,76 @@ const EventCard: React.FC = () => {
                   ))}
                 </select>
               </div>
-
-              {eventDataToEdit && (
-                <>
-                  <div>
-                    <label>Event Name:</label>
-                    <input
-                      type="text"
-                      value={eventName}
-                      onChange={(e) => setEventName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Description:</label>
-                    <textarea
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>Image Upload:</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        if (e.target.files) {
-                          setImageFile(e.target.files[0]);
-                        }
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label>Start Date:</label>
-                    <input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label>End Date:</label>
-                    <input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <button type="submit">Update</button>
-                  <button type="button" onClick={handleRemoveEvent}>
-                    Remove Event
-                  </button>
-                </>
-              )}
+              <div>
+                <label>Event Name:</label>
+                <input
+                  type="text"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>Description:</label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>Image Upload:</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      setImageFile(e.target.files[0]);
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <label>Start Date:</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>End Date:</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="update-event-button">
+                Update Event
+              </button>
+              <button
+                type="button"
+                className="remove-event-button"
+                onClick={handleRemoveEvent}
+              >
+                Remove Event
+              </button>
             </form>
           )}
         </>
       )}
 
-      <div>
-        <h2>Upcoming Events</h2>
-        {renderEventCards(upcomingEvents)}
-        <h2>Ongoing Events</h2>
-        {renderEventCards(ongoingEvents)}
-        <h2>Past Events</h2>
-        {renderEventCards(pastEvents)}
-      </div>
+      <h2>Upcoming Events</h2>
+      {renderEventCards(upcomingEvents)}
+
+      <h2>Ongoing Events</h2>
+      {renderEventCards(ongoingEvents)}
+
+      <h2>Past Events</h2>
+      {renderEventCards(pastEvents)}
     </div>
   );
 };
