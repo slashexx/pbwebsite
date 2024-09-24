@@ -287,9 +287,9 @@ const LeadForm: React.FC<LeadFormProps> = ({ closeForm, selectedLead, onLeadUpda
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files; // Extract the files
+    const files = e.target.files; 
     if (files && files.length > 0) {
-      // Check if files exist and are not empty
+    
       setLead((prevLead) => ({
         ...prevLead,
         imageUrl: URL.createObjectURL(files[0]), 
