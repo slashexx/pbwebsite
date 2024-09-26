@@ -7,22 +7,28 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Script from "next/script";
+import Head from "next/head";
+
 
 const RegisterPage = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/login");
-      } 
-    });
-  });
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (!user) {
+  //       router.push("/login");
+  //     } 
+  //   });
+  // });
+
   
   // useEffect(() => {
   //   router.push("/");
   // })
   return (
+    <>
+
     <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
       <div className="form-container my-2">
         <RecruitmentForm />
@@ -38,6 +44,7 @@ const RegisterPage = () => {
         )}
       />
     </div>
+    </>
   );
 };
 
