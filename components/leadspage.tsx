@@ -47,7 +47,6 @@ const Leads: React.FC = () => {
 
       setCurrentLeads(currentLeads);
       setAlumniLeads(alumniLeads);
-      await fetchLeads();
       setLoading(false);
     } catch (error) {
       console.error("Error fetching leads:", error);
