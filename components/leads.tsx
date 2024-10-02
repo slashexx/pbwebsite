@@ -10,7 +10,7 @@ const leads = [
   {
     id: 1,
     text: "Saalim Quadri",
-    subtext: "Raptee, LFX 23",
+    subtext: "Vispero, LFX 23",
     url: "/images/Lead2.jpg",
   },
   {
