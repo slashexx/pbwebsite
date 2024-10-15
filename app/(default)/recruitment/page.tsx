@@ -14,13 +14,13 @@ import Link from "next/link";
 const RegisterPage = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/login");
-      }
-    });
-  });
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (!user) {
+  //       router.push("/login");
+  //     }
+  //   });
+  // });
 
   // useEffect(() => {
   //   router.push("/");
@@ -29,9 +29,9 @@ const RegisterPage = () => {
     <>
 
       <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
-      <Link href="https://www.codebattle.in/">
+      <Link href="https://www.codebattle.in/" target="_blank" rel="noopener noreferrer">
         <img
-          src={"/images/codebattle.jpg"}
+          src={"/images/codebattle.webp"}
           alt="recruitment-poster"
           height={200}
           width={1900}
@@ -41,6 +41,7 @@ const RegisterPage = () => {
         <div className="form-container my-2">
           <RecruitmentForm />
         </div>
+
         
       </div>
     </>

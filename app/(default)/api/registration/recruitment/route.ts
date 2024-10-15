@@ -19,32 +19,31 @@ export async function POST(request: Request) {
   const { email, whatsapp_number, college_id } = formData;
 
   // Only one Registration per person
-  
- // Query for email
-const emailQuery = query(
-  collection(db, "recruitment2024"),
-  where("email", "==", email)
-);
 
-// Query for phone number
-const phoneQuery = query(
-  collection(db, "recruitment2024"),
-  where("whatsapp_number", "==", whatsapp_number)
-);
+  // Query for email
+  const emailQuery = query(
+    collection(db, "recruitment2024"),
+    where("email", "==", email)
+  );
 
-// Query for college ID
-const collegeIdQuery = query(
-  collection(db, "recruitment2024"),
-  where("college_id", "==", college_id)
-);
+  // Query for phone number
+  const phoneQuery = query(
+    collection(db, "recruitment2024"),
+    where("whatsapp_number", "==", whatsapp_number)
+  );
 
-// Fetch results from all queries
-const [emailSnapshot, phoneSnapshot, collegeIdSnapshot] = await Promise.all([
-  getDocs(emailQuery),
-  getDocs(phoneQuery),
-  getDocs(collegeIdQuery)
-]);
+  // Query for college ID
+  const collegeIdQuery = query(
+    collection(db, "recruitment2024"),
+    where("college_id", "==", college_id)
+  );
 
+  // Fetch results from all queries
+  const [emailSnapshot, phoneSnapshot, collegeIdSnapshot] = await Promise.all([
+    getDocs(emailQuery),
+    getDocs(phoneQuery),
+    getDocs(collegeIdQuery),
+  ]);
 
   console.log(!emailSnapshot.empty);
 
@@ -93,7 +92,6 @@ const [emailSnapshot, phoneSnapshot, collegeIdSnapshot] = await Promise.all([
       siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
     },
   };
-
 
   if (!recaptchaToken) {
     return NextResponse.json(
