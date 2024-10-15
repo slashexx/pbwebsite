@@ -15,7 +15,7 @@ const RegisterPage = () => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         router.push("/login");
-      } 
+      }
     });
   });
   // useEffect(() => {
