@@ -15,7 +15,10 @@ const inter = Inter({
 
 export const metadata = {
   title: "Point Blank",
-  description: "Hello World",
+  description: "A group of developers who love to code.",
+  keywords: ["developers", "coding", "programming", "software"],
+  author: "Point Blank Team",
+  viewport: "width=device-width, initial-scale=1.0",
 };
 
 export default function RootLayout({
