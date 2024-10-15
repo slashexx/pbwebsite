@@ -25,16 +25,16 @@ export default function Teams() {
       <div className="py-20">
         <div className="container mx-auto px-6 md:px-12 xl:px-32">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-center text-3xl text-white font-extrabold md:text-4xl">
-              Our Founding Members
-            </h2>
+            <div className="container place-items-center font-bold pt-20 pb-4">
+              <h2 className="text-5xl text-white-800 text-center">Our Founding Members</h2>
+            </div>
             <p className="text-gray-300 text-xl lg:w-8/12 lg:mx-auto">
               Point Blank started as a project by three friends who wanted to induce a change by providing a platform for like minded smart students to come together and learn from each other.
             </p>
           </div>
-          <div className="grid gap-12 items-center md:grid-cols-3">
+          <div className="flex flex-col md:flex-row gap-16 md:gap-0">
             {teamData.map((member, index) => (
-              <div key={index} className="space-y-4 text-center">
+              <div key={index} className="flex-1 space-y-8 text-center">
                 <Image
                   className="w-64 h-64 mx-auto object-cover rounded-xl md:w-40 md:h-40 lg:w-64 lg:h-64"
                   src={member.url}
@@ -42,12 +42,12 @@ export default function Teams() {
                   width="640"
                   height="805"
                 />
-                <div>
-                  <h4 className="text-2xl font-bold text-green-500">{member.name}</h4>
+                <div className='flex flex-col gap-2'>
+                  <h4 className="text-3xl md:text-2xl font-bold text-green-500">{member.name}</h4>
+                  <p className="text-gray-300 text-lg md:px-10">
+                    {member.description}
+                  </p>
                 </div>
-                <p className="text-gray-300 text-xl md:text-justify">
-                  {member.description}
-                </p>
               </div>
             ))}
           </div>
