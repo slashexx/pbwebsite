@@ -14,13 +14,13 @@ import Link from "next/link";
 const RegisterPage = () => {
   const router = useRouter();
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (!user) {
-  //       router.push("/login");
-  //     }
-  //   });
-  // });
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/login");
+      }
+    });
+  });
 
   // useEffect(() => {
   //   router.push("/");
