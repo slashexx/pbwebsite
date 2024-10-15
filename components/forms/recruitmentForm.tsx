@@ -107,7 +107,7 @@ const RecruitmentForm: React.FC = () => {
       <div className="mt-9">
       <Success
         message="Data Saved ! Good Luck for the Test!"
-        joinLink="https://chat.whatsapp.com/EGnzKX13Xmi3pii7KOp7w5"
+        joinLink="https://chat.whatsapp.com/J8KUo543yIVAcnOdETofEb"
       />
       </div>
     );
