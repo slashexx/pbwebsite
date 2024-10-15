@@ -1,5 +1,6 @@
 import { cn } from "@/lib/server/utils";
 import Marquee from "@/components/magicui/marquee";
+import Image from "next/image";
 
 const domains = [
   {
@@ -48,7 +49,13 @@ const Card = ({ img, name }: { img: string; name: string }) => {
       )}
     >
       <div className="flex flex-col items-center gap-4">
-        <img className="rounded-full" width="64" height="64" alt="" src={img} />
+        <Image
+          className="rounded-full"
+          width="64"
+          height="64"
+          alt=""
+          src={img}
+        />
         <figcaption className="font-bold">{name}</figcaption>
       </div>
     </figure>
@@ -58,10 +65,10 @@ const Card = ({ img, name }: { img: string; name: string }) => {
 export default function Domains() {
   return (
     <div className="">
-      <h2 className="text-4xl font-bold text-center text-gray-200 m-2">
+      <h2 className="text-5xl font-bold text-center text-gray-200 m-2">
         Domains We Explore
       </h2>
-      <p className="text-xl text-center text-gray-100 mb-8">
+      <p className="text-md text-center text-gray-300 mb-8">
         Our club covers a wide range of interests and fields, bringing unique
         perspectives and expertise to every project!
       </p>

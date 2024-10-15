@@ -168,7 +168,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         marquee: "marquee var(--duration) linear infinite",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
-       
+
       },
       keyframes: {
         float: {
@@ -196,7 +196,7 @@ module.exports = {
         "2gl": "750px", // Custom breakpoint for 2 columns
         "3gl": "1070px", // Custom breakpoint for 3 cloumns
       },
-   
+
     },
   },
   plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],

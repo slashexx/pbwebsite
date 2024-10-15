@@ -1,5 +1,8 @@
 import { db, storage } from "@/Firebase";
 import {
+  doc,
+  updateDoc,
+  getDoc,
   collection,
   addDoc,
   getDocs,
@@ -9,7 +12,7 @@ import {
   DocumentSnapshot,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
@@ -92,10 +95,24 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Fetch all documents from the "achievements" collection
-    const querySnapshot = await getDocs(collection(db, "achievements"));
+    const { searchParams } = new URL(request.url);
+    const name = searchParams.get("name");
+
+    let querySnapshot;
+
+    if (name) {
+      // Query Firestore by name to find the document
+      const memberQuery = query(
+        collection(db, "achievements"),
+        where("Name", "==", name)
+      );
+      querySnapshot = await getDocs(memberQuery);
+    } else {
+      // Fetch all documents from the "achievements" collection
+      querySnapshot = await getDocs(collection(db, "achievements"));
+    }
 
     // Map through the documents and extract the data
     const membersRaw = querySnapshot.docs.map(
@@ -104,6 +121,7 @@ export async function GET() {
         ...doc.data(),
       })
     );
+
     const members = membersRaw.map((member: any) => {
       return {
         id: member.id,
@@ -117,6 +135,7 @@ export async function GET() {
         imageUrl: member.imageUrl,
       };
     });
+
     // Return the members data
     return NextResponse.json(members);
   } catch (error) {
@@ -133,6 +152,82 @@ export async function GET() {
       console.error("Unknown error:", error);
       return NextResponse.json(
         { error: "An unknown error occurred while fetching members" },
+        { status: 500 }
+      );
+    }
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const formData = await request.formData();
+    const name = formData.get("name") as string;
+
+    // Fetch the existing document
+    const memberQuery = query(
+      collection(db, "achievements"),
+      where("Name", "==", name)
+    );
+    const querySnapshot = await getDocs(memberQuery);
+
+    if (querySnapshot.empty) {
+      return NextResponse.json(
+        { error: `No member found with the name ${name}` },
+        { status: 404 }
+      );
+    }
+
+    const docRef = querySnapshot.docs[0].ref;
+    const existingData = querySnapshot.docs[0].data();
+
+    // Extract data from the form
+    const email = (formData.get("email") as string) || existingData.Email;
+    const batch = (formData.get("batch") as string) || existingData.Batch;
+    const portfolio =
+      (formData.get("portfolio") as string) || existingData.Portfolio;
+    const internship =
+      (formData.get("internship") as string) || existingData.Internship;
+    const companyPosition =
+      (formData.get("companyPosition") as string) ||
+      existingData.CompanyPosition;
+    const achievements = formData.get("achievements")
+      ? JSON.parse(formData.get("achievements") as string)
+      : existingData.achievements;
+    const image = formData.get("image") as File;
+
+    let imageUrl = existingData.imageUrl;
+
+    if (image) {
+      const storageRef = ref(storage, `images/${image.name}`);
+      await uploadBytes(storageRef, image);
+      imageUrl = await getDownloadURL(storageRef);
+    }
+
+    const updateData = {
+      Name: name,
+      Email: email,
+      Batch: batch,
+      Portfolio: portfolio,
+      Internship: internship,
+      CompanyPosition: companyPosition,
+      achievements: achievements,
+      imageUrl: imageUrl,
+    };
+
+    await updateDoc(docRef, updateData);
+
+    return NextResponse.json(updateData);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error updating member:", error.message);
+      return NextResponse.json(
+        { error: "An error occurred while updating", details: error.message },
+        { status: 500 }
+      );
+    } else {
+      console.error("Unknown error:", error);
+      return NextResponse.json(
+        { error: "An unknown error occurred while updating" },
         { status: 500 }
       );
     }
