@@ -2,7 +2,7 @@ import { cn } from "@/lib/server/utils";
 import HyperText from "./magicui/hyper-text";
 import Image from "next/image";
 
-interface AchievementCardProps {
+interface ActivityCardProps {
     LeftAligned: boolean;
     Title: string;
     Subtitle: string;
@@ -10,7 +10,7 @@ interface AchievementCardProps {
     ImageSrc: string;
 }
 
-export default function ActivityCard({...props}: AchievementCardProps) {
+export default function ActivityCard({...props}: ActivityCardProps) {
     return (
       <div
         className={cn(
