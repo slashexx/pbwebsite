@@ -69,8 +69,4 @@
     opacity: 1;
   }
 }
-@media screen and (max-width: 678px) {
-  .form-container {
-    margin: 3rem 0;
-  }
-}
+

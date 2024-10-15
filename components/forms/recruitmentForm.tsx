@@ -7,12 +7,16 @@ import { years, branches } from "@/lib/constants/dropdownOptions";
 import Success from "./success";
 import toast from "react-hot-toast";
 import { getErrorMessage } from "@/lib/client/clientUtils";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
+import Head from "next/head";
+
 
 const RecruitmentForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const [mode, setMode] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(false);
-  const [token, setToken] = useState<string | null>();
+  const [token, setToken] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const {
@@ -31,31 +35,45 @@ const RecruitmentForm: React.FC = () => {
     },
   });
 
-  const setTokenFunc = (getToken: string) => {
-    setToken(getToken);
-  };
+  const router = useRouter();
+
+
   const changeMode = (e: any) => {
     if (e.target.value === "1st year") setMode(true);
     else setMode(false);
     setDisplay(true);
   };
 
+  
   useEffect(() => {
-    const getRecaptcha = async () => {
-      grecaptcha.enterprise.ready(async () => {
-        const token = await grecaptcha.enterprise.execute(
-          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-        );
+    // Load the reCAPTCHA script dynamically and ensure it loads fully before calling `grecaptcha`
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = getRecaptcha; // Call the function once the script is loaded
+    document.head.appendChild(script);
 
-        if (token) {
-          setTokenFunc(token);
-        }
-      });
+    return () => {
+      // Clean up the script if the component unmounts
+      document.head.removeChild(script);
     };
-    getRecaptcha();
   }, []);
 
+  const getRecaptcha = async () => {
+    grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+      );
+      setToken(token);
+    });
+  };
+  
+
+
+
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    console.log(token);
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
@@ -86,14 +104,18 @@ const RecruitmentForm: React.FC = () => {
 
   if (isSuccess) {
     return (
+      <div className="my-9">
       <Success
         message="Data Saved ! Good Luck for the Test!"
         joinLink="https://chat.whatsapp.com/J8KUo543yIVAcnOdETofEb"
       />
+      </div>
     );
   }
 
   return (
+    <>
+
     <div className="my-4 mx-auto p-6 rounded-lg">
       <h1 className="mb-6 h1 text-center">Recruitment Form</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -290,6 +312,7 @@ const RecruitmentForm: React.FC = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

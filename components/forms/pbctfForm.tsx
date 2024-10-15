@@ -8,6 +8,8 @@ import { db } from "@/Firebase";
 import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
 import toast from "react-hot-toast";
+import Head from "next/head";
+import Script from "next/script";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -29,6 +31,7 @@ type FormData = {
   participant2?: ParticipantData;
 };
 
+
 const PBCTFForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const [participationType, setParticipationType] = useState<"solo" | "duo">(
@@ -36,7 +39,7 @@ const PBCTFForm: React.FC = () => {
   );
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [usnError, setUsnError] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>();
+  const [token, setToken] = useState<string>();
 
   const [headingText, setHeadingText] = useState("");
   const heading = "Be a Part of PBCTF       Register Now!";
@@ -65,14 +68,40 @@ const PBCTFForm: React.FC = () => {
     watch,
   } = useForm<FormData>();
 
+  const getRecaptcha = async () => {
+    console.log("func called");
+    grecaptcha.enterprise.ready(async () => {
+      const Rtoken = await grecaptcha.enterprise.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+      );
+      console.log(Rtoken);
+        setToken(Rtoken);
+        console.log(token);
+    });
+    
+  };
+
+  useEffect(() => {
+    // Load the reCAPTCHA script dynamically and ensure it loads fully before calling `grecaptcha`
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = getRecaptcha; // Call the function once the script is loaded
+    document.head.appendChild(script);
+
+    return () => {
+      // Clean up the script if the component unmounts
+      document.head.removeChild(script);
+    };
+  }, []);
+
   const watchYear1 = watch("participant1.year");
   const watchYear2 = watch("participant2.year");
   const watchUsn1 = watch("participant1.usn");
   const watchUsn2 = watch("participant2.usn");
 
-  const setTokenFunc = (getToken: string) => {
-    setToken(getToken);
-  };
+
 
   const checkUsnUniqueness = async (usn: string): Promise<boolean> => {
     const q = query(
@@ -93,20 +122,8 @@ const PBCTFForm: React.FC = () => {
 
     return querySnapshot2.empty;
   };
-  useEffect(() => {
-    const getRecaptcha = async () => {
-      grecaptcha.enterprise.ready(async () => {
-        const token = await grecaptcha.enterprise.execute(
-          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-        );
 
-        if (token) {
-          setTokenFunc(token);
-        }
-      });
-    };
-    getRecaptcha();
-  }, []);
+  
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (isSubmitting) return;
@@ -115,7 +132,8 @@ const PBCTFForm: React.FC = () => {
 
     try {
       const recaptcha_token = token;
-      if (token) {
+      console.log(recaptcha_token);
+      if (recaptcha_token) {
         const response = await fetch("/api/registration/pbctf", {
           method: "POST",
           body: JSON.stringify({ recaptcha_token }),
@@ -127,6 +145,8 @@ const PBCTFForm: React.FC = () => {
           toast.error(res.message);
           return;
         }
+
+        console.log(recaptcha_token);
 
         // Check if USNs are the same for duo participation
         if (
@@ -217,6 +237,8 @@ const PBCTFForm: React.FC = () => {
   }
 
   const renderParticipantFields = (participantNumber: 1 | 2) => (
+    
+
     <div className="mb-4">
       <h3 className="h3 mb-2">Participant {participantNumber}</h3>
       <div className="space-y-3">
@@ -363,6 +385,8 @@ const PBCTFForm: React.FC = () => {
   );
 
   return (
+    <>
+    
     <div className="max-w-3xl mx-auto p-4 sm:p-6 rounded-lg mt-10">
       <h1
         className={`${pressStart2P.className} md:text-2xl sm:text-sm font-bold mb-6 text-center text-green-500`}
@@ -416,6 +440,7 @@ const PBCTFForm: React.FC = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 
