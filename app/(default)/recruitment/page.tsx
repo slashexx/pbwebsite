@@ -7,9 +7,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Script from "next/script";
-import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -30,10 +29,10 @@ const RegisterPage = () => {
 
       <div className="w-50 mt-16 mx-auto flex flex-col items-center justify-center">
       <Link href="https://www.codebattle.in/" target="_blank" rel="noopener noreferrer">
-        <img
+        <Image
           src={"/images/codebattle.webp"}
           alt="recruitment-poster"
-          height={200}
+          height={300}
           width={1900}
           className="mt-9"
         />
