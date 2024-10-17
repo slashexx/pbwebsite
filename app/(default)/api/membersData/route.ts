@@ -30,8 +30,8 @@ export async function GET() {
                 role: member.role,
                 company: member.company || '',
                 year: member.year,
-                linkedInUrl: member.linkedInUrl,
-                imageUrl: member.imageUrl
+                linkedInUrl: member.linkedInUrl || '',
+                imageUrl: member.imageUrl || ''
             };
         });
 
@@ -62,36 +62,40 @@ export async function POST(request: Request) {
 
         const { name, year, role, company, imageUrl, linkedInUrl } = data;
 
-        if (!name || !imageUrl) {
+        if (!name) {
             return NextResponse.json(
-                { message: 'Missing Name or Image URL.', error: true },
-                { status: 400 }
-            );
-        }
-        const response = await fetch(imageUrl);
-        if (!response.ok) {
-            return NextResponse.json(
-                { message: 'Failed to fetch image from the URL.', error: true },
-                { status: 400 }
-            );
-        }
-        const contentType = response.headers.get('content-type');
-
-        if (!contentType || !contentType.startsWith('image/')) {
-            return NextResponse.json(
-                { message: 'The provided URL is not a valid image.', error: true },
+                { message: 'Missing Name.', error: true },
                 { status: 400 }
             );
         }
 
-        const blob = await response.blob();
+        let downloadURL = '';
+        if (imageUrl) {
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                return NextResponse.json(
+                    { message: 'Failed to fetch image from the URL.', error: true },
+                    { status: 400 }
+                );
+            }
+            const contentType = response.headers.get('content-type');
 
-        const extension = contentType.split('/')[1];
+            if (!contentType || !contentType.startsWith('image/')) {
+                return NextResponse.json(
+                    { message: 'The provided URL is not a valid image.', error: true },
+                    { status: 400 }
+                );
+            }
 
-        const imageRef = ref(storage, `members/${name}.${extension}`);
-        await uploadBytes(imageRef, blob, { contentType });
+            const blob = await response.blob();
 
-        const downloadURL = await getDownloadURL(imageRef);
+            const extension = contentType.split('/')[1];
+
+            const imageRef = ref(storage, `member/${name}.${extension}`);
+            await uploadBytes(imageRef, blob, { contentType });
+
+            downloadURL = await getDownloadURL(imageRef);
+        }
 
         const docRef = await addDoc(collection(db, 'pbMembers'), {
             name,
@@ -162,7 +166,7 @@ export async function PUT(request: Request) {
 
             // Use a timestamp to ensure a unique filename
             const timestamp = Date.now();
-            const imageRef = ref(storage, `members/${name}_${timestamp}.${extension}`);
+            const imageRef = ref(storage, `member/${name}_${timestamp}.${extension}`);
 
             await uploadBytes(imageRef, blob, { contentType });
             downloadURL = await getDownloadURL(imageRef);
@@ -254,12 +258,12 @@ export async function DELETE(request: Request) {
 }
 
 
+
 // // Posting a array of members
 
 // export async function POST(request: Request) {
 //     try {
 //         const data = await request.json();
-
 
 //         if (!Array.isArray(data)) {
 //             return NextResponse.json({ error: 'Invalid data format. Expected an array of objects.' }, { status: 400 });
@@ -268,39 +272,40 @@ export async function DELETE(request: Request) {
 //         for (const item of data) {
 //             const { name, year, role, company, imageUrl, linkedInUrl } = item;
 
-
-//             if (!name || !imageUrl) {
-//                 return NextResponse.json({ error: 'Missing Name or Image URL.' }, { status: 400 });
+//             if (!name) {
+//                 return NextResponse.json({ error: 'Missing Name.' }, { status: 400 });
 //             }
 
-//             const response = await fetch(imageUrl);
+//             let downloadURL = '';
+//             if (imageUrl) {
+//                 const response = await fetch(imageUrl);
 
-//             if (!response.ok) {
-//                 return NextResponse.json({ error: 'Failed to fetch image from the URL.' }, { status: 400 });
+//                 if (!response.ok) {
+//                     return NextResponse.json({ error: 'Failed to fetch image from the URL.' }, { status: 400 });
+//                 }
+
+//                 const contentType = response.headers.get('content-type');
+
+//                 if (!contentType || contentType.includes('text/html')) {
+//                     return NextResponse.json({ error: 'Provided link is not a direct image link. Please ensure the Google Drive file is public.' }, { status: 400 });
+//                 }
+
+//                 const blob = await response.blob();
+//                 const extension = contentType.split('/')[1];
+
+//                 const imageRef = ref(storage, `try/${name}.${extension}`);
+//                 await uploadBytes(imageRef, blob, { contentType });
+
+//                 downloadURL = await getDownloadURL(imageRef); // Assign value to downloadURL
 //             }
 
-//             const contentType = response.headers.get('content-type');
-
-//             if (!contentType || contentType.includes('text/html')) {
-//                 return NextResponse.json({ error: 'Provided link is not a direct image link. Please ensure the Google Drive file is public.' }, { status: 400 });
-//             }
-
-//             const blob = await response.blob();
-
-//             const extension = contentType.split('/')[1];
-
-//             const imageRef = ref(storage, `members/${name}.${extension}`);
-//             await uploadBytes(imageRef, blob, { contentType });
-
-//             const downloadURL = await getDownloadURL(imageRef);
-
-//             await addDoc(collection(db, 'pbMembers'), {
+//             await addDoc(collection(db, 'tryMembers'), {
 //                 name,
 //                 year,
 //                 role,
 //                 company,
 //                 linkedInUrl,
-//                 imageUrl: downloadURL,
+//                 imageUrl: downloadURL || '',
 //             });
 //         }
 

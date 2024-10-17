@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Card from './ui/Card'
-import CollapsibleSection from './ui/CollapsibleSection'
 import ClipLoader from "react-spinners/ClipLoader";
 import { FaRegBell, FaEllipsisV } from "react-icons/fa";
 import { onAuthStateChanged } from "firebase/auth";
@@ -11,6 +9,9 @@ import { db, storage } from "@/Firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Image from 'next/image';
+import Card from "./ui/Card";
+import CollapsibleSection from "./ui/CollapsibleSection";
+
 
 interface Member {
     id?: string;
@@ -18,8 +19,8 @@ interface Member {
     role: string;
     company?: string;
     year: string;
-    linkedInUrl: string;
-    imageUrl: string;
+    linkedInUrl?: string;
+    imageUrl?: string;
 }
 
 const headings = [
@@ -90,7 +91,7 @@ export default function Members() {
             const contentType = file.type;
             const extension = contentType.split('/')[1];
 
-            const imageRef = ref(storage, `members/${newMember.name}.${extension}`);
+            const imageRef = ref(storage, `member/${newMember.name}.${extension}`);
 
             try {
 
@@ -223,8 +224,7 @@ export default function Members() {
             const uniqueMembersMap = new Map<string, Member>();
 
             result.forEach((member: Member) => {
-                const key = `${member.name}-${member.role}-${member.year}`;
-                if (!uniqueMembersMap.has(key)) {
+                const key = `${member.name}-${member.role}-${member.year}`; if (!uniqueMembersMap.has(key)) {
                     uniqueMembersMap.set(key, member);
                 }
             });
@@ -306,8 +306,8 @@ export default function Members() {
                                                         name={profile.name}
                                                         role={profile.role}
                                                         company={profile.company || ""}
-                                                        linkedInUrl={profile.linkedInUrl}
-                                                        imageUrl={profile.imageUrl}
+                                                        linkedInUrl={profile.linkedInUrl || ""}
+                                                        imageUrl={profile.imageUrl || ""}
                                                     />
                                                     <div className="absolute top-2 right-2">
                                                         {isAdmin ? (
