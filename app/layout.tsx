@@ -4,7 +4,6 @@ import Header from "@/components/ui/header";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import Script from "next/script";
 
 config.autoAddCss = false;
 
@@ -16,7 +15,10 @@ const inter = Inter({
 
 export const metadata = {
   title: "Point Blank",
-  description: "Hello World",
+  description: "A group of developers who love to code.",
+  keywords: ["developers", "coding", "programming", "software"],
+  author: "Point Blank Team",
+  viewport: "width=device-width, initial-scale=1.0",
 };
 
 export default function RootLayout({
@@ -26,12 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
-      <head>
-        <Script
-          src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="beforeInteractive"
-        />
-      </head>
+      
       <body
         className={`${inter.variable} font-inter antialiased bg-black text-white tracking-tight`}
       >

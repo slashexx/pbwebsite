@@ -65,10 +65,10 @@ const Card = ({ img, name }: { img: string; name: string }) => {
 export default function Domains() {
   return (
     <div className="">
-      <h2 className="text-4xl font-bold text-center text-gray-200 m-2">
+      <h2 className="text-5xl font-bold text-center text-gray-200 m-2">
         Domains We Explore
       </h2>
-      <p className="text-xl text-center text-gray-100 mb-8">
+      <p className="text-md text-center text-gray-300 mb-8">
         Our club covers a wide range of interests and fields, bringing unique
         perspectives and expertise to every project!
       </p>

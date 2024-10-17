@@ -7,7 +7,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormContext } from "../forms/formContext";
 import toast from "react-hot-toast";
 import { getErrorMessage, fetchCsrfToken } from "@/lib/client/clientUtils";
-
 import {
   years,
   courses,
@@ -15,10 +14,6 @@ import {
   problems,
 } from "@/lib/constants/dropdownOptions";
 import { useRouter } from "next/navigation";
-import {
-  GoogleReCaptcha,
-  GoogleReCaptchaProvider,
-} from "react-google-recaptcha-v3";
 import Success from "./success";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";

@@ -13,6 +13,10 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
+        "sm": "640px",
+        "md": "768px",
+        "lg": "1024px", // Ensure this is defined as it affects `lg:w-1/3`
+        "xl": "1280px",
         "2xl": "1400px",
       },
     },
@@ -168,7 +172,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         marquee: "marquee var(--duration) linear infinite",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
-       
+
       },
       keyframes: {
         float: {
@@ -196,7 +200,7 @@ module.exports = {
         "2gl": "750px", // Custom breakpoint for 2 columns
         "3gl": "1070px", // Custom breakpoint for 3 cloumns
       },
-   
+
     },
   },
   plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
