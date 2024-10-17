@@ -91,7 +91,7 @@ export default function Members() {
             const contentType = file.type;
             const extension = contentType.split('/')[1];
 
-            const imageRef = ref(storage, `member/${newMember.name}.${extension}`);
+            const imageRef = ref(storage, `members/${newMember.name}.${extension}`);
 
             try {
 
