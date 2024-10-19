@@ -29,9 +29,9 @@ const EventComponent = () => {
   return (
     <>
       <div className="container place-items-center font-bold pt-20 pb-10">
-        <h2 className="text-5xl text-white-800 text-center">Events</h2>
-        <h5 className="text-2xl text-white-800 text-center">
-          We organise lots of student centric activities
+        <h2 className="text-3xl sm:text-4xl text-white-800 text-center font-black">Events</h2>
+        <h5 className="text-lg sm:text-xl text-white-800 text-center">
+          We organise lots of student-centric activities
         </h5>
       </div>
       <div className="view">
