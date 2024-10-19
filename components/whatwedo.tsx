@@ -48,7 +48,7 @@ export default function WhatWeDo() {
           
           {/* Right Column with Image */}
           <div className="lg:w-1/2 flex justify-left lg:justify-end">
-            <Image src={logo} alt="Logo" width={300} height={300} className="shadow-lg rounded-lg" />
+            <Image src={logo} alt="Logo" width={300} height={300} className="shadow-lg rounded-lg" unoptimized />
           </div>
         </div>
       </div>
