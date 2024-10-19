@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Home",
-  description: "Landing page",
+  title: "Point Blank",
+  description: "Point Blank is a student-run tech community at Dayananda Sagar College of Engineering, Bangalore. We are a group of tech enthusiasts who love to learn and grow together.",
 };
 
 import Hero from "@/components/hero";
