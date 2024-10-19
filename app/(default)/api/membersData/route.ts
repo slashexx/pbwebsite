@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
             const extension = contentType.split('/')[1];
 
-            const imageRef = ref(storage, `member/${name}.${extension}`);
+            const imageRef = ref(storage, `members/${name}.${extension}`);
             await uploadBytes(imageRef, blob, { contentType });
 
             downloadURL = await getDownloadURL(imageRef);
@@ -166,7 +166,7 @@ export async function PUT(request: Request) {
 
             // Use a timestamp to ensure a unique filename
             const timestamp = Date.now();
-            const imageRef = ref(storage, `member/${name}_${timestamp}.${extension}`);
+            const imageRef = ref(storage, `members/${name}_${timestamp}.${extension}`);
 
             await uploadBytes(imageRef, blob, { contentType });
             downloadURL = await getDownloadURL(imageRef);
@@ -293,13 +293,13 @@ export async function DELETE(request: Request) {
 //                 const blob = await response.blob();
 //                 const extension = contentType.split('/')[1];
 
-//                 const imageRef = ref(storage, `try/${name}.${extension}`);
+//                 const imageRef = ref(storage, `members/${name}.${extension}`);
 //                 await uploadBytes(imageRef, blob, { contentType });
 
 //                 downloadURL = await getDownloadURL(imageRef); // Assign value to downloadURL
 //             }
 
-//             await addDoc(collection(db, 'tryMembers'), {
+//             await addDoc(collection(db, 'pbMembers'), {
 //                 name,
 //                 year,
 //                 role,

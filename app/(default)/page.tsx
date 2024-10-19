@@ -1,9 +1,10 @@
 export const metadata = {
-  title: "Home",
-  description: "Landing page",
+  title: "Point Blank",
+  description: "Point Blank is a student-run tech community at Dayananda Sagar College of Engineering, Bangalore. We are a group of tech enthusiasts who love to learn and grow together.",
 };
 
 import Hero from "@/components/hero";
+import WhatWeDo from "@/components/whatwedo";
 import Domains from "@/components/domains";
 import "../css/additional-styles/landing.css";
 import Activities from "@/components/activities";
@@ -14,13 +15,15 @@ import EventComponent from "@/components/eventcards";
 import Leads from "@/components/leads";
 import Achievements from '@/components/achievements';
 import Founder from "@/components/founder";
-// import Announce from "@/components/announcement";
+import Share from "@/components/share";
 
 
 export default function Home() {
   return (
     <>
       <Hero />
+      <WhatWeDo />
+      <Domains />
       <div className="flex flex-col justify-center items-center py-10 px-5 mb-20">
         <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" />
         {/* <Image
@@ -52,12 +55,12 @@ export default function Home() {
         </div>
         {/* <Announce /> */}
       </div>
-      <Domains />
       <Activities />
       <Founder />
-      <Leads />
+      {/* <Leads /> */}
       <Achievements />
       <EventComponent />
+      <Share />
     </>
   );
 }
