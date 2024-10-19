@@ -55,7 +55,6 @@ export default function Home() {
         </div>
         {/* <Announce /> */}
       </div>
-      <Domains />
       <Activities />
       <Founder />
       {/* <Leads /> */}
