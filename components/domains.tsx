@@ -64,21 +64,19 @@ const Card = ({ img, name }: { img: string; name: string }) => {
 
 export default function Domains() {
   return (
-    <div className="">
-      <h2 className="text-5xl font-bold text-center text-gray-200 m-2">
-        Domains We Explore
+    <div className="relative">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-center text-gray-200 m-4">
+        Domains we ❤️
       </h2>
-      <p className="text-md text-center text-gray-300 mb-8">
-        Our club covers a wide range of interests and fields, bringing unique
-        perspectives and expertise to every project!
+      <p className="text-base sm:text-lg md:text-xl text-center text-gray-100 mb-6 sm:mb-8 px-2">
+        Our club covers a wide range of interests and fields, bringing unique perspectives and expertise to every project!
       </p>
+
       <Marquee pauseOnHover className="[--duration:30s]">
         {domains.map((domain) => (
           <Card key={domain.name} {...domain} />
         ))}
       </Marquee>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-background"></div>
     </div>
   );
 }

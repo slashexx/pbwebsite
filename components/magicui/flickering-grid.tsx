@@ -22,7 +22,7 @@ interface FlickeringGridProps {
 const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   squareSize = 4,
   gridGap = 6,
-  flickerChance = 0.3,
+  flickerChance = 0.5,
   color = "rgb(0, 0, 0)",
   width,
   height,
@@ -170,7 +170,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className={`size-full pointer-events-none ${className}`}
+      className={`size-full pointer-events-none ${className} -z-10`}
       style={{
         width: width || "100%",
         height: height || "100%",
