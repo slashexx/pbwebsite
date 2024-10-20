@@ -13,6 +13,10 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
+        "sm": "640px",
+        "md": "768px",
+        "lg": "1024px", // Ensure this is defined as it affects `lg:w-1/3`
+        "xl": "1280px",
         "2xl": "1400px",
       },
     },
