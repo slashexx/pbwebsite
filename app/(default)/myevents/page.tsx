@@ -141,7 +141,7 @@ const EventsPage = () => {
 
   return (
     <div className="p-4 pt-20 relative">
-      <h1 className="text-3xl font-bold mb-4">Events</h1>
+      <h1 className="text-5xl font-bold mb-2 pl-5 pt-2 text-center">Events</h1>
       <div className="flex justify-end">
         {isAdminLoggedIn && (
           <button
@@ -157,29 +157,14 @@ const EventsPage = () => {
       {isAdminLoggedIn && showForm && <EventForm />}
 
       {/* Displaying the Events */}
-      <div className="mt-8">
+      <div className="mt-2">
         {/* Present Events */}
-        <h2 className="text-2xl font-bold mb-4 mt-8">Present Events</h2>
-        {presentEvents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {presentEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                isAdminLoggedIn={isAdminLoggedIn}
-                onDelete={deleteEvent}
-                onSelect={handleEventSelect}
-              />
-            ))}
-          </div>
-        ) : (
-          <p>No present events available.</p>
-        )}
+        
 
         {/* Future Events */}
-        <h2 className="text-2xl font-bold mb-4 mt-8">Future Events</h2>
+        {/* <h2 className="text-2xl font-bold mb-4 mt-8">CurreEvents</h2> */}
         {futureEvents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="flex justify-around">
             {futureEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -191,14 +176,14 @@ const EventsPage = () => {
             ))}
           </div>
         ) : (
-          <p>No future events available.</p>
+          <p>No presents events available.</p>
         )}
       </div>
 
       {/* Past Events */}
-      <h2 className="text-2xl font-bold mb-4 mt-8">Past Events</h2>
+      <h2 className="text-3xl font-bold mb-8 mt-16 ml-4 text-center">Past Events</h2>
       {pastEvents.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="flex justify-around">
           {pastEvents.map((event) => (
             <EventCard
               key={event.id}
@@ -215,7 +200,11 @@ const EventsPage = () => {
 
       {/* Sidebar for Event Details */}
       {isSidebarOpen && selectedEvent && (
-        <Sidebar event={selectedEvent} onClose={handleSidebarClose} />
+        <Sidebar
+          event={selectedEvent}
+          onClose={handleSidebarClose}
+          registrationLink={selectedEvent.registrationLink} // Pass registrationLink explicitly
+        />
       )}
 
       {/* Event Update Form */}

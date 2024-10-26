@@ -8,7 +8,8 @@ const nextConfig = {
       "firebasestorage.googleapis.com",
       "img.icons8.com",
       "icpc.global",
-      "img.freepik.com"
+      "img.freepik.com",
+      "media.licdn.com"
     ],
   },
 };
