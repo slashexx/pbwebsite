@@ -48,11 +48,11 @@ export default function Header() {
           </div>
           <nav className="hidden md:flex md:grow">
             <ul className="flex grow justify-end flex-wrap items-center">
-              {/* <li>
-                <Link href="/events">
-                  <p className={`font-medium ${pathname === '/events' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Events</p>
+              <li>
+                <Link href="/myevents">
+                  <p className={`font-medium ${pathname === '/myevents' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Events</p>
                 </Link>
-              </li> */}
+              </li>
               <li>
                 <Link href="/leads">
                   <p className={`font-medium ${pathname === '/leads' ? 'font-extrabold text-white' : 'text-gray-300'} hover:text-white px-2 lg:px-5 py-3 flex items-center transition duration-150 ease-in-out`}>Leads</p>

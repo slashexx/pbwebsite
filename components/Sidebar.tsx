@@ -102,10 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ event, onClose, registrationLink }) =
 
         {/* Registration Section */}
         <div className="bg-gray-800 p-4 rounded-lg mb-4 shadow-md">
-          <div className="flex items-center mb-2">
-            <FaUserShield className="text-red-500 mr-2" />
-            <p className="text-gray-300">Approval Required</p>
-          </div>
+          
           {event.lastDateOfRegistration >= currentDate && registrationLink && (
             <a
               href={registrationLink}
@@ -116,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ event, onClose, registrationLink }) =
               <button
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-200 shadow-md"
               >
-                Request to Join
+                Register Now
               </button>
             </a>
           )}

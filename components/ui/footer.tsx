@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="mx-auto max-w-screen-xl text-center">
         <ul className="flex flex-wrap justify-center items-center mb-6 text-white">
           <li><Link href="/" className="mr-4 hover:underline md:mr-6">Home</Link></li>
-          {/* <li><Link href="/events" className="mr-4 hover:underline md:mr-6">Events</Link></li> */}
+          <li><Link href="/myevents" className="mr-4 hover:underline md:mr-6">Events</Link></li>
           <li><Link href="/leads" className="mr-4 hover:underline md:mr-6">Leads</Link></li>
           <li><Link href="/members" className="mr-4 hover:underline md:mr-6">Members</Link></li>
           <li><Link href="/achievements" className="mr-4 hover:underline md:mr-6">Achievements</Link></li>

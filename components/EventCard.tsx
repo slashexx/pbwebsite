@@ -40,7 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
   return (
     <div
-      className="relative bg-gray-900 shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+      className="relative bg-gray-900 shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl cursor-pointer w-1/4"
       onClick={() => onSelect(event)}
     >
       {/* Event Date Badge */}
@@ -50,7 +50,7 @@ const EventCard: React.FC<EventCardProps> = ({
       <Image
         src={event.imageURL}
         alt={event.eventName}
-        width={200}
+        width={300}
         height={100}
         className="w-full h-48 p-2 object-cover rounded-2xl"
       />
