@@ -183,7 +183,7 @@ const EventsPage = () => {
       {/* Past Events */}
       <h2 className="text-3xl font-bold mb-8 mt-16 ml-4 text-center">Past Events</h2>
       {pastEvents.length > 0 ? (
-        <div className="flex justify-around">
+        <div className="sm:flex justify-around">
           {pastEvents.map((event) => (
             <EventCard
               key={event.id}
