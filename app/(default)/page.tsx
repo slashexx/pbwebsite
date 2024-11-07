@@ -135,7 +135,7 @@ export default function Home() {
       <div className="flex md:flex-row flex-col justify-center items-center py-10 px-5">
           <a href="/Credits">
             <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
-              More Contributors
+              More Contributors:
             </button>
           </a>
         </div>
