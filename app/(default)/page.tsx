@@ -3,20 +3,23 @@ export const metadata = {
   description: "Point Blank is a student-run tech community at Dayananda Sagar College of Engineering, Bangalore. We are a group of tech enthusiasts who love to learn and grow together.",
 };
 
+// Define the viewport settings separately
+export const viewport = {
+  initialScale: 1,
+  width: 'device-width',
+};
+
 import Hero from "@/components/hero";
 import WhatWeDo from "@/components/whatwedo";
 import Domains from "@/components/domains";
 import "../css/additional-styles/landing.css";
 import Activities from "@/components/activities";
 import Image from "next/image";
-import Link from "next/link";
 import SparklesText from "@/components/magicui/sparkles-text";
 import EventComponent from "@/components/eventcards";
-import Leads from "@/components/leads";
 import Achievements from '@/components/achievements';
 import Founder from "@/components/founder";
 import Share from "@/components/share";
-
 
 export default function Home() {
   return (
@@ -24,15 +27,8 @@ export default function Home() {
       <Hero />
       <WhatWeDo />
       <Domains />
-      <div className="flex flex-col justify-center items-center py-10 px-5 mb-20">
+      <div className="flex flex-col justify-center items-center py-10 px-5">
         <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" />
-        {/* <Image
-            src={"/images/announce.png"}
-            alt="sih"
-            height={400}
-            width={1100}
-            className="rounded-3xl mt-20"
-          /> */}
         <Image
           src={"/images/recruitment.png"}
           alt="recruitment-poster"
@@ -46,18 +42,12 @@ export default function Home() {
               Register Now
             </button>
           </a>
-          {/* Add a download button  */}
-          {/* <a href="/Shortlisted.pdf" download>
-          <button className="btn-sm px-5 py-3 text-xl font-bold text-white bg-green-600 mx-3 rounded-xl mt-10">
-            Download Shortlisted Problem Statements
-          </button>
-        </a> */}
         </div>
-        {/* <Announce /> */}
       </div>
-      <Activities />
+      <div className="-mt-20"> {/* Adjusted margin for Activities section */}
+        <Activities />
+      </div>
       <Founder />
-      {/* <Leads /> */}
       <Achievements />
       <EventComponent />
       <Share />
