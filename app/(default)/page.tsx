@@ -61,74 +61,75 @@ export default function Home() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-[10px]">
         {/* Pin item */}
-        <PinContainer title="Visit Linkedin" href="https://www.linkedin.com/in/skysingh04?">
-          <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
-            {/* Image wrapper */}
-            <div className="relative h-full w-full">
-              <Image
-                src="/images/Akash.jpg" // Ensure the image is placed in `public/images`
-                alt="Description Image"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-md"
-              />
-              {/* Overlay description */}
-              <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
-                <h3 className="font-bold text-base text-slate-100">
-                  Akash Singh
-                </h3>
-                <p className="text-base text-slate-300 mt-2">
-                Supervision, Deployment
-                </p>
-              </div>
-            </div>
-          </div>
-        </PinContainer>
+        <PinContainer
+  title="Visit Linkedin"
+  href="https://www.linkedin.com/in/skysingh04?"
+  className="custom-pin-container-class"
+  containerClassName="custom-container-class"
+>
+  <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
+    <div className="relative h-full w-full">
+      <Image
+        src="/images/Akash.jpg"
+        alt="Description Image"
+        layout="fill"
+        objectFit="cover"
+        className="rounded-md"
+      />
+      <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
+        <h3 className="font-bold text-base text-slate-100">Akash Singh</h3>
+        <p className="text-base text-slate-300 mt-2">Supervision, Deployment</p>
+      </div>
+    </div>
+  </div>
+</PinContainer>
 
-        {/* Repeat for more pins */}
-        <PinContainer title="Visit Linkedin" href="https://www.linkedin.com/in/2004-agarwal-yash/">
-          <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
-            <div className="relative h-full w-full">
-              <Image
-                src="/images/Yash.jpg"
-                alt="Description Image"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-md"
-              />
-              <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
-                <h3 className="font-bold text-base text-slate-100">
-                  Yash Agrawal
-                </h3>
-                <p className="text-base text-slate-300 mt-2">
-                  Made backend and frontend of leads page
-                </p>
-              </div>
-            </div>
-          </div>
-        </PinContainer>
+<PinContainer
+  title="Visit Linkedin"
+  href="https://www.linkedin.com/in/2004-agarwal-yash/"
+  className="custom-pin-container-class"
+  containerClassName="custom-container-class"
+>
+  <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
+    <div className="relative h-full w-full">
+      <Image
+        src="/images/Yash.jpg"
+        alt="Description Image"
+        layout="fill"
+        objectFit="cover"
+        className="rounded-md"
+      />
+      <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
+        <h3 className="font-bold text-base text-slate-100">Yash Agrawal</h3>
+        <p className="text-base text-slate-300 mt-2">Made backend and frontend of leads page</p>
+      </div>
+    </div>
+  </div>
+</PinContainer>
 
-        <PinContainer title="Visit Linkedin" href="https://www.linkedin.com/in/alfiyafatima09/">
-          <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
-            <div className="relative h-full w-full">
-              <Image
-                src="/images/Allfiya.jpg"
-                alt="Description Image"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-md"
-              />
-              <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
-                <h3 className="font-bold text-base text-slate-100">
-                  Alfiya Fatima
-                </h3>
-                <p className="text-base text-slate-300 mt-2">
-                Authentication, Pbctf registration form, Updates about latest event.
-                </p>
-              </div>
-            </div>
-          </div>
-        </PinContainer>
+<PinContainer
+  title="Visit Linkedin"
+  href="https://www.linkedin.com/in/alfiyafatima09/"
+  className="custom-pin-container-class"
+  containerClassName="custom-container-class"
+>
+  <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
+    <div className="relative h-full w-full">
+      <Image
+        src="/images/Allfiya.jpg"
+        alt="Description Image"
+        layout="fill"
+        objectFit="cover"
+        className="rounded-md"
+      />
+      <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
+        <h3 className="font-bold text-base text-slate-100">Alfiya Fatima</h3>
+        <p className="text-base text-slate-300 mt-2">Authentication, Pbctf registration form, Updates about latest event.</p>
+      </div>
+    </div>
+  </div>
+</PinContainer>
+
         </div>
 
       <div className="flex md:flex-row flex-col justify-center items-center py-10 px-5">
