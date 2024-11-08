@@ -150,7 +150,7 @@ export default function PinPage() {
             </div>
           </div>
         </PinContainer>
-        <PinContainer title="Visit Linkedin" href="linkedin.com/in/suvanbanerjee">
+        <PinContainer title="Visit Linkedin" href="https://www.linkedin.com/in/suvanbanerjee">
           <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] h-[20rem] relative bg-gray-900 rounded-md">
             <div className="relative h-full w-full">
               <Image
@@ -162,7 +162,7 @@ export default function PinPage() {
               />
               <div className="absolute bottom-0 left-0 w-full p-4 text-left bg-gradient-to-t from-black/60 to-transparent z-10">
                 <h3 className="font-bold text-base text-slate-100">
-                  Aceternity UI
+                  Suvan Banerjee
                 </h3>
                 <p className="text-base text-slate-300 mt-2">
                   Landing Page and Boilerplate for seamless setup.
