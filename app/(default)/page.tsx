@@ -27,7 +27,7 @@ export default function Home() {
       <Hero />
       <WhatWeDo />
       <Domains />
-      <div className="flex flex-col justify-center items-center py-10 px-5">
+      {/* <div className="flex flex-col justify-center items-center py-10 px-5">
         <SparklesText text="Upcoming Events" className="text-4xl font-bold text-center text-gray-200 mb-4" />
         <Image
           src={"/images/recruitment.png"}
@@ -43,7 +43,7 @@ export default function Home() {
             </button>
           </a>
         </div>
-      </div>
+      </div> */}
       
       <div className="-mt-20"> {/* Adjusted margin for Activities section */}
         <Activities />
