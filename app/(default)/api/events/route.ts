@@ -1,15 +1,14 @@
 import { db } from "@/Firebase";
 import {
     getDocs,
-    query,
     collection,
-    orderBy,
-    addDoc,
     updateDoc,
     doc,
     deleteDoc,
+    setDoc
 } from "firebase/firestore";
 import {  NextResponse } from "next/server";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export async function GET(request: Request) {
@@ -18,7 +17,6 @@ export async function GET(request: Request) {
     const eventSnapshot = await getDocs(eventsCollection);
     const data = eventSnapshot.docs.map((doc) => doc.data());
     const eventsList = data.map((event : any) => {
-        console.log("event id in backend is", event.id);
         return {
           id: event.id,
           eventName: event.eventName,
@@ -52,8 +50,22 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
     try {
         const newEvent = await request.json();
-        const docRef = await addDoc(collection(db, "events"), newEvent);
-        return NextResponse.json({ id: docRef.id }, { status: 201 });
+    const eventId = uuidv4();
+
+        const currentDate = new Date().toISOString();
+        const { eventName, eventDate, lastDateOfRegistration, description, imageURL, registrationLink } = newEvent;
+        await setDoc( doc(db , "events" , eventId), {
+            id : eventId,
+            eventName,
+            eventDate,
+            lastDateOfRegistration,
+            description,
+            imageURL,
+            registrationLink,
+            dateCreated: currentDate,
+            dateModified: currentDate,
+          });
+        return NextResponse.json({ id: eventId }, { status: 201 });
     } catch (error) {
         if (error instanceof Error) {
             console.error("Error details:", error.message);
@@ -83,6 +95,7 @@ export async function PUT(request: Request) {
         }
         const updatedEvent = await request.json();
       await updateDoc(doc(db, "events", eventid), updatedEvent);
+        return NextResponse.json({ id: eventid }, { status: 200 });
 
     }catch (error) {
         if (error instanceof Error) {

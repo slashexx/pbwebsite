@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import {
-  getFirestore,
-  doc,
   getDoc,
   getDocs,
   collection,
@@ -60,36 +58,27 @@ const Leads: React.FC = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
-    const checkAdmin = async (uid: string) => {
-      try {
-        const docRef = doc(db, "admin", uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setIsAdminLoggedIn(true);
-        } else {
-          setIsAdminLoggedIn(false);
-        }
-      } catch (error) {
-        console.error("Error checking admin status:", error);
-        setIsAdminLoggedIn(false);
-      }
-    };
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        checkAdmin(user.uid);
-      } else {
-        setIsAdminLoggedIn(false);
+        const uid = user.uid;
+        try {
+          const resp = await fetch(`/api/admin?uid=${uid}`);
+          const data = await resp.json();
+          if (data.isAdmin) {
+            setIsAdminLoggedIn(true);
+          }
+        } catch (error) {
+          console.log("Error getting document:", error);
+        }
       }
     });
+  });
 
-    fetchLeads(); // Call fetchLeads when component mounts
-
-    return () => unsubscribe();
+  useEffect(() => {
+    fetchLeads();
   }, []);
-
+  
   const handleAddOrEditLead = async (selectedLead:Lead) => {
     if (!selectedLead?.name || !selectedLead?.position) {
       console.error(
