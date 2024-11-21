@@ -70,8 +70,6 @@ const EventsPage = () => {
 
   // Deleting an event
   const deleteEvent = async (eventId: string , event : any) => {
-    console.log("Deleting event ", event);
-    console.log("Deleting event with id: ", eventId);
     try {
       await fetch(`/api/events/?eventid=${eventId}`, {
         method: "DELETE",
@@ -80,7 +78,7 @@ const EventsPage = () => {
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
-    fetchEvents(); // Refresh event list
+    fetchEvents(); 
   };
 
   const handleEventSelect = (event: {

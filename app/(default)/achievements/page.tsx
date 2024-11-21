@@ -165,7 +165,6 @@ export default function AchievementsPage() {
       }
 
       const response = await axios.put("/api/achievements", formData);
-      console.log(response.data);
       setIsEditModalOpen(false);
     } catch (error) {
       console.error("Error updating achievements:", error);

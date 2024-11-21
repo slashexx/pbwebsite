@@ -2,6 +2,7 @@ import { db } from "@/Firebase";
 import {
     doc,
   getDoc,
+  setDoc
 } from "firebase/firestore";
 import {  NextResponse } from "next/server";
 
@@ -46,3 +47,25 @@ export async function GET(request: Request) {
         }
     }
 }
+
+export async function POST(request: Request) {
+    const { email, role , userId} = await request.json();
+    try{await setDoc(doc(db, 'admin', userId), {
+              email,
+              role,
+            });}catch (error) {
+                if (error instanceof Error) {
+                    console.error("Error details:", error.message);
+                    return NextResponse.json(
+                        { error: "An error occurred", details: error.message },
+                        { status: 500 }
+                    );
+                } else {
+                    console.error("Unknown error:", error);
+                    return NextResponse.json(
+                        { error: "An unknown error occurred" },
+                        { status: 500 }
+                    );
+                }
+            }
+        }
