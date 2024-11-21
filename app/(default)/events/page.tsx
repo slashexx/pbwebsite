@@ -1,396 +1,200 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { db, auth, storage } from "@/Firebase";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  orderBy,
-  query,
-  updateDoc,
-  doc,
-  deleteDoc,
-  getDoc,
-} from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useState, useEffect } from "react";
+import { auth } from "../../../Firebase"; 
 import { onAuthStateChanged } from "firebase/auth";
-import "./EventCard.css";
-import Image from "next/image";
+import EventForm from "../../../components/EventForm";
+import EventUpdateForm from "../../../components/EventUpdateForm";
+import EventCard from "../../../components/EventCard";
+import Sidebar from "../../../components/Sidebar"; 
 
-interface Event {
-  eventName: string;
-  description: string;
-  imageUrl: string;
-  startDate: string;
-  endDate: string;
-  id?: string;
-}
 
-const EventCard: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [eventName, setEventName] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [formVisible, setFormVisible] = useState(false);
-  const [editFormVisible, setEditFormVisible] = useState(false);
-  const [eventToEdit, setEventToEdit] = useState("");
-  const [eventDataToEdit, setEventDataToEdit] = useState<Event | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+const EventsPage = () => {
+  const [showForm, setShowForm] = useState(false); 
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [events, setEvents] = useState<
+    {
+      id: string;
+      eventName: string;
+      description: string;
+      eventDate: string;
+      lastDateOfRegistration: string;
+      dateCreated: string;
+      dateModified: string;
+      imageURL: string; 
+      registrationLink: string;
+    }[]
+  >([]);
 
-  // Fetch admin status
+  const [selectedEvent, setSelectedEvent] = useState<{
+    id: string;
+    eventName: string;
+    description: string;
+    eventDate: string;
+    lastDateOfRegistration: string;
+    dateCreated: string;
+    dateModified: string;
+    imageURL: string;
+    registrationLink: string;
+  } | null>(null); 
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          const uid = user.uid;
-          try {
-            const adminDocRef = doc(db, "admin", uid);
-            const adminDocSnap = await getDoc(adminDocRef);
-            if (adminDocSnap.exists()) {
-              setIsAdmin(true);
-            }
-          } catch (error) {
-            console.log("Error getting document:", error);
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        try {
+          const resp = await fetch(`/api/admin?uid=${uid}`);
+          const data = await resp.json();
+          if (data.isAdmin) {
+            setIsAdminLoggedIn(true);
           }
+        } catch (error) {
+          console.log("Error getting document:", error);
         }
-      });
-    };
+      }
+    });
+  });
 
-    checkAdminStatus();
-  }, []);
+  const fetchEvents = async () => {
+    const resp = await fetch("/api/events"); 
+    const data = await resp.json();
+    const eventsList = data.events;
+    setEvents(eventsList);
+  };
 
-  // Fetch events from Firestore
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const q = query(collection(db, "events"), orderBy("startDate"));
-      const querySnapshot = await getDocs(q);
-      const eventsList: Event[] = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      })) as Event[];
-      setEvents(eventsList);
-    };
+  useEffect(() => {  
     fetchEvents();
   }, []);
 
-  const uploadImage = async (file: File) => {
-    const imageRef = ref(storage, `eventImages/${file.name}`);
-    await uploadBytes(imageRef, file);
-    return await getDownloadURL(imageRef);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  // Deleting an event
+  const deleteEvent = async (eventId: string , event : any) => {
+    console.log("Deleting event ", event);
+    console.log("Deleting event with id: ", eventId);
     try {
-      const imageUrl = imageFile ? await uploadImage(imageFile) : "";
-      const newEvent: Event = {
-        eventName,
-        description,
-        imageUrl,
-        startDate,
-        endDate,
-      };
-
-      const docRef = await addDoc(collection(db, "events"), newEvent);
-      setEvents((prevEvents) =>
-        [...prevEvents, { ...newEvent, id: docRef.id }].sort(
-          (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-        )
-      );
-
-      resetForm();
-    } catch (error) {
-      console.error("Error adding document: ", error);
-    }
-  };
-
-  const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!eventDataToEdit || !eventDataToEdit.id) return;
-
-    try {
-      const updatedImageUrl = imageFile ? await uploadImage(imageFile) : eventDataToEdit.imageUrl;
-      const updatedEvent = {
-        eventName,
-        description,
-        imageUrl: updatedImageUrl,
-        startDate,
-        endDate,
-      };
-
-      await updateDoc(doc(db, "events", eventDataToEdit.id), updatedEvent);
-      setEvents((prevEvents) =>
-        prevEvents
-          .map((event) =>
-            event.id === eventDataToEdit.id ? { ...updatedEvent, id: event.id } : event
-          )
-          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
-      );
-
-      setEditFormVisible(false);
-      resetForm();
-    } catch (error) {
-      console.error("Error updating document: ", error);
-    }
-  };
-
-  const handleRemoveEvent = async () => {
-    if (!eventDataToEdit || !eventDataToEdit.id) return;
-
-    try {
-      await deleteDoc(doc(db, "events", eventDataToEdit.id));
-      setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventDataToEdit.id));
-      setEditFormVisible(false);
+      await fetch(`/api/events/?eventid=${eventId}`, {
+        method: "DELETE",
+      });
+      setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
+    fetchEvents(); // Refresh event list
   };
 
-  const handleEventToEditChange = (eventName: string) => {
-    const selectedEvent = events.find((event) => event.eventName === eventName);
-    if (selectedEvent) {
-      setEventDataToEdit(selectedEvent);
-      setEventName(selectedEvent.eventName);
-      setDescription(selectedEvent.description);
-      setImageUrl(selectedEvent.imageUrl);
-      setStartDate(selectedEvent.startDate);
-      setEndDate(selectedEvent.endDate);
-    } else {
-      setEventDataToEdit(null);
-    }
+  const handleEventSelect = (event: {
+    id: string;
+    eventName: string;
+    description: string;
+    eventDate: string;
+    lastDateOfRegistration: string;
+    dateCreated: string;
+    dateModified: string;
+    imageURL: string;
+    registrationLink: string; // Ensure registrationLink is included
+  }) => {
+    setSelectedEvent(event);
+    setIsSidebarOpen(true);
   };
 
-  const resetForm = () => {
-    setEventName("");
-    setDescription("");
-    setImageFile(null);
-    setImageUrl("");
-    setStartDate("");
-    setEndDate("");
-    setFormVisible(false);
+  const handleSidebarClose = () => {
+    setIsSidebarOpen(false);
   };
 
-  const currentDate = new Date();
-  const upcomingEvents = events.filter((event) => new Date(event.startDate) > currentDate);
-  const ongoingEvents = events.filter(
-    (event) => new Date(event.startDate) <= currentDate && new Date(event.endDate) >= currentDate
+  // Dividing events into Past, Present, and Future based on eventDate
+  const today = new Date();
+
+  const pastEvents = events.filter(
+    (event) => new Date(event.eventDate) < today
   );
-  const pastEvents = events.filter((event) => new Date(event.endDate) < currentDate);
-
-  const renderEventCards = (events: Event[]) => {
-    if (!events || events.length === 0) return <p>No events to display</p>;
-
-    return (
-      <div className="event-cards-container">
-        {events.map((event) => (
-          <div key={event.id} className="event-card">
-            <div className="event-card-inner">
-              <div className="event-card-front">
-                <div className="event-container">
-                  <div className="event-poster-container">
-                    <Image
-                      width={300}
-                      height={300}
-                      src={event.imageUrl}
-                      alt={event.eventName}
-                      className="event-poster"
-                    />
-                  </div>
-                  <div className="event-content-container">
-                    <h3>{event.eventName}</h3>
-                    <p>
-                      {event.startDate} {event.endDate && ` - ${event.endDate}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="event-card-back">
-                <Image
-                  src={event.imageUrl || "https://via.placeholder.com/150"}
-                  alt={event.eventName || "Event image"}
-                  width={300}
-                  height={200}
-                />
-                <p>{event.description || "No description available"}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
+  const presentEvents = events.filter(
+    (event) => new Date(event.eventDate).toDateString() === today.toDateString()
+  );
+  const futureEvents = events.filter(
+    (event) => new Date(event.eventDate) > today
+  );
 
   return (
-    <div>
-      {isAdmin && (
-        <>
+    <div className="p-4 pt-20 relative">
+      <h1 className="text-5xl font-bold mb-2 pl-5 pt-2 text-center">Events</h1>
+      <div className="flex justify-end">
+        {isAdminLoggedIn && (
           <button
-            className="toggle-form-button"
-            onClick={() => setFormVisible(!formVisible)}
+            onClick={() => setShowForm(!showForm)} // Toggles the form visibility
+            className="bg-blue-600 text-white py-2 px-4 rounded-md mb-4"
           >
-            {formVisible ? "Hide Event Form" : "Add New Event"}
+            Add Event
           </button>
+        )}
+      </div>
 
-          {formVisible && (
-            <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-              {/* Form fields */}
-              <div>
-                <label>Event Name:</label>
-                <input
-                  type="text"
-                  value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Description:</label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Image Upload:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      setImageFile(e.target.files[0]);
-                    }
-                  }}
-                  required
-                />
-              </div>
-              <div>
-                <label>Start Date:</label>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>End Date:</label>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="submit-event-button">
-                Add Event
-              </button>
-            </form>
-          )}
+      {/* Event Form to Add New Event */}
+      {isAdminLoggedIn && showForm && <EventForm />}
 
-          <button
-            className="toggle-edit-button"
-            onClick={() => setEditFormVisible(!editFormVisible)}
-          >
-            {editFormVisible ? "Hide Edit Form" : "Edit Event"}
-          </button>
+      {/* Displaying the Events */}
+      <div className="mt-2">
+        {/* Present Events */}
+        
 
-          {editFormVisible && (
-            <form onSubmit={handleEditSubmit} style={{ marginBottom: "20px" }}>
-              <div>
-                <label>Select Event to Edit:</label>
-                <select
-                  value={eventToEdit}
-                  onChange={(e) => {
-                    setEventToEdit(e.target.value);
-                    handleEventToEditChange(e.target.value);
-                  }}
-                >
-                  <option value="">Select Event</option>
-                  {events.map((event) => (
-                    <option key={event.id} value={event.eventName}>
-                      {event.eventName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label>Event Name:</label>
-                <input
-                  type="text"
-                  value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Description:</label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Image Upload:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      setImageFile(e.target.files[0]);
-                    }
-                  }}
-                />
-              </div>
-              <div>
-                <label>Start Date:</label>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>End Date:</label>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="update-event-button">
-                Update Event
-              </button>
-              <button
-                type="button"
-                className="remove-event-button"
-                onClick={handleRemoveEvent}
-              >
-                Remove Event
-              </button>
-            </form>
-          )}
-        </>
+        {/* Future Events */}
+        {/* <h2 className="text-2xl font-bold mb-4 mt-8">CurreEvents</h2> */}
+        {futureEvents.length > 0 ? (
+          <div className="flex justify-around">
+            {futureEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                isAdminLoggedIn={isAdminLoggedIn}
+              onDelete={() => deleteEvent(event.id , event)} 
+                onSelect={handleEventSelect}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No presents events available.</p>
+        )}
+      </div>
+
+      {/* Past Events */}
+      <h2 className="text-3xl font-bold mb-8 mt-16 ml-4 text-center">Past Events</h2>
+      {pastEvents.length > 0 ? (
+        <div className="sm:flex justify-around">
+          {pastEvents.map((event) => (
+            <EventCard
+              key={event.id}
+              event={event}
+              isAdminLoggedIn={isAdminLoggedIn}
+              onDelete={() => deleteEvent(event.id , event)} 
+              onSelect={handleEventSelect} 
+            />
+          ))}
+        </div>
+      ) : (
+        <p>No past events available.</p>
       )}
 
-      <h2>Upcoming Events</h2>
-      {renderEventCards(upcomingEvents)}
+      {/* Sidebar for Event Details */}
+      {isSidebarOpen && selectedEvent && (
+        <Sidebar
+          event={selectedEvent}
+          onClose={handleSidebarClose}
+          registrationLink={selectedEvent.registrationLink} // Pass registrationLink explicitly
+        />
+      )}
 
-      <h2>Ongoing Events</h2>
-      {renderEventCards(ongoingEvents)}
-
-      <h2>Past Events</h2>
-      {renderEventCards(pastEvents)}
+      {/* Event Update Form */}
+      {isAdminLoggedIn && selectedEvent && (
+        <div className="mt-8 z-50">
+          <h2 className="text-2xl font-bold mb-4">Update Event</h2>
+          <EventUpdateForm
+            eventId={selectedEvent.id}
+            initialEventData={selectedEvent}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
-export default EventCard;
+export default EventsPage;

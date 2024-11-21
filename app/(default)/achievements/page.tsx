@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
-import { db } from "@/Firebase";
-import { doc, getDoc } from "firebase/firestore";
-import Image from "next/image";
 import AchievementCard from "@/components/AchievementCard";
 
 interface Achiever {
@@ -40,9 +37,9 @@ export default function AchievementsPage() {
       if (user) {
         const uid = user.uid;
         try {
-          const adminDocRef = await doc(db, "admin", uid);
-          const adminDocSnap = await getDoc(adminDocRef);
-          if (adminDocSnap.exists()) {
+          const resp = await fetch(`/api/admin?uid=${uid}`);
+          const data = await resp.json();
+          if (data.isAdmin) {
             setIsAdmin(true);
           }
         } catch (error) {

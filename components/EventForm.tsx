@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { db } from "../Firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const EventForm = () => {
   const [eventName, setEventName] = useState("");
@@ -13,10 +15,10 @@ const EventForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const eventsCollection = collection(db, "myEvents");
-      const currentDate = new Date().toISOString(); // Get current date/time in ISO format
-
-      await addDoc(eventsCollection, {
+      const currentDate = new Date().toISOString();
+      const eventId = uuidv4();
+      await setDoc( doc(db , "events" , eventId), {
+        id: eventId,
         eventName,
         eventDate,
         lastDateOfRegistration,

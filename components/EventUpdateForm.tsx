@@ -30,7 +30,7 @@ const EventUpdateForm = ({
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const eventDocRef = doc(db, "myEvents", eventId);
+      const eventDocRef = doc(db, "events", eventId);
       const currentDate = new Date().toISOString(); // Set dateModified to the current date/time
 
       await updateDoc(eventDocRef, {
