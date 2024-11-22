@@ -8,8 +8,17 @@ import { db } from "@/Firebase";
 import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
 import toast from "react-hot-toast";
-import Head from "next/head";
-import Script from "next/script";
+
+
+//  NOTE TO ANYONE WHO IS WANDERING HERE IN HOPES OF PBCTF 4.0
+// THIS FORM DIRECTLY CALLS THE DB FROM THE CLIENT SIDE
+// THIS IS NOT A GOOD PRACTICE
+// PLEASE DO NOT USE THIS AS A REFERENCE
+// KINDLY CONTACT SKY SINGH TO FIX THIS
+// WHENVEVER THE NEXT CTF IS
+// PARAGATI RAJ ARE YOU READING THIS
+// I MISS YOU
+
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -69,14 +78,11 @@ const PBCTFForm: React.FC = () => {
   } = useForm<FormData>();
 
   const getRecaptcha = async () => {
-    console.log("func called");
     grecaptcha.enterprise.ready(async () => {
       const Rtoken = await grecaptcha.enterprise.execute(
         process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
       );
-      console.log(Rtoken);
         setToken(Rtoken);
-        console.log(token);
     });
     
   };
@@ -132,7 +138,6 @@ const PBCTFForm: React.FC = () => {
 
     try {
       const recaptcha_token = token;
-      console.log(recaptcha_token);
       if (recaptcha_token) {
         const response = await fetch("/api/registration/pbctf", {
           method: "POST",
@@ -146,7 +151,6 @@ const PBCTFForm: React.FC = () => {
           return;
         }
 
-        console.log(recaptcha_token);
 
         // Check if USNs are the same for duo participation
         if (

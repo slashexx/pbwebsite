@@ -1,8 +1,6 @@
 "use client";
 import RecruitmentForm from "@/components/forms/recruitmentForm";
-import DotPattern from "@/components/magicui/dot-pattern";
 import "../../css/additional-styles/form.css";
-import { cn } from "@/lib/server/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useEffect } from "react";
@@ -21,9 +19,9 @@ const RegisterPage = () => {
     });
   });
 
-  // useEffect(() => {
-  //   router.push("/");
-  // })
+  useEffect(() => {
+    router.push("/");
+  })
   return (
     <>
 

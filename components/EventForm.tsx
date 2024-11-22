@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { db } from "../Firebase";
-import { addDoc, collection } from "firebase/firestore";
 
 const EventForm = () => {
   const [eventName, setEventName] = useState("");
@@ -13,19 +11,21 @@ const EventForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const eventsCollection = collection(db, "myEvents");
-      const currentDate = new Date().toISOString(); // Get current date/time in ISO format
-
-      await addDoc(eventsCollection, {
-        eventName,
-        eventDate,
-        lastDateOfRegistration,
-        description,
-        imageURL,
-        registrationLink,
-        dateCreated: currentDate,
-        dateModified: currentDate,
+      await fetch ("/api/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          eventName,
+          eventDate,
+          lastDateOfRegistration,
+          description,
+          imageURL,
+          registrationLink,
+        }),
       });
+      
 
       alert("Event added successfully!");
 
@@ -36,6 +36,7 @@ const EventForm = () => {
       setDescription("");
       setImageURL("");
       setRegistrationLink("");
+      window.location.reload();
     } catch (error) {
       console.error("Error adding event:", error);
     }

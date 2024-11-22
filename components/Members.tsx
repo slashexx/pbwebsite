@@ -5,8 +5,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { FaRegBell, FaEllipsisV } from "react-icons/fa";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
-import { db, storage } from "@/Firebase";
-import { doc, getDoc } from "firebase/firestore";
+import {storage } from "@/Firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Image from 'next/image';
 import Card from "./ui/Card";
@@ -61,25 +60,21 @@ export default function Members() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const uid = user.uid;
-                try {
-                    const adminDocRef = doc(db, "admin", uid);
-                    const adminDocSnap = await getDoc(adminDocRef);
-                    console.log("Admin document exists:", adminDocSnap.exists());
-                    setIsAdmin(adminDocSnap.exists());
-                } catch (error) {
-                    console.log("Error getting document:", error);
-                }
-            } else {
-                setIsAdmin(false); // Reset if user is not logged in
+        onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const uid = user.uid;
+            try {
+              const resp = await fetch(`/api/admin?uid=${uid}`);
+              const data = await resp.json();
+              if (data.isAdmin) {
+                setIsAdmin(true);
+              }
+            } catch (error) {
+              console.log("Error getting document:", error);
             }
+          }
         });
-
-        // Cleanup subscription on unmount
-        return () => unsubscribe();
-    }, []); // Empty dependency array
+      });
 
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,8 +95,6 @@ export default function Members() {
                 const downloadURL = await getDownloadURL(snapshot.ref);
 
                 setNewMember((prev) => ({ ...prev, imageUrl: downloadURL }));
-
-                console.log('File uploaded successfully. Download URL:', downloadURL);
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
