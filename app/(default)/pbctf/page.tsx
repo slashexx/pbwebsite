@@ -2,24 +2,8 @@
 import PBCTFForm from "@/components/forms/pbctfForm";
 import DotPattern from "@/components/magicui/dot-pattern";
 import { cn } from "@/lib/server/utils";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/Firebase";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Script from "next/script";
-import Head from "next/head";
 
 const PBCTFRegisterPage = () => {
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (!user) {
-  //       router.push("/login");
-  //     }
-  //   });
-  // }, [router]);
-
   return (
     <>
 

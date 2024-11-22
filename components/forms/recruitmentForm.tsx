@@ -73,7 +73,6 @@ const RecruitmentForm: React.FC = () => {
 
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    console.log(token);
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
@@ -87,7 +86,6 @@ const RecruitmentForm: React.FC = () => {
         const res = await response.json();
 
         if (!response.ok || res.error) {
-          console.log(response.json);
           toast.error(res.message);
           return;
         }

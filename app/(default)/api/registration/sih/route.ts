@@ -8,9 +8,6 @@ export async function POST(request: Request) {
   const formData = await request.json();
   const { recaptcha_token, ...data } = formData;
 
-  console.log(formData);
-  
-
   // Only one Registration per Email
 
   const { team_info: { team_leader: { email } } } = data;
@@ -19,8 +16,6 @@ export async function POST(request: Request) {
     where("team_info.team_leader.email", "==", email)
   );
   const querySnapshot = await getDocs(q);
-
-  console.log(!querySnapshot.empty);
 
   if (!querySnapshot.empty) {
     return NextResponse.json(
@@ -56,7 +51,6 @@ export async function POST(request: Request) {
   );
   const recaptchaResult = await recaptchaResponse.json();
 
-  console.log(recaptchaResult);
   if (!recaptchaResult.success) {
     return NextResponse.json(
       {
@@ -78,7 +72,6 @@ export async function POST(request: Request) {
   try {
     // Save to Firebase
     const docRef = await addDoc(collection(db, "sih2024"), data);
-    console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "An error occurred", error });

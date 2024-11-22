@@ -51,7 +51,6 @@ export async function POST(request: Request) {
   );
 
   const recaptchaResult = await recaptchaResponse.json();
-  console.log(recaptchaResult.riskAnalysis.score);
   if (recaptchaResult.riskAnalysis.score < 0.7) {
     return NextResponse.json({
       message: "reCAPTCHA validation failed",

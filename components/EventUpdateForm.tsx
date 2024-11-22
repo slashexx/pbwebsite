@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { db } from "../Firebase";
-import { doc, updateDoc } from "firebase/firestore";
 
 interface EventUpdateFormProps {
   eventId: string;
@@ -10,7 +8,7 @@ interface EventUpdateFormProps {
     lastDateOfRegistration: string;
     description: string;
     imageURL: string;
-    registrationLink: string; // Add this field to your initial data structure
+    registrationLink: string; 
   };
 }
 
@@ -18,6 +16,7 @@ const EventUpdateForm = ({
   eventId,
   initialEventData,
 }: EventUpdateFormProps) => {
+ 
   const [eventName, setEventName] = useState(initialEventData.eventName);
   const [eventDate, setEventDate] = useState(initialEventData.eventDate);
   const [lastDateOfRegistration, setLastDateOfRegistration] = useState(
@@ -30,20 +29,23 @@ const EventUpdateForm = ({
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const eventDocRef = doc(db, "myEvents", eventId);
-      const currentDate = new Date().toISOString(); // Set dateModified to the current date/time
-
-      await updateDoc(eventDocRef, {
-        eventName,
-        eventDate,
-        lastDateOfRegistration,
-        description,
-        imageURL,
-        registrationLink, // Include the registration link in the update
-        dateModified: currentDate,
+      await fetch(`/api/events/?eventid=${eventId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          eventId,
+          eventName,
+          eventDate,
+          lastDateOfRegistration,
+          description,
+          imageURL,
+          registrationLink, 
+        }),
       });
-
       alert("Event updated successfully!");
+      window.location.reload();
     } catch (error) {
       console.error("Error updating event:", error);
     }
