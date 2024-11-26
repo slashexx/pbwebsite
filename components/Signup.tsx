@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../Firebase'; // Firestore initialized
+import { auth } from '../Firebase'; 
 import { doc, setDoc } from 'firebase/firestore';
 import '../app/globals.css';
+import { method } from 'lodash';
 
 
 const Signup = () => {
@@ -39,9 +40,16 @@ const Signup = () => {
   
         if (role === 'admin') {
           try {
-            await setDoc(doc(db, 'admin', user.uid), {
-              email,
-              role,
+            await fetch ('/api/admin', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                email,
+                role,
+                userId: user.uid,
+              }),
             });
   
             setSuccess('Successfully signed up!');

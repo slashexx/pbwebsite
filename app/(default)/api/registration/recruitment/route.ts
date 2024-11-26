@@ -45,7 +45,6 @@ export async function POST(request: Request) {
     getDocs(collegeIdQuery),
   ]);
 
-  console.log(!emailSnapshot.empty);
 
   if (!emailSnapshot.empty) {
     return NextResponse.json(
@@ -116,7 +115,6 @@ export async function POST(request: Request) {
   );
 
   const recaptchaResult = await recaptchaResponse.json();
-  console.log(recaptchaResult.riskAnalysis.score);
   if (recaptchaResult.riskAnalysis.score < 0.7) {
     return NextResponse.json({
       message: "reCAPTCHA validation failed",
@@ -138,7 +136,6 @@ export async function POST(request: Request) {
 
   try {
     const docRef = await addDoc(collection(db, "recruitment2024"), data);
-    console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

@@ -1,21 +1,9 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  getDocs,
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 import { auth } from "@/Firebase";
-import { db } from "@/Firebase";
-import { ClipLoader } from "react-spinners"; // If you're using react-spinners
 
 interface Lead {
   id: string;
@@ -38,20 +26,10 @@ const Leads: React.FC = () => {
   // Fetch leads from Firestore
   const fetchLeads = async () => {
     try {
-      const leadsRef = collection(db, "leads");
-      const querySnapshot = await getDocs(leadsRef);
-      const currentLeads: Lead[] = [];
-      const alumniLeads: Lead[] = [];
-
-      querySnapshot.forEach((doc) => {
-        const leadData = doc.data() as Lead;
-        if (leadData.position === "Current") {
-          currentLeads.push({ ...leadData, id: doc.id });
-        } else {
-          alumniLeads.push({ ...leadData, id: doc.id });
-        }
-      });
-
+      const resp = await fetch("/api/leads");
+      const data = await resp.json();
+      const currentLeads = data.currentLeads
+      const alumniLeads = data.alumniLeads
       setCurrentLeads(currentLeads);
       setAlumniLeads(alumniLeads);
       setLoading(false);
@@ -60,34 +38,25 @@ const Leads: React.FC = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
-    const checkAdmin = async (uid: string) => {
-      try {
-        const docRef = doc(db, "admin", uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setIsAdminLoggedIn(true);
-        } else {
-          setIsAdminLoggedIn(false);
-        }
-      } catch (error) {
-        console.error("Error checking admin status:", error);
-        setIsAdminLoggedIn(false);
-      }
-    };
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        checkAdmin(user.uid);
-      } else {
-        setIsAdminLoggedIn(false);
+        const uid = user.uid;
+        try {
+          const resp = await fetch(`/api/admin?uid=${uid}`);
+          const data = await resp.json();
+          if (data.isAdmin) {
+            setIsAdminLoggedIn(true);
+          }
+        } catch (error) {
+          console.log("Error getting document:", error);
+        }
       }
     });
+  });
 
-    fetchLeads(); // Call fetchLeads when component mounts
-
-    return () => unsubscribe();
+  useEffect(() => {
+    fetchLeads();
   }, []);
 
   const handleAddOrEditLead = async (selectedLead:Lead) => {
@@ -100,8 +69,6 @@ const Leads: React.FC = () => {
     }
 
     try {
-      console.log("Preparing lead data for submission:", selectedLead);
-
       const leadData = { ...selectedLead };
       const storage = getStorage();
 
@@ -123,27 +90,39 @@ const Leads: React.FC = () => {
 
       if (selectedLead.id) {
         // Update lead in Firestore
-        console.log("Updating existing lead with ID:", selectedLead.id);
-        await updateDoc(doc(db, "leads", selectedLead.id), {
-          ...leadData,
-          imageUrl: imageUrl, // Use the imageUrl from Firebase Storage
-        });
-        console.log("Lead updated successfully in Firestore:", selectedLead.id);
+        try {
+          await fetch(`/api/leads/?id=${selectedLead.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(leadData),
+          });
+        }
+        catch (error) {
+          console.error("Error updating lead:", error);
+          alert("An error occurred while updating the lead. Check the console for details.");
+        }
         alert("Lead updated successfully");
       } else {
         // Add new lead to Firestore
-        console.log("Adding new lead to Firestore...");
-        await addDoc(collection(db, "leads"), {
-          ...leadData,
-          imageUrl: imageUrl, // Use the imageUrl from Firebase Storage
+        try { await fetch("/api/leads", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(leadData),
         });
-        console.log("New lead added successfully.");
         alert("Lead added successfully");
+      }catch (error) {
+        console.error("Error adding lead:", error);
+        alert("An error occurred while adding the lead. Check the console for details.");
+      }
       }
 
       setShowForm(false);
       setSelectedLead(null);
-      await fetchLeads(); // Refresh leads after adding/editing
+      await fetchLeads(); 
     } catch (error) {
       console.error("Error in handleAddOrEditLead:", error);
       alert(
@@ -159,7 +138,9 @@ const Leads: React.FC = () => {
 
   const handleDeleteLead = async (id: string) => {
     try {
-      await deleteDoc(doc(db, "leads", id));
+      await fetch(`/api/leads/?id=${id}`, {
+        method: "DELETE",
+      });
       alert("Lead deleted successfully");
       await fetchLeads(); // Refresh leads after deleting
     } catch (error) {
@@ -362,12 +343,10 @@ const LeadForm: React.FC<LeadFormProps> = ({
     >
   ) => {
     const { name, value } = e.target;
-    console.log(`Updating field ${name} with value ${value}`); // Add logging here to verify form updates
     setLead((prevLead) => ({
       ...prevLead,
       [name]: value, // Dynamically update the field based on input 'name'
     }));
-    // console.log("Hi"+selectedLead.organization)
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
