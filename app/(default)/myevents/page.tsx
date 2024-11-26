@@ -158,12 +158,11 @@ const EventsPage = () => {
 
       {/* Displaying the Events */}
       <div className="mt-2">
-        {/* Present Events */}
         
 
-        {/* Future Events */}
+        {/* Present Events */}
         {/* <h2 className="text-2xl font-bold mb-4 mt-8">CurreEvents</h2> */}
-        {futureEvents.length > 0 ? (
+        {futureEvents.length > 0 && (
           <div className="flex justify-around">
             {futureEvents.map((event) => (
               <EventCard
@@ -175,8 +174,6 @@ const EventsPage = () => {
               />
             ))}
           </div>
-        ) : (
-          <p>No presents events available.</p>
         )}
       </div>
 
