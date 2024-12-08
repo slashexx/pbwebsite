@@ -7,12 +7,6 @@ import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
 import toast from "react-hot-toast";
 
-// NOTE TO ANYONE WHO IS WANDERING HERE IN HOPES OF PBCTF 4.0
-// THIS FORM DIRECTLY CALLS THE DB FROM THE CLIENT SIDE
-// THIS IS NOT A GOOD PRACTICE
-// PLEASE DO NOT USE THIS AS A REFERENCE
-// KINDLY CONTACT SKY SINGH TO FIX THIS
-// WHENVEVER THE NEXT CTF IS
 // PARAGATI RAJ ARE YOU READING THIS
 // I MISS YOU
 
