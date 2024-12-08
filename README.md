@@ -1,16 +1,42 @@
-#### Link to previous PB Website : [Github](https://github.com/pbdsce/landing-page) [Landing Page](https://www.pointblank.club/)
+# **Point Blank - Official Website**
 
-#### List of Issues to get started on : [Issues](https://github.com/pbdsce/pbwebsite/issues)
+Welcome to the **Point Blank** official website repository! This project serves as the landing page for Point Blank, showcasing our achievements, initiatives, and much more.
 
-## Getting Started
+---
 
-1. Install all dependencies
+## **Quick Links**  
+- **Previous Website**: [GitHub](https://github.com/pbdsce/landing-page) | [Live Landing Page](https://www.pointblank.club/)  
+- **Issues to Get Started**: [GitHub Issues](https://github.com/pbdsce/pbwebsite/issues)
+
+---
+
+## **Getting Started**  
+
+Follow the steps below to set up the project locally:  
+
+### **1. Clone the Repository**  
+```bash
+git clone https://github.com/pbdsce/pbwebsite.git
+cd pbwebsite
+```
+
+### **2. Install Dependencies**  
+Install all required dependencies using your preferred package manager:  
 ```bash
 npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
 ```
 
-2. Create a `.env.local` file in the root directory and add in the firebase config data to connect to firebase : 
-```
+### **3. Set Up Firebase Configuration**  
+To connect the project to Firebase, you need a `.env.local` file in the root directory.  
+
+#### Create the `.env.local` file:
+```plaintext
 REACT_APP_FIREBASE_API_KEY=xxx
 REACT_APP_FIREBASE_AUTH_DOMAIN=xxx
 REACT_APP_FIREBASE_PROJECT_ID=xxx
@@ -19,10 +45,11 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=xxx
 REACT_APP_FIREBASE_APP_ID=xxx
 ```
 
-Contact any of the maintainers for the contents of the `.env.local` file
+**Note**: Replace the `xxx` values with the Firebase configuration keys.  
+Contact one of the maintainers to obtain the Firebase config details.  
 
-Then, run the development server:
-
+### **4. Run the Development Server**  
+Start the development server with one of the following commands:  
 ```bash
 npm run dev
 # or
@@ -33,23 +60,33 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be accessible at [http://localhost:3000](http://localhost:3000).  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## **Contributing**  
 
-## Learn More
+1. Fork this repository.  
+2. Create a new branch for your feature or bug fix:  
+   ```bash
+   git checkout -b feature/<feature-name>
+   ```  
+3. Make your changes and commit them:  
+   ```bash
+   git commit -m "Add feature: <feature-description>"
+   ```  
+4. Push your branch and submit a Pull Request to the main repository:  
+   ```bash
+   git push origin feature/<feature-name>
+   ```  
 
-To learn more about Next.js, take a look at the following resources:
+Check the [Issues](https://github.com/pbdsce/pbwebsite/issues) page for tasks you can pick up!  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## **Contact**  
+If you have any questions or need assistance, feel free to reach out to the maintainers.  
 
-## Deploy on Vercel
+Let’s build something amazing! 🚀  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---  
