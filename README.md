@@ -1,4 +1,4 @@
-# **Point Blank - Official Website**
+# **Point Blank - Official Website** [![Netlify Status](https://api.netlify.com/api/v1/badges/78bf83ca-927b-470d-a103-b7a66a680ce9/deploy-status)](https://app.netlify.com/sites/pbpage/deploys) 
 
 Welcome to the **Point Blank** official website repository! This project serves as the landing page for Point Blank, showcasing our achievements, initiatives, and much more.
 
