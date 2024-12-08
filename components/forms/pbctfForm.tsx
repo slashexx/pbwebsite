@@ -3,14 +3,12 @@ import "../../app/css/additional-styles/utility-patterns.css";
 import "../../app/css/additional-styles/theme.css";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/Firebase";
 import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
 import toast from "react-hot-toast";
 
 
-//  NOTE TO ANYONE WHO IS WANDERING HERE IN HOPES OF PBCTF 4.0
+// NOTE TO ANYONE WHO IS WANDERING HERE IN HOPES OF PBCTF 4.0
 // THIS FORM DIRECTLY CALLS THE DB FROM THE CLIENT SIDE
 // THIS IS NOT A GOOD PRACTICE
 // PLEASE DO NOT USE THIS AS A REFERENCE
@@ -110,23 +108,19 @@ const PBCTFForm: React.FC = () => {
 
 
   const checkUsnUniqueness = async (usn: string): Promise<boolean> => {
-    const q = query(
-      collection(db, "pbctf_registrations"),
-      where("participant1.usn", "==", usn)
-    );
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
+  if(!usn){
+    console.log("USN is required");
+    return false;
+  }
+    try{
+      const resp = await fetch(`/api/registration/pbctf?usn=${usn}`)
+      const data = await resp.json();
+      return Boolean(data.isUnique);
+    }catch(error){
+      console.log("Error getting document:", error)
       return false;
     }
-
-    const q2 = query(
-      collection(db, "pbctf_registrations"),
-      where("participant2.usn", "==", usn)
-    );
-    const querySnapshot2 = await getDocs(q2);
-
-    return querySnapshot2.empty;
+  
   };
 
   
@@ -139,19 +133,19 @@ const PBCTFForm: React.FC = () => {
     try {
       const recaptcha_token = token;
       if (recaptcha_token) {
-        const response = await fetch("/api/registration/pbctf", {
+        const response1 = await fetch("/api/registration/pbctf?action=validateRecaptcha", {
           method: "POST",
           body: JSON.stringify({ recaptcha_token }),
         });
 
-        const res = await response.json();
+        const res = await response1.json();
 
-        if (!response.ok || res.error) {
+        if (!response1.ok || res.error) {
           toast.error(res.message);
           return;
         }
 
-
+        console.log(data)
         // Check if USNs are the same for duo participation
         if (
           data.participationType === "duo" &&
@@ -182,9 +176,17 @@ const PBCTFForm: React.FC = () => {
             return;
           }
         }
-
         // If all checks pass, submit the form
-        await addDoc(collection(db, "pbctf_registrations"), data);
+          const response2 = await fetch("/api/registration/pbctf?action=addRegistration", {
+            method: "POST",
+            body: JSON.stringify(data),
+          });
+
+          const result = await response2.json();
+          if (!response2.ok) {
+            toast.error(result.error || "Failed to submit registration.");
+            return;
+          }
         setSuccess(true);
       }
     } catch (error) {
