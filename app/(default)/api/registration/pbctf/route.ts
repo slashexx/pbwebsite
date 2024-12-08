@@ -138,24 +138,25 @@ async function validateRecaptcha(request: Request) {
 }
 
 async function addRegistration(request: Request) {
-
-  try{
+  try {
     const data = await request.json();
     if (!data || !data.participant1 || !data.participationType) {
       return NextResponse.json(
-        { error: "Invalid data. Participant1 and participationType are required." },
+        {
+          error:
+            "Invalid data. Participant1 and participationType are required.",
+        },
         { status: 400 }
       );
     }
     await addDoc(collection(db, "pbctf_registrations"), data);
 
     return NextResponse.json({ message: "Registration successful!" });
-  }catch(error){
+  } catch (error) {
     console.error("Error adding registration:", error);
     return NextResponse.json(
-      { error: "Failed to add registration.", details: error},
+      { error: "Failed to add registration.", details: error },
       { status: 500 }
     );
   }
-
 }

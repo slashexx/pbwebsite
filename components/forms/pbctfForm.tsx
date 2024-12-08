@@ -7,7 +7,6 @@ import { branches } from "@/lib/constants/dropdownOptions";
 import { Press_Start_2P } from "next/font/google";
 import toast from "react-hot-toast";
 
-
 // NOTE TO ANYONE WHO IS WANDERING HERE IN HOPES OF PBCTF 4.0
 // THIS FORM DIRECTLY CALLS THE DB FROM THE CLIENT SIDE
 // THIS IS NOT A GOOD PRACTICE
@@ -16,7 +15,6 @@ import toast from "react-hot-toast";
 // WHENVEVER THE NEXT CTF IS
 // PARAGATI RAJ ARE YOU READING THIS
 // I MISS YOU
-
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -37,7 +35,6 @@ type FormData = {
   participant1: ParticipantData;
   participant2?: ParticipantData;
 };
-
 
 const PBCTFForm: React.FC = () => {
   const [isSuccess, setSuccess] = useState<boolean>(false);
@@ -80,9 +77,8 @@ const PBCTFForm: React.FC = () => {
       const Rtoken = await grecaptcha.enterprise.execute(
         process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
       );
-        setToken(Rtoken);
+      setToken(Rtoken);
     });
-    
   };
 
   useEffect(() => {
@@ -105,25 +101,20 @@ const PBCTFForm: React.FC = () => {
   const watchUsn1 = watch("participant1.usn");
   const watchUsn2 = watch("participant2.usn");
 
-
-
   const checkUsnUniqueness = async (usn: string): Promise<boolean> => {
-  if(!usn){
-    console.log("USN is required");
-    return false;
-  }
-    try{
-      const resp = await fetch(`/api/registration/pbctf?usn=${usn}`)
-      const data = await resp.json();
-      return Boolean(data.isUnique);
-    }catch(error){
-      console.log("Error getting document:", error)
+    if (!usn) {
+      console.log("USN is required");
       return false;
     }
-  
+    try {
+      const resp = await fetch(`/api/registration/pbctf?usn=${usn}`);
+      const data = await resp.json();
+      return Boolean(data.isUnique);
+    } catch (error) {
+      console.log("Error getting document:", error);
+      return false;
+    }
   };
-
-  
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (isSubmitting) return;
@@ -133,10 +124,13 @@ const PBCTFForm: React.FC = () => {
     try {
       const recaptcha_token = token;
       if (recaptcha_token) {
-        const response1 = await fetch("/api/registration/pbctf?action=validateRecaptcha", {
-          method: "POST",
-          body: JSON.stringify({ recaptcha_token }),
-        });
+        const response1 = await fetch(
+          "/api/registration/pbctf?action=validateRecaptcha",
+          {
+            method: "POST",
+            body: JSON.stringify({ recaptcha_token }),
+          }
+        );
 
         const res = await response1.json();
 
@@ -145,7 +139,7 @@ const PBCTFForm: React.FC = () => {
           return;
         }
 
-        console.log(data)
+        console.log(data);
         // Check if USNs are the same for duo participation
         if (
           data.participationType === "duo" &&
@@ -177,16 +171,19 @@ const PBCTFForm: React.FC = () => {
           }
         }
         // If all checks pass, submit the form
-          const response2 = await fetch("/api/registration/pbctf?action=addRegistration", {
+        const response2 = await fetch(
+          "/api/registration/pbctf?action=addRegistration",
+          {
             method: "POST",
             body: JSON.stringify(data),
-          });
-
-          const result = await response2.json();
-          if (!response2.ok) {
-            toast.error(result.error || "Failed to submit registration.");
-            return;
           }
+        );
+
+        const result = await response2.json();
+        if (!response2.ok) {
+          toast.error(result.error || "Failed to submit registration.");
+          return;
+        }
         setSuccess(true);
       }
     } catch (error) {
@@ -243,8 +240,6 @@ const PBCTFForm: React.FC = () => {
   }
 
   const renderParticipantFields = (participantNumber: 1 | 2) => (
-    
-
     <div className="mb-4">
       <h3 className="h3 mb-2">Participant {participantNumber}</h3>
       <div className="space-y-3">
@@ -318,27 +313,29 @@ const PBCTFForm: React.FC = () => {
         <div>
           <input
             {...register(`participant${participantNumber}.usn` as const, {
-              required: participantNumber === 1 && watchYear1 === "1" 
-              || participantNumber === 2 && watchYear2 === "1" 
-              ? "Admission Number required" 
-              : "USN required",
+              required:
+                (participantNumber === 1 && watchYear1 === "1") ||
+                (participantNumber === 2 && watchYear2 === "1")
+                  ? "Admission Number required"
+                  : "USN required",
               pattern: {
                 value:
                   (participantNumber === 1 && watchYear1 === "1") ||
                   (participantNumber === 2 && watchYear2 === "1")
                     ? /^[1-9][0-9][A-Z]{4}[0-9]{4}$/
                     : /^1DS[1-3][0-9][A-Z]{2}[0-9]{3}$/,
-                    message: participantNumber === 1 && watchYear1 === "1" 
-                    || participantNumber === 2 && watchYear2 === "1" 
-                    ? "Invalid Admission Number" 
+                message:
+                  (participantNumber === 1 && watchYear1 === "1") ||
+                  (participantNumber === 2 && watchYear2 === "1")
+                    ? "Invalid Admission Number"
                     : "Invalid USN",
               },
             })}
             placeholder={
-              (participantNumber === 1 && watchYear1 === "1") || 
-              (participantNumber === 2 && watchYear2 === "1") 
-              ? "Admission Number" 
-              : "USN"
+              (participantNumber === 1 && watchYear1 === "1") ||
+              (participantNumber === 2 && watchYear2 === "1")
+                ? "Admission Number"
+                : "USN"
             }
             className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
           />
@@ -392,60 +389,59 @@ const PBCTFForm: React.FC = () => {
 
   return (
     <>
-    
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 rounded-lg mt-10">
-      <h1
-        className={`${pressStart2P.className} md:text-2xl sm:text-sm font-bold mb-6 text-center text-green-500`}
-        style={{
-          textShadow: "2px 2px 0px #000",
-          letterSpacing: "2px",
-          minHeight: "3rem",
-        }}
-      >
-        {headingText}
-      </h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 sm:mx-auto md:mx-20"
-      >
-        <div>
-          <label className="block mb-2">
-            Participation Type<span className="text-red-600"> * </span>
-          </label>
-          <select
-            {...register("participationType", { required: true })}
-            onChange={(e) =>
-              setParticipationType(e.target.value as "solo" | "duo")
-            }
-            className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
-          >
-            <option value="solo" className="bg-black">
-              Solo
-            </option>
-            <option value="duo" className="bg-black">
-              Duo
-            </option>
-          </select>
-        </div>
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 rounded-lg mt-10">
+        <h1
+          className={`${pressStart2P.className} md:text-2xl sm:text-sm font-bold mb-6 text-center text-green-500`}
+          style={{
+            textShadow: "2px 2px 0px #000",
+            letterSpacing: "2px",
+            minHeight: "3rem",
+          }}
+        >
+          {headingText}
+        </h1>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6 sm:mx-auto md:mx-20"
+        >
+          <div>
+            <label className="block mb-2">
+              Participation Type<span className="text-red-600"> * </span>
+            </label>
+            <select
+              {...register("participationType", { required: true })}
+              onChange={(e) =>
+                setParticipationType(e.target.value as "solo" | "duo")
+              }
+              className="w-full px-4 py-2 border rounded-md bg-transparent form-input focus:border-0 focus:outline-offset-0 focus:outline-green-500"
+            >
+              <option value="solo" className="bg-black">
+                Solo
+              </option>
+              <option value="duo" className="bg-black">
+                Duo
+              </option>
+            </select>
+          </div>
 
-        {renderParticipantFields(1)}
-        {participationType === "duo" && renderParticipantFields(2)}
+          {renderParticipantFields(1)}
+          {participationType === "duo" && renderParticipantFields(2)}
 
-        {usnError && (
-          <p className="text-red-500 text-center font-bold">{usnError}</p>
-        )}
+          {usnError && (
+            <p className="text-red-500 text-center font-bold">{usnError}</p>
+          )}
 
-        <div className="flex justify-center w-full">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-1/2 bg-green-500 text-white rounded-full py-2 px-4 text-base font-semibold hover:bg-green-600 transition duration-300 transform hover:scale-105 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 mx-auto"
-          >
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="flex justify-center w-full">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-1/2 bg-green-500 text-white rounded-full py-2 px-4 text-base font-semibold hover:bg-green-600 transition duration-300 transform hover:scale-105 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 mx-auto"
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };
