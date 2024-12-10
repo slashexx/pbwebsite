@@ -6,7 +6,7 @@ import Marquee from "@/components/magicui/marquee";
 import { achievementJson } from "./achievementList";
 import Image from 'next/image'
 
-const ReviewCard = ({
+const Tile = ({
   img,
   name,
   username,
@@ -50,13 +50,13 @@ function Achievements() {
         </h2>
       </div>
       <Marquee pauseOnHover className="[--duration:60s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.id} {...review} />
+        {firstRow.map((section) => (
+          <Tile key={section.id} {...section} />
         ))}
       </Marquee>
       <Marquee reverse pauseOnHover className="[--duration:60s]">
-        {secondRow.map((review) => (
-          <ReviewCard key={review.id} {...review} />
+        {secondRow.map((section) => (
+          <Tile key={section.id} {...section} />
         ))}
       </Marquee>
     </>
