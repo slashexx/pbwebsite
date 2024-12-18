@@ -13,7 +13,7 @@ import {
   QueryDocumentSnapshot,
   getDocs,
 } from "firebase/firestore";
-import { app } from "@/Firebase";
+// import { app } from "@/Firebase";
 
 interface ContestRanking {
   rank: number;
@@ -31,6 +31,7 @@ interface LeaderboardUser {
 interface LeaderboardData {
   rankings?: LeaderboardUser[];
   updatedAt?: Date;
+  lastContestCode?: string;
 }
 
 const API_URL =
@@ -39,7 +40,7 @@ const API_URL =
 
 export async function POST() {
   try {
-    const db = getFirestore(app);
+    const db = getFirestore();
 
     const API_URL =
       process.env.VJUDGE_CONTEST_API ||
@@ -132,7 +133,7 @@ export async function POST() {
 
 export async function GET() {
   try {
-    const db = getFirestore(app);
+    const db = getFirestore();
 
     const hustleCollection = collection(db, "hustle");
 
