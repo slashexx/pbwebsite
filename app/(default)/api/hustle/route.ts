@@ -44,7 +44,7 @@ export async function POST() {
 
     const API_URL =
       process.env.VJUDGE_CONTEST_API ||
-      "https://vjudge.net/contest/data?draw=2&start=0&length=20&sortDir=desc&sortCol=0&category=mine&running=3&title=&owner=yuvraj_coder1&_=1733642420751";
+      "https://vjudge.net/contest/data?draw=2&start=0&length=20&sortDir=desc&sortCol=0&category=mine&running=3&title=&owner=pbHustle241&_=1733642420751";
 
     const { data } = await axios.get(API_URL);
     const ccode = data.data[0][0];
