@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Trigger API to Update Leaderboard
         run: |
-          curl -X POST "https://pointblank.club/api/hustle" || echo "API call failed"
+          response=$(curl -X POST -s -w "%{http_code}" "https://pointblank.club/api/hustle")
+          if [ "${response: -3}" != "200" ]; then
+            echo "API call failed with status: ${response: -3}"
+            exit 1
+          fi
