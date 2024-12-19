@@ -74,7 +74,7 @@ export default function Members() {
             }
           }
         });
-      });
+      },[isAdmin]);
 
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
