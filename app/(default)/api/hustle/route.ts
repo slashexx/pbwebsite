@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { JSDOM } from "jsdom";
+// import { JSDOM } from "jsdom";
 import puppeteer from "puppeteer";
 
 import {
   getFirestore,
-  collection,
   doc,
   setDoc,
   getDoc,
-  DocumentData,
-  QueryDocumentSnapshot,
-  getDocs,
 } from "firebase/firestore";
 import { app } from "@/Firebase";
 
