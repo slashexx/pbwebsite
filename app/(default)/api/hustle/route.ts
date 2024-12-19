@@ -13,7 +13,7 @@ import {
   QueryDocumentSnapshot,
   getDocs,
 } from "firebase/firestore";
-// import { app } from "@/Firebase";
+import { app } from "@/Firebase";
 
 interface ContestRanking {
   rank: number;
@@ -34,17 +34,13 @@ interface LeaderboardData {
   lastContestCode?: string;
 }
 
-const API_URL =
-  process.env.VJUDGE_CONTEST_API ||
-  "https://vjudge.net/contest/data?draw=2&start=0&length=20&sortDir=desc&sortCol=0&category=mine&running=3&title=&owner=yuvraj_coder1&_=1733642420751";
-
 export async function POST() {
   try {
-    const db = getFirestore();
+    const db = getFirestore(app);
 
     const API_URL =
       process.env.VJUDGE_CONTEST_API ||
-      "https://vjudge.net/contest/data?draw=2&start=0&length=20&sortDir=desc&sortCol=0&category=mine&running=3&title=&owner=pbHustle241&_=1733642420751";
+      "https://vjudge.net/contest/data?draw=2&start=0&length=20&sortDir=desc&sortCol=0&category=mine&running=3&title=&owner=Pbhustle&_=1733642420751";
 
     const { data } = await axios.get(API_URL);
     const ccode = data.data[0][0];
@@ -135,18 +131,15 @@ export async function GET() {
   try {
     const db = getFirestore();
 
-    const hustleCollection = collection(db, "hustle");
-
-    const querySnapshot = await getDocs(hustleCollection);
-
-    const allDocs: Record<string, DocumentData> = {};
-    querySnapshot.forEach((docSnap: QueryDocumentSnapshot<DocumentData>) => {
-      allDocs[docSnap.id] = docSnap.data();
-    });
+    const latestDoc = await getDoc(doc(db, "hustle", "latest"));
+    const leaderboardDoc = await getDoc(doc(db, "hustle", "leaderboard"));
 
     return NextResponse.json({
-      message: "Fetched all hustle data successfully",
-      data: allDocs,
+      message: "Fetched hustle data successfully",
+      data: {
+        latest: latestDoc.data(),
+        leaderboard: leaderboardDoc.data(),
+      },
     });
   } catch (error) {
     console.error("Error fetching hustle data:", error);
