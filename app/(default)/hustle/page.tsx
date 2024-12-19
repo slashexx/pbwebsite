@@ -24,14 +24,11 @@ export default function ResultsTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch the hustle data using the GET API endpoint
         const response = await fetch("/api/hustle");
         const data = await response.json();
 
         if (response.ok && data?.data) {
           const allDocs = data.data;
-
-          // Map the data to the required structure
           const latestData: Result[] = allDocs.latest.results || [];
           const rankingsData: Result[] = allDocs.leaderboard.rankings || [];
 
@@ -78,10 +75,17 @@ export default function ResultsTable() {
   const handleGetResults = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/scraper/route");
+
+      const res = await fetch("/api/hustle", {
+        method: "POST", // Specify the request method
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ key: "value" }),
+      });
+
       if (res.ok) {
         alert("Scraper executed successfully!");
-        // Optionally, refresh the data here
       } else {
         alert("Failed to update results.");
       }
@@ -92,48 +96,41 @@ export default function ResultsTable() {
     }
   };
 
-  // Render consistency with ticks and crosses
-  const renderConsistency = (consistency?: number[]) => {
-    if (!consistency) return "N/A";
+  // const renderConsistency = (consistency?: number[]) => {
+  //   if (!consistency) return "N/A";
 
-    return consistency.map((value, index) => (
-      <span
-        key={index}
-        className="mx-1"
-        style={{ color: value === 1 ? "#00C853" : "red" }}
-      >
-        {value === 1 ? "✓" : "✗"}
-      </span>
-    ));
-  };
+  //   return consistency.map((value, index) => (
+  //     <span
+  //       key={index}
+  //       className="mx-1"
+  //       style={{ color: value === 1 ? "#00C853" : "red" }}
+  //     >
+  //       {value === 1 ? "✓" : "✗"}
+  //     </span>
+  //   ));
+  // };
 
   const renderTable = (data: Result[], showConsistency: boolean) => (
-    <div className="overflow-x-auto shadow-lg rounded-lg">
-      <table className="w-full text-sm text-left text-gray-400">
-        <thead className="text-xs uppercase bg-gray-700 text-gray-400">
+    <div className="overflow-x-auto shadow-xl rounded-xl border border-gray-700">
+      <table className="w-full text-sm text-left text-gray-300">
+        <thead className="text-xs uppercase bg-gray-800 text-[#00FF66]">
           <tr>
-            <th className="px-4 py-3">Rank</th>
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Score</th>
-            {showConsistency && <th className="px-4 py-3">Consistency</th>}
+            <th className="px-6 py-4">Rank</th>
+            <th className="px-6 py-4">Name</th>
+            <th className="px-6 py-4">Score</th>
           </tr>
         </thead>
         <tbody>
           {data.map((result, index) => (
             <tr
               key={index}
-              className="border-b bg-gray-800 border-gray-700 hover:bg-gray-600 transition-colors"
+              className="border-b bg-gray-900 border-gray-700 hover:bg-gray-800 transition-colors"
             >
-              <td className="px-4 py-3 font-medium whitespace-nowrap text-white">
+              <td className="px-6 py-4 font-medium whitespace-nowrap text-[#00FF66]">
                 {result.rank}
               </td>
-              <td className="px-4 py-3">{result.name}</td>
-              <td className="px-4 py-3 font-semibold">{result.score}</td>
-              {showConsistency && (
-                <td className="px-4 py-3 flex items-center">
-                  {renderConsistency(result.consistency)}
-                </td>
-              )}
+              <td className="px-6 py-4">{result.name}</td>
+              <td className="px-6 py-4 font-semibold">{result.score}</td>
             </tr>
           ))}
         </tbody>
@@ -147,38 +144,36 @@ export default function ResultsTable() {
         <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold mb-4 text-[#00C853] flex items-center justify-center gap-3">
-            <Trophy className="w-10 h-10" /> PB HUSTLE
+          <h1 className="text-5xl font-bold mb-6 text-[#00FF66] flex items-center justify-center gap-4">
+            <Trophy className="w-12 h-12" /> PB HUSTLE
           </h1>
-          <p className="text-gray-300 max-w-xl mx-auto">
-            Track latest results and overall rankings
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
+            Track latest results and overall rankings in real-time
           </p>
         </motion.header>
 
-        {/* Tab Switcher */}
-        <div className="flex justify-center space-x-4 mb-6">
+        
+        <div className="flex justify-center space-x-6 mb-8">
           {(["latest", "rankings"] as const).map((tabName) => (
             <button
               key={tabName}
               onClick={() => setTab(tabName)}
               className={`
-                px-4 py-2 rounded-full flex items-center gap-2 transition-all
+                px-6 py-3 rounded-full flex items-center gap-3 transition-all text-lg font-semibold
                 ${
                   tab === tabName
-                    ? "bg-[#00C853] text-black"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    ? "bg-[#00FF66] text-gray-900 shadow-lg"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }
               `}
             >
-              <TableProperties className="w-5 h-5" />
+              <TableProperties className="w-6 h-6" />
               {tabName === "latest" ? "Latest Results" : "Rankings"}
             </button>
           ))}
         </div>
-
-        {/* Admin Refresh Button */}
         {isAdmin && isAdminLoggedIn && tab === "latest" && (
           <div className="flex justify-center mb-4">
             <motion.button
@@ -187,21 +182,20 @@ export default function ResultsTable() {
               onClick={handleGetResults}
               disabled={loading}
               className="
-                bg-[#00C853] text-black px-6 py-2 rounded-full 
-                flex items-center gap-2 shadow-lg hover:bg-opacity-90
+                bg-[#00FF66] text-gray-900 px-8 py-3 rounded-full 
+                flex items-center gap-3 shadow-lg hover:bg-opacity-90 text-lg font-semibold
                 disabled:opacity-50 disabled:cursor-not-allowed
               "
             >
-              <RefreshCw className="w-5 h-5" />
+              <RefreshCw className="w-6 h-6" />
               {loading ? "Updating..." : "GET LATEST RESULTS"}
             </motion.button>
           </div>
         )}
 
-        {/* Loading State */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-[#00C853]"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#00FF66]"></div>
           </div>
         ) : (
           renderTable(
