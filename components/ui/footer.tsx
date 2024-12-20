@@ -15,6 +15,7 @@ export default function Footer() {
           <li><Link href="/leads" className="mr-4 hover:underline md:mr-6">Leads</Link></li>
           <li><Link href="/members" className="mr-4 hover:underline md:mr-6">Members</Link></li>
           <li><Link href="/achievements" className="mr-4 hover:underline md:mr-6">Achievements</Link></li>
+          <li><Link href="/hustle" className="mr-4 hover:underline md:mr-6">Hustle Results</Link></li>
         </ul>
         <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">Made with ❤️ by <Link href="/" className="hover:underline">Point Blank</Link>. All Rights Reserved.</span>
       </div>
