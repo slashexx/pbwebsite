@@ -95,6 +95,9 @@ export default function MobileMenu() {
             <li>
               <Link href="/achievements" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Achievements</Link>
             </li>
+            <li>
+              <Link href="/hustle" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Hustle Results</Link>
+            </li>
             {/* <li>
               <Link href="mailto:admin@pointblank.club" className="flex font-medium w-full text-gray-300 hover:text-white py-2 justify-center" onClick={() => setMobileNavOpen(false)}>
                 Contact Us

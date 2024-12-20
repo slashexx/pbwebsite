@@ -10,6 +10,7 @@ import Card from "./ui/Card";
 import CollapsibleSection from "./ui/CollapsibleSection";
 import { useStoreMember } from "@/lib/zustand/store";
 
+
 interface Member {
   id?: string;
   name: string;
@@ -44,8 +45,10 @@ export default function Members() {
     year: "",
     linkedInUrl: "",
     imageUrl: "",
-  });
+  })
+  
   const { image, setImage } = useStoreMember();
+
   const [menuVisible, setMenuVisible] = useState<{ [key: string]: boolean }>(
     {}
   );
@@ -72,7 +75,7 @@ export default function Members() {
         }
       }
     });
-  });
+  }),[isAdmin];
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -272,6 +275,7 @@ export default function Members() {
         }
       });
 
+
       const uniqueMembers = Array.from(uniqueMembersMap.values()).sort((a, b) =>
         a.name.localeCompare(b.name)
       );
@@ -309,7 +313,8 @@ export default function Members() {
                 heading={heading}
                 content={
                   <div className="flex justify-center">
-                    {heading === "First Year" && (
+
+                    {/* {heading === "First Year" && (
                       <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg flex items-center space-x-9 lg:w-7/12 justify-center">
                         <p className="text-xl font-bold lg:text-2xl text-center">
                           Recruitment Incoming Soon!
@@ -341,7 +346,7 @@ export default function Members() {
                           }
                         `}</style>
                       </div>
-                    )}
+                    )} */}
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                       {data[heading]?.map((profile, cardIndex) => (
                         <div key={cardIndex} className="relative">
