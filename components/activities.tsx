@@ -1,13 +1,21 @@
-import React from "react";
+import { ReactNode } from "react";
 import Image from "next/image";
 import HyperText from "@/components/magicui/hyper-text";
 import ActivityCard from "./ActivityCard";
 
+interface ActivityCardProps {
+  Title: string;
+  Subtitle: string | ReactNode;
+  Description: string;
+  ImageSrc: string;
+  LeftAligned: boolean;
+}
+
 interface ActivityData {
   Title: string;
-  Subtitle: string | JSX.Element;
+  Subtitle: string | ReactNode;
+  Image: string;  // Note this is Image, not ImageSrc
   Description: string;
-  Image: string;
 }
 
 const activityData: ActivityData[] = [
@@ -17,7 +25,7 @@ const activityData: ActivityData[] = [
       <>
         <a
           href="/hustle"
-          className="text-blue-500 underline hover:text-blue-700"
+          className=" hover:underline"
         >
           PB Hustle
         </a>
@@ -65,7 +73,7 @@ export default function Activities() {
             Title={value.Title}
             Subtitle={value.Subtitle}
             Description={value.Description}
-            ImageSrc={value.Image}
+            ImageSrc={value.Image}  // Map Image to ImageSrc prop
             LeftAligned={index % 2 === 0}
           />
         ))}
