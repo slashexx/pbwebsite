@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { db, storage } from '@/Firebase';
+import { NextResponse } from "next/server";
+import { db, storage } from "@/Firebase";
 import {
     collection, addDoc, getDocs, DocumentData,
     DocumentSnapshot,
@@ -39,8 +39,10 @@ export async function GET() {
             { status: 500 }
         );
     }
+  }
 }
 
+// POST handler to add a new member
 export async function POST(request: Request) {
     try {
         const data = await request.json();
@@ -90,9 +92,8 @@ export async function POST(request: Request) {
         console.error('Error adding member:', error);
         return NextResponse.json({ message: `Failed to add member: ${error.message}`, error: true }, { status: 500 });
     }
-}
 
-export async function PUT(request: Request) {
+  export async function PUT(request: Request) {
     try {
         const data = await request.json();
         const { id, name, year, role, company, imageUrl, linkedInUrl } = data;
@@ -162,9 +163,8 @@ export async function PUT(request: Request) {
         console.error('Error updating member:', error);
         return NextResponse.json({ message: `Failed to update member: ${error.message}`, error: true }, { status: 500 });
     }
-}
 
-export async function DELETE(request: Request) {
+    export async function DELETE(request: Request) {
     try {
         const { id } = await request.json();
 
@@ -180,9 +180,17 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ message: 'Member not found', error: true }, { status: 404 });
         }
 
-        const memberData = memberSnapshot.data();
-        const imageUrl = memberData.imageUrl;
+    // Fetch the member document from Firestore
+    const memberRef = doc(db, "pbMembers", id);
+    const memberSnapshot = await getDoc(memberRef);
 
+      if (!memberSnapshot.exists()) {
+      return NextResponse.json(
+        { message: "Member not found", error: true },
+        { status: 404 }
+      );
+    }
+    
         if (imageUrl) {
             const imageRef = ref(storage, imageUrl);
             await deleteObject(imageRef).catch((error) => {

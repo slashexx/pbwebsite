@@ -5,7 +5,7 @@ import Image from "next/image";
 interface ActivityCardProps {
     LeftAligned: boolean;
     Title: string;
-    Subtitle: string;
+    Subtitle: string | React.ReactNode;
     Description: string;
     ImageSrc: string;
 }
