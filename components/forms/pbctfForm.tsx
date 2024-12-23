@@ -81,11 +81,10 @@ const PBCTFForm: React.FC = () => {
     script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
     script.async = true;
     script.defer = true;
-    script.onload = getRecaptcha; // Call the function once the script is loaded
+    script.onload = getRecaptcha;
     document.head.appendChild(script);
 
     return () => {
-      // Clean up the script if the component unmounts
       document.head.removeChild(script);
     };
   }, []);
@@ -132,9 +131,6 @@ const PBCTFForm: React.FC = () => {
           toast.error(res.message);
           return;
         }
-
-        console.log(data);
-        // Check if USNs are the same for duo participation
         if (
           data.participationType === "duo" &&
           data.participant2 &&
