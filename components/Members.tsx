@@ -5,11 +5,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { FaRegBell, FaEllipsisV } from "react-icons/fa";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
-import { storage } from "@/Firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Image from "next/image";
 import Card from "./ui/Card";
 import CollapsibleSection from "./ui/CollapsibleSection";
+import { useStoreMember } from "@/lib/zustand/store";
+
 
 interface Member {
   id?: string;
@@ -45,7 +45,10 @@ export default function Members() {
     year: "",
     linkedInUrl: "",
     imageUrl: "",
-  });
+  })
+  
+  const { image, setImage } = useStoreMember();
+
   const [menuVisible, setMenuVisible] = useState<{ [key: string]: boolean }>(
     {}
   );
@@ -57,45 +60,34 @@ export default function Members() {
 
   const [isAdmin, setIsAdmin] = useState(false);
 
-    useEffect(() => {
-        onAuthStateChanged(auth, async (user) => {
-          if (user) {
-            const uid = user.uid;
-            try {
-              const resp = await fetch(`/api/admin?uid=${uid}`);
-              const data = await resp.json();
-              if (data.isAdmin) {
-                setIsAdmin(true);
-              }
-            } catch (error) {
-              console.log("Error getting document:", error);
-            }
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        try {
+          const resp = await fetch(`/api/admin?uid=${uid}`);
+          const data = await resp.json();
+          if (data.isAdmin) {
+            setIsAdmin(true);
           }
-        });
-      },[isAdmin]);
+        } catch (error) {
+          console.log("Error getting document:", error);
+        }
+      }
+    });
+  }),[isAdmin];
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-
     if (files && files.length > 0) {
       const file = files[0];
-
-      const contentType = file.type;
-      const extension = contentType.split("/")[1];
-
-      const imageRef = ref(storage, `members/${newMember.name}.${extension}`);
-
-      try {
-        const snapshot = await uploadBytes(imageRef, file, { contentType });
-
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        setNewMember((prev) => ({ ...prev, imageUrl: downloadURL }));
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
+      setImage(file);
+      setNewMember((newMember) => ({
+        ...newMember,
+        imageUrl: URL.createObjectURL(files[0]),
+      }));
     } else {
-      console.warn("No file selected.");
+      console.error("No file selected or invalid file input");
     }
   };
 
@@ -106,30 +98,99 @@ export default function Members() {
       );
       return;
     }
+
     try {
       const method = isEditing ? "PUT" : "POST";
-      const memberData = isEditing
+      let imageUrl = newMember.imageUrl;
+
+      // Handling image URL upload if it's a blob
+      if (newMember.imageUrl && newMember.imageUrl.startsWith("blob")) {
+        console.log("Image file detected, uploading to Firebase Storage...");
+        const formData = new FormData();
+        formData.append("file", image as Blob);
+        formData.append("name", newMember.name);
+        try {
+          const response = await fetch("/api/membersData/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+          if (!response.ok)
+            throw new Error(data.message || "Image upload failed.");
+          imageUrl = data.imageUrl;
+          console.log("Image uploaded successfully, URL:", imageUrl);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+          alert("Failed to upload image. Please try again.");
+          return;
+        }
+      }
+
+      // Updating member data with the new image URL
+      let memberData = isEditing
         ? { ...newMember, id: editMemberId }
         : newMember;
 
-      const response = await fetch("/api/membersData", {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(memberData),
-      });
+      memberData = { ...newMember, imageUrl };
 
-      const result = await response.json();
+                setNewMember((prev) => ({ ...prev, imageUrl: downloadURL }));
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
+        } else {
+            console.warn('No file selected.');
+        }
+    };
+    const handleAddOrEditMember = async () => {
+        try {
+          const response = await fetch(`/api/membersData`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(memberData),
+          });
 
-      if (!response.ok) {
-        console.error("Network response was not ok.", result);
-        throw new Error(result.message || "Network response was not ok.");
+          const result = await response.json();
+
+          if (!response.ok) {
+            console.error("Network response was not ok.", result);
+            throw new Error(result.message || "Network response was not ok.");
+          }
+
+          alert("Member updated successfully");
+        } catch (error) {
+          console.error("Error updating member:", error);
+          alert("Failed to update member. Please try again.");
+          return;
+        }
+      } else {
+        // Add new member to Firestore
+        try {
+          const response = await fetch("/api/membersData", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(memberData),
+          });
+
+          if (!response.ok) {
+            const result = await response.json();
+            console.error("Failed to add member:", result);
+            throw new Error(result.message || "Failed to add member.");
+          }
+
+          alert("Member added successfully");
+        } catch (error) {
+          console.error("Error adding member:", error);
+          alert("Failed to add member. Please try again.");
+          return;
+        }
       }
 
-      alert(
-        isEditing ? "Member updated successfully" : "Member added successfully"
-      );
+      // Reset the form and state
       setShowForm(false);
       setIsEditing(false);
       setEditMemberId(null);
@@ -144,7 +205,9 @@ export default function Members() {
       await fetchData();
     } catch (error) {
       console.error("Error adding/updating member:", error);
-      alert("An error occurred. Check the console for details.");
+      alert(
+        "An unexpected error occurred. Please check the console for details."
+      );
     }
   };
 
@@ -217,58 +280,40 @@ export default function Members() {
         if (!uniqueMembersMap.has(key)) {
           uniqueMembersMap.set(key, member);
         }
-      });
 
-      const uniqueMembers = Array.from(uniqueMembersMap.values()).sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      const fetchedData: { [key: string]: Member[] } = {};
+    };
 
-      for (const heading of headings) {
-        fetchedData[heading] = uniqueMembers.filter(
-          (member: Member) => member.year === heading
-        );
-      }
-
-      setData(fetchedData);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="flex flex-col justify-center items-center w-full space-y-4 mt-24 bg-black">
-      <h1 className="text-center font-bold text-4xl text-white">
-        Point Blank&apos;s Team
-      </h1>
-      <div className="w-full max-w-6xl px-2">
-        {loading ? (
-          <div className="flex justify-center py-10">
-            <ClipLoader color={"#00C853"} loading={loading} size={50} />
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {headings.map((heading, index) => (
-              <CollapsibleSection
-                key={index}
-                heading={heading}
-                content={
-                  <div className="flex justify-center">
-                    {/* {heading === "First Year" && (
-                      <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg flex items-center space-x-9 lg:w-7/12 justify-center">
-                        <p className="text-xl font-bold lg:text-2xl text-center">
-                          Recruitment Incoming Soon!
-                        </p>
-                        <FaRegBell
-                          className="text-[#00C853] text-2xl"
-                          style={{
-                            animation: "ring 0.5s ease-in-out infinite",
-                            transformOrigin: "center",
-                          }}
-                        />
-                        <style jsx>{`
+    return (
+        <div className="flex flex-col justify-center items-center w-full space-y-4 mt-24 bg-black">
+            <h1 className="text-center font-bold text-4xl text-white">
+                Point Blank&apos;s Team
+            </h1>
+            <div className="w-full max-w-6xl px-2">
+                {loading ? (
+                    <div className="flex justify-center py-10">
+                        <ClipLoader color={"#00C853"} loading={loading} size={50} />
+                    </div>
+                ) : (
+                    <div className="space-y-2">
+                        {headings.map((heading, index) => (
+                            <CollapsibleSection
+                                key={index}
+                                heading={heading}
+                                content={
+                                    <div className="flex justify-center">
+                                        {heading === "First Year" && (
+                                            <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg flex items-center space-x-9 lg:w-7/12 justify-center">
+                                                <p className="text-xl font-bold lg:text-2xl text-center">
+                                                    Recruitment Incoming Soon!
+                                                </p>
+                                                <FaRegBell
+                                                    className="text-[#00C853] text-2xl"
+                                                    style={{
+                                                        animation: "ring 0.5s ease-in-out infinite",
+                                                        transformOrigin: "center",
+                                                    }}
+                                                />
+                                                <style>{`
                           @keyframes ring {
                             0% {
                               transform: rotate(0deg);
