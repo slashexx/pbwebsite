@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/Firebase";
 import { useStore } from "@/lib/zustand/store";
+import {storage} from "@/Firebase"
 
 interface Lead {
   id: string;
@@ -63,8 +64,6 @@ const Leads: React.FC = () => {
     try {
 
       const leadData = { ...selectedLead };
-      const storage = getStorage();
-
       let imageUrl = selectedLead.imageUrl;
 
       if (selectedLead.imageUrl && selectedLead.imageUrl.startsWith("blob")) {
