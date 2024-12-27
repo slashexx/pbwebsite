@@ -10,7 +10,6 @@ import Card from "./ui/Card";
 import CollapsibleSection from "./ui/CollapsibleSection";
 import { useStoreMember } from "@/lib/zustand/store";
 
-
 interface Member {
   id?: string;
   name: string;
@@ -45,8 +44,8 @@ export default function Members() {
     year: "",
     linkedInUrl: "",
     imageUrl: "",
-  })
-  
+  });
+
   const { image, setImage } = useStoreMember();
 
   const [menuVisible, setMenuVisible] = useState<{ [key: string]: boolean }>(
@@ -75,7 +74,8 @@ export default function Members() {
         }
       }
     });
-  }),[isAdmin];
+  }),
+    [isAdmin];
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -134,15 +134,8 @@ export default function Members() {
 
       memberData = { ...newMember, imageUrl };
 
-                setNewMember((prev) => ({ ...prev, imageUrl: downloadURL }));
-            } catch (error) {
-                console.error('Error uploading file:', error);
-            }
-        } else {
-            console.warn('No file selected.');
-        }
-    };
-    const handleAddOrEditMember = async () => {
+      if (newMember.id) {
+        // Update member in Firestore
         try {
           const response = await fetch(`/api/membersData`, {
             method: "PUT",
@@ -280,40 +273,58 @@ export default function Members() {
         if (!uniqueMembersMap.has(key)) {
           uniqueMembersMap.set(key, member);
         }
+      });
 
-    };
+      const uniqueMembers = Array.from(uniqueMembersMap.values()).sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      const fetchedData: { [key: string]: Member[] } = {};
 
-    return (
-        <div className="flex flex-col justify-center items-center w-full space-y-4 mt-24 bg-black">
-            <h1 className="text-center font-bold text-4xl text-white">
-                Point Blank&apos;s Team
-            </h1>
-            <div className="w-full max-w-6xl px-2">
-                {loading ? (
-                    <div className="flex justify-center py-10">
-                        <ClipLoader color={"#00C853"} loading={loading} size={50} />
-                    </div>
-                ) : (
-                    <div className="space-y-2">
-                        {headings.map((heading, index) => (
-                            <CollapsibleSection
-                                key={index}
-                                heading={heading}
-                                content={
-                                    <div className="flex justify-center">
-                                        {heading === "First Year" && (
-                                            <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg flex items-center space-x-9 lg:w-7/12 justify-center">
-                                                <p className="text-xl font-bold lg:text-2xl text-center">
-                                                    Recruitment Incoming Soon!
-                                                </p>
-                                                <FaRegBell
-                                                    className="text-[#00C853] text-2xl"
-                                                    style={{
-                                                        animation: "ring 0.5s ease-in-out infinite",
-                                                        transformOrigin: "center",
-                                                    }}
-                                                />
-                                                <style>{`
+      for (const heading of headings) {
+        fetchedData[heading] = uniqueMembers.filter(
+          (member: Member) => member.year === heading
+        );
+      }
+
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col justify-center items-center w-full space-y-4 mt-24 bg-black">
+      <h1 className="text-center font-bold text-4xl text-white">
+        Point Blank&apos;s Team
+      </h1>
+      <div className="w-full max-w-6xl px-2">
+        {loading ? (
+          <div className="flex justify-center py-10">
+            <ClipLoader color={"#00C853"} loading={loading} size={50} />
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {headings.map((heading, index) => (
+              <CollapsibleSection
+                key={index}
+                heading={heading}
+                content={
+                  <div className="flex justify-center">
+                    {/* {heading === "First Year" && (
+                      <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg flex items-center space-x-9 lg:w-7/12 justify-center">
+                        <p className="text-xl font-bold lg:text-2xl text-center">
+                          Recruitment Incoming Soon!
+                        </p>
+                        <FaRegBell
+                          className="text-[#00C853] text-2xl"
+                          style={{
+                            animation: "ring 0.5s ease-in-out infinite",
+                            transformOrigin: "center",
+                          }}
+                        />
+                        <style jsx>{`
                           @keyframes ring {
                             0% {
                               transform: rotate(0deg);
