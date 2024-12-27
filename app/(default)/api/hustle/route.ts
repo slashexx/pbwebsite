@@ -32,23 +32,31 @@ interface LeaderboardData {
 
 export async function POST() {
   try {
+    console.log("Initializing Firestore connection.");
     const db = getFirestore(app);
 
     const API_URL =
       process.env.VJUDGE_CONTEST_API ||
       "https://vjudge.net/contest/data?draw=2&start=0&length=20&sortDir=desc&sortCol=0&category=mine&running=3&title=&owner=Pbhustle&_=1733642420751";
 
+    console.log(`Fetching contest data from API: ${API_URL}`);
     const { data } = await axios.get(API_URL);
+    console.log("Fetched data from API:", data);
+
     const ccode = data.data[0][0];
+    console.log(`Extracted contest code: ${ccode}`);
 
     const url = `https://vjudge.net/contest/${ccode}#rank`;
+    console.log(`Contest URL: ${url}`);
 
     const leaderboardRef = doc(db, "hustle", "leaderboard");
+    console.log("Fetching existing leaderboard data from Firestore.");
     const leaderboardDoc = await getDoc(leaderboardRef);
 
     const existingData = leaderboardDoc.data() as LeaderboardData | undefined;
-    const lastContestCode = existingData?.lastContestCode;
+    console.log("Existing leaderboard data:", existingData);
 
+    const lastContestCode = existingData?.lastContestCode;
     if (lastContestCode === ccode) {
       console.log("This contest has already been processed. Skipping update.");
       return NextResponse.json({
@@ -56,18 +64,22 @@ export async function POST() {
       });
     }
 
+    console.log("Launching Puppeteer browser.");
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
+    console.log("Navigating to contest page.");
     await page.goto(url, { waitUntil: "networkidle2" });
 
+    console.log("Waiting for rank table selector.");
     await page.waitForSelector("#contest-rank-table tbody");
 
+    console.log("Extracting contest rankings from page.");
     const latest: ContestRanking[] = await page.evaluate(() => {
       const rows = Array.from(
         document.querySelectorAll("#contest-rank-table tbody tr")
       );
-      return rows.slice(0).map((row) => {
+      return rows.map((row) => {
         const cells = row.querySelectorAll("td");
         return {
           rank: parseInt(cells[0]?.textContent?.trim() || "0"),
@@ -77,36 +89,46 @@ export async function POST() {
       });
     });
 
+    console.log("Extracted rankings:", latest);
     await browser.close();
 
     const latestRef = doc(db, "hustle", "latest");
+    console.log("Updating latest contest results in Firestore.");
     await setDoc(latestRef, {
       results: latest,
       updateTime: new Date(),
     });
 
     let rankings: LeaderboardUser[] = existingData?.rankings || [];
+    console.log("Existing rankings:", rankings);
 
+    console.log("Updating rankings with latest contest data.");
     latest.forEach(({ name, score }) => {
       const existingUser = rankings.find((user) => user.name === name);
       if (existingUser) {
+        console.log(`Updating existing user: ${name}`);
         existingUser.score += score;
         existingUser.consistency += 1;
       } else {
+        console.log(`Adding new user: ${name}`);
         rankings.push({ name, score, consistency: 1 });
       }
     });
 
+    console.log("Sorting rankings.");
     rankings.sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
       if (b.consistency !== a.consistency) return b.consistency - a.consistency;
       return (a.rank || 0) - (b.rank || 0);
     });
 
+    console.log("Assigning ranks.");
     rankings.forEach((user, index) => {
       user.rank = index + 1;
     });
 
+    console.log("Final rankings:", rankings);
+    console.log("Updating leaderboard in Firestore.");
     await setDoc(leaderboardRef, {
       rankings,
       updatedAt: new Date(),
@@ -125,10 +147,19 @@ export async function POST() {
 
 export async function GET() {
   try {
+    console.log("Initializing Firestore connection for GET request.");
     const db = getFirestore();
 
+    console.log("Fetching latest contest results from Firestore.");
     const latestDoc = await getDoc(doc(db, "hustle", "latest"));
+
+    console.log("Fetching leaderboard data from Firestore.");
     const leaderboardDoc = await getDoc(doc(db, "hustle", "leaderboard"));
+
+    console.log("Fetched data successfully:", {
+      latest: latestDoc.data(),
+      leaderboard: leaderboardDoc.data(),
+    });
 
     return NextResponse.json({
       message: "Fetched hustle data successfully",
