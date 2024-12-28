@@ -1,21 +1,13 @@
-import { db, storage } from "@/Firebase";
-import {
-  doc,
-  updateDoc,
-  getDoc,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  DocumentData,
-  DocumentSnapshot,
-} from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { NextRequest, NextResponse } from "next/server";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import connectMongoDB from "@/lib/dbConnect";
+import Achievementmodel from "@/models/Achievements";
+import { db, storage } from "@/Firebase";
 
+// POST method: Create or add a new achievement
 export async function POST(request: Request) {
   try {
+    await connectMongoDB();
     const formData = await request.formData();
 
     // Extract data from the form
@@ -25,26 +17,19 @@ export async function POST(request: Request) {
     const portfolio = formData.get("portfolio") as string;
     const internship = formData.get("internship") as string;
     const companyPosition = formData.get("companyPosition") as string;
-    const achievements = JSON.parse(
-      formData.get("achievements") as string
-    ) as string[];
+    const achievements = JSON.parse(formData.get("achievements") as string) as string[];
     const image = formData.get("image") as File;
 
-    // Check if a person with the same name already exists
-    const existingMembersQuery = query(
-      collection(db, "achievements"),
-      where("Name", "==", name)
-    );
-    const querySnapshot = await getDocs(existingMembersQuery);
-
-    if (!querySnapshot.empty) {
+    // Check if a person with the same name already exists in MongoDB
+    const existingMember = await Achievementmodel.findOne({ name });
+    if (existingMember) {
       return NextResponse.json(
         { error: `A member with the name ${name} already exists.` },
         { status: 400 }
       );
     }
 
-    // Handle image upload
+    // Handle image upload to Firebase Storage
     if (!image) {
       return NextResponse.json(
         { error: "Image file is required" },
@@ -56,20 +41,8 @@ export async function POST(request: Request) {
     await uploadBytes(storageRef, image);
     const imageUrl = await getDownloadURL(storageRef);
 
-    // Save data to Firestore without Timestamp
-    const docRef = await addDoc(collection(db, "achievements"), {
-      Name: name,
-      Email: email,
-      Batch: batch,
-      Portfolio: portfolio,
-      Internship: internship,
-      CompanyPosition: companyPosition,
-      achievements: achievements,
-      imageUrl: imageUrl,
-    });
-    return NextResponse.json({
-      id: docRef.id,
-      imageUrl: imageUrl,
+    
+    const newAchievement = new Achievementmodel({
       name,
       email,
       batch,
@@ -77,25 +50,24 @@ export async function POST(request: Request) {
       internship,
       companyPosition,
       achievements,
+      imageUrl,
     });
+
+    const result = await newAchievement.save(); 
+    return NextResponse.json(result);
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error details:", error.message);
-      return NextResponse.json(
-        { error: "An error occurred", details: error.message },
-        { status: 500 }
-      );
-    } else {
-      console.error("Unknown error:", error);
-      return NextResponse.json(
-        { error: "An unknown error occurred" },
-        { status: 500 }
-      );
-    }
+    console.error("Error creating member:", error);
+    return NextResponse.json(
+      { error: "An error occurred", details:error},
+      { status: 500 }
+    );
   }
 }
 
+// GET method: Fetch achievements based on name or fetch all if no name is provided
 export async function GET(request: NextRequest) {
+  await connectMongoDB();
+
   try {
     const { searchParams } = new URL(request.url);
     const name = searchParams.get("name");
@@ -103,133 +75,87 @@ export async function GET(request: NextRequest) {
     let querySnapshot;
 
     if (name) {
-      // Query Firestore by name to find the document
-      const memberQuery = query(
-        collection(db, "achievements"),
-        where("Name", "==", name)
-      );
-      querySnapshot = await getDocs(memberQuery);
+      querySnapshot = await Achievementmodel.find({ name });
     } else {
-      // Fetch all documents from the "achievements" collection
-      querySnapshot = await getDocs(collection(db, "achievements"));
+      querySnapshot = await Achievementmodel.find();
     }
 
-    // Map through the documents and extract the data
-    const membersRaw = querySnapshot.docs.map(
-      (doc: DocumentSnapshot<DocumentData>) => ({
-        id: doc.id,
-        ...doc.data(),
-      })
-    );
-
-    const members = membersRaw.map((member: any) => {
+    const members = querySnapshot.map((member: any) => {
       return {
-        id: member.id,
-        name: member.Name,
-        email: member.Email,
-        batch: member.Batch,
-        portfolio: member.Portfolio,
-        internship: member.Internship,
-        companyPosition: member.CompanyPosition,
-        achievements: member.achievements,
-        imageUrl: member.imageUrl,
+        id: member._id,
+        name: member.name,
+        email: member.email || null,
+        batch: member.batch || null,
+        portfolio: member.portfolio || null,
+        internship: member.internship || null,
+        companyPosition: member.companyPosition || null,
+        achievements: member.achievements || [],
+        imageUrl: member.imageUrl || null,
       };
     });
 
-    // Return the members data
     return NextResponse.json(members);
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error fetching members:", error.message);
-      return NextResponse.json(
-        {
-          error: "An error occurred while fetching members",
-          details: error.message,
-        },
-        { status: 500 }
-      );
-    } else {
-      console.error("Unknown error:", error);
-      return NextResponse.json(
-        { error: "An unknown error occurred while fetching members" },
-        { status: 500 }
-      );
-    }
+    console.error("Error fetching members:", error);
+    return NextResponse.json(
+      { error: "An error occurred while fetching members", details: error.message },
+      { status: 500 }
+    );
   }
 }
 
+// PUT method: Update an existing achievement based on name
 export async function PUT(request: Request) {
   try {
     const formData = await request.formData();
     const name = formData.get("name") as string;
 
-    // Fetch the existing document
-    const memberQuery = query(
-      collection(db, "achievements"),
-      where("Name", "==", name)
-    );
-    const querySnapshot = await getDocs(memberQuery);
-
-    if (querySnapshot.empty) {
+    // Fetch the existing document by name
+    const existingMember = await Achievementmodel.findOne({ name });
+    if (!existingMember) {
       return NextResponse.json(
         { error: `No member found with the name ${name}` },
         { status: 404 }
       );
     }
 
-    const docRef = querySnapshot.docs[0].ref;
-    const existingData = querySnapshot.docs[0].data();
-
-    // Extract data from the form
-    const email = (formData.get("email") as string) || existingData.Email;
-    const batch = (formData.get("batch") as string) || existingData.Batch;
-    const portfolio =
-      (formData.get("portfolio") as string) || existingData.Portfolio;
-    const internship =
-      (formData.get("internship") as string) || existingData.Internship;
-    const companyPosition =
-      (formData.get("companyPosition") as string) ||
-      existingData.CompanyPosition;
+    // Extract data from the form, using existing values if new data is not provided
+    const email = (formData.get("email") as string) || existingMember.email;
+    const batch = (formData.get("batch") as string) || existingMember.batch;
+    const portfolio = (formData.get("portfolio") as string) || existingMember.portfolio;
+    const internship = (formData.get("internship") as string) || existingMember.internship;
+    const companyPosition = (formData.get("companyPosition") as string) || existingMember.companyPosition;
     const achievements = formData.get("achievements")
       ? JSON.parse(formData.get("achievements") as string)
-      : existingData.achievements;
+      : existingMember.achievements;
     const image = formData.get("image") as File;
 
-    let imageUrl = existingData.imageUrl;
+    let imageUrl = existingMember.imageUrl;
 
+    // Handle image upload if a new image is provided
     if (image) {
       const storageRef = ref(storage, `images/${image.name}`);
       await uploadBytes(storageRef, image);
       imageUrl = await getDownloadURL(storageRef);
     }
 
-    const updateData = {
-      Name: name,
-      Email: email,
-      Batch: batch,
-      Portfolio: portfolio,
-      Internship: internship,
-      CompanyPosition: companyPosition,
-      achievements: achievements,
-      imageUrl: imageUrl,
-    };
+    // Update the member data
+    existingMember.email = email;
+    existingMember.batch = batch;
+    existingMember.portfolio = portfolio;
+    existingMember.internship = internship;
+    existingMember.companyPosition = companyPosition;
+    existingMember.achievements = achievements;
+    existingMember.imageUrl = imageUrl;
 
-    await updateDoc(docRef, updateData);
+    await existingMember.save(); // Save the updated document
 
-    return NextResponse.json(updateData);
+    return NextResponse.json(existingMember);
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error updating member:", error.message);
-      return NextResponse.json(
-        { error: "An error occurred while updating", details: error.message },
-        { status: 500 }
-      );
-    } else {
-      console.error("Unknown error:", error);
-      return NextResponse.json(
-        { error: "An unknown error occurred while updating" },
-        { status: 500 }
-      );
-    }
+    console.error("Error updating member:", error);
+    return NextResponse.json(
+      { error: "An error occurred while updating", details: error.message },
+      { status: 500 }
+    );
   }
 }

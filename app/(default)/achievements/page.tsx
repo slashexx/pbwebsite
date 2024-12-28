@@ -47,7 +47,7 @@ export default function AchievementsPage() {
         }
       }
     });
-  });
+  },[]);
 
   useEffect(() => {
     async function fetchAchievers() {
