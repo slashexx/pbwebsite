@@ -1,0 +1,42 @@
+import mongoose, { Document, Schema } from "mongoose";
+
+// Define the Achievement interface
+export interface Lead extends Document {
+    id: string;
+    name: string;
+    position: string;
+    organization: string;
+    additionalInfo: string;
+    imageUrl: string; 
+}
+
+const Leadschema: Schema<Lead> = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  position: {
+    type: String,
+    required: true,
+  },
+  organization: {
+    type: String,
+    required: true,
+  },
+  additionalInfo: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+});
+
+const Leadsmodel = mongoose.models.leads || mongoose.model<Lead>("leads", Leadschema);
+
+export default Leadsmodel;
