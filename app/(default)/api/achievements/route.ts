@@ -58,7 +58,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error creating member:", error);
     return NextResponse.json(
-      { error: "An error occurred", details:error},
+      { error: "An error occurred", details:(error as Error).message},
       { status: 500 }
     );
   }
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error fetching members:", error);
     return NextResponse.json(
-      { error: "An error occurred while fetching members", details: error.message },
+      { error: "An error occurred while fetching members", details: (error as Error).message },
       { status: 500 }
     );
   }
@@ -154,7 +154,7 @@ export async function PUT(request: Request) {
   } catch (error) {
     console.error("Error updating member:", error);
     return NextResponse.json(
-      { error: "An error occurred while updating", details: error.message },
+      { error: "An error occurred while updating", details: (error as Error).message },
       { status: 500 }
     );
   }
