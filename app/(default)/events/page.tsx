@@ -138,7 +138,7 @@ const EventsPage = () => {
         {/* Future Events */}
         {/* <h2 className="text-2xl font-bold mb-4 mt-8">CurreEvents</h2> */}
         {futureEvents.length > 0 ? (
-          <div className="flex justify-around">
+          <div className="sm:flex flex-wrap justify-around gap-4 px-4">
             {futureEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -157,7 +157,7 @@ const EventsPage = () => {
       {/* Past Events */}
       <h2 className="text-3xl font-bold mb-8 mt-16 ml-4 text-center">Past Events</h2>
       {pastEvents.length > 0 ? (
-        <div className="sm:flex justify-around">
+        <div className="sm:flex flex-wrap justify-around gap-4 px-4">
           {pastEvents.map((event) => (
             <EventCard
               key={event.id}
