@@ -8,6 +8,8 @@ import {
     setDoc
 } from "firebase/firestore";
 import { NextResponse } from "next/server";
+import Eventmodel from "@/models/Events";
+import connectMongoDB from "@/lib/dbConnect";
 import { v4 as uuidv4 } from 'uuid';
 
 // Helper function to validate event data
@@ -46,11 +48,10 @@ const validateEvent = (event: any) => {
 
 // GET request
 export async function GET(request: Request) {
+    await connectMongoDB()
     try {
-        const eventsCollection = collection(db, "events");
-        const eventSnapshot = await getDocs(eventsCollection);
-        const data = eventSnapshot.docs.map((doc) => doc.data());
-        const eventsList = data.map((event: any) => ({
+        const eventSnapshot = await Eventmodel.find()
+        const eventsList = eventSnapshot.map((event: any) => ({
             id: event.id,
             eventName: event.eventName,
             description: event.description,
@@ -83,56 +84,41 @@ export async function GET(request: Request) {
 // POST request
 export async function POST(request: Request) {
     try {
+        await connectMongoDB();
         const newEvent = await request.json();
         const validationErrors = validateEvent(newEvent);
-
         if (validationErrors.length > 0) {
+            console.error("Validation errors:", validationErrors);
             return NextResponse.json(
                 { error: "Validation failed", details: validationErrors },
                 { status: 400 }
             );
         }
-
         const eventId = uuidv4();
         const currentDate = new Date().toISOString();
-        const { eventName, eventDate, lastDateOfRegistration, description, imageURL, registrationLink } = newEvent;
-
-        await setDoc(doc(db, "events", eventId), {
+        const newEventData = new Eventmodel({
             id: eventId,
-            eventName,
-            eventDate,
-            lastDateOfRegistration,
-            description,
-            imageURL,
-            registrationLink,
+            ...newEvent,
             dateCreated: currentDate,
             dateModified: currentDate,
         });
-
+        const savedEvent = await newEventData.save();
         return NextResponse.json({ id: eventId }, { status: 201 });
     } catch (error) {
-        if (error instanceof Error) {
-            console.error("Error details:", error.message);
-            return NextResponse.json(
-                { error: "An error occurred", details: error.message },
-                { status: 500 }
-            );
-        } else {
-            console.error("Unknown error:", error);
-            return NextResponse.json(
-                { error: "An unknown error occurred" },
-                { status: 500 }
-            );
-        }
+        console.error("Error occurred during event creation:", error);
+        return NextResponse.json(
+            { error: "An error occurred while creating the event", details: error instanceof Error ? error.message : "Unknown error" },
+            { status: 500 }
+        );
     }
 }
-
 // PUT request
 export async function PUT(request: Request) {
+    await connectMongoDB()
     try {
         const { searchParams } = new URL(request.url);
         const eventid = searchParams.get("eventid");
-
+        console.log(eventid)
         if (!eventid) {
             return NextResponse.json(
                 { error: "Event ID is required" },
@@ -150,10 +136,23 @@ export async function PUT(request: Request) {
             );
         }
 
-        await updateDoc(doc(db, "events", eventid), {
-            ...updatedEvent,
-            dateModified: new Date().toISOString(),
-        });
+        const result = await Eventmodel.findOneAndUpdate(
+            { id:eventid },  
+            { 
+                $set: {  
+                    ...updatedEvent,
+                    dateModified: new Date().toISOString(), 
+                }
+            },
+            { new: true } 
+        );
+
+        if (!result) {
+            return NextResponse.json(
+                { error: "Event not found" },
+                { status: 404 }
+            );
+        }
 
         return NextResponse.json({ id: eventid }, { status: 200 });
     } catch (error) {
@@ -172,9 +171,9 @@ export async function PUT(request: Request) {
         }
     }
 }
-
 // DELETE request
 export async function DELETE(request: Request) {
+    await connectMongoDB()
     try {
         const { searchParams } = new URL(request.url);
         const eventid = searchParams.get("eventid");
@@ -186,7 +185,7 @@ export async function DELETE(request: Request) {
             );
         }
 
-        await deleteDoc(doc(db, "events", eventid));
+        await Eventmodel.deleteOne({id:eventid})
         return NextResponse.json({ message: "Event deleted successfully" }, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {

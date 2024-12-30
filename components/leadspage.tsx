@@ -5,7 +5,7 @@ import { auth } from "@/Firebase";
 import { useStore } from "@/lib/zustand/store";
 
 interface Lead {
-  id: string;
+  id?:string;
   name: string;
   position: string;
   organization: string;
@@ -314,10 +314,15 @@ const LeadSection: React.FC<LeadSectionProps> = ({
             </p>
             {isAdminLoggedIn && (
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
+              onClick={(e) => {
+                e.stopPropagation();
+                if (lead.id) {
                   onDelete(lead.id);
-                }}
+                } else {
+                  console.error('Lead id is undefined');
+                }
+              }}
+              
                 style={{
                   backgroundColor: "red",
                   color: "white",
@@ -351,7 +356,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
 }) => {
   const [lead, setLead] = useState<Lead>(
     selectedLead || {
-      id: "",
+      
       name: "",
       position: "",
       organization: "",
