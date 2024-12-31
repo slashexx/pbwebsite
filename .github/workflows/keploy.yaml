@@ -1,4 +1,4 @@
-name: Keploy test
+name: Keploy Test
 
 on:
   push:
@@ -33,13 +33,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Keploy Tests
-        id: keploy-run-test
+      - name: Install Keploy CLI
         run: |
-          set -e
           curl --silent --location "https://github.com/keploy/keploy/releases/latest/download/keploy_linux_amd64.tar.gz" | tar xz --overwrite -C /tmp
           sudo mkdir -p /usr/local/bin && sudo mv /tmp/keploy /usr/local/bin/keploy
-          npm install
-          keploy test -c "npm run dev" -d 60
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Keploy Tests
+        id: keploy-run-test
+        run: keploy test -c "npm run dev" -d 60
         env:
-          NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}  
+          NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}
