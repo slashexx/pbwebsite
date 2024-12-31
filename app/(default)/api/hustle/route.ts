@@ -10,6 +10,8 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { app } from "@/Firebase";
+import connectMongoDB from "@/lib/dbConnect";
+import PbhustleModel from "@/models/PbHustel"; 
 
 interface ContestRanking {
   rank: number;
@@ -32,8 +34,8 @@ interface LeaderboardData {
 
 export async function POST() {
   try {
-    console.log("Initializing Firestore connection.");
-    const db = getFirestore(app);
+    console.log("Initializing mongodb connection.");
+    await connectMongoDB()
 
     const API_URL =
       process.env.VJUDGE_CONTEST_API ||
@@ -49,11 +51,11 @@ export async function POST() {
     const url = `https://vjudge.net/contest/${ccode}#rank`;
     console.log(`Contest URL: ${url}`);
 
-    const leaderboardRef = doc(db, "hustle", "leaderboard");
+    
     console.log("Fetching existing leaderboard data from Firestore.");
-    const leaderboardDoc = await getDoc(leaderboardRef);
+    const leaderboardDoc = await PbhustleModel.findOne({name:"leaderboard"})
 
-    const existingData = leaderboardDoc.data() as LeaderboardData | undefined;
+    const existingData = leaderboardDoc as LeaderboardData | undefined;
     console.log("Existing leaderboard data:", existingData);
 
     const lastContestCode = existingData?.lastContestCode;
@@ -92,12 +94,12 @@ export async function POST() {
     console.log("Extracted rankings:", latest);
     await browser.close();
 
-    const latestRef = doc(db, "hustle", "latest");
     console.log("Updating latest contest results in Firestore.");
-    await setDoc(latestRef, {
+    await PbhustleModel.findOneAndUpdate({
+      name:"latest",
       results: latest,
       updateTime: new Date(),
-    });
+  });
 
     let rankings: LeaderboardUser[] = existingData?.rankings || [];
     console.log("Existing rankings:", rankings);
@@ -129,7 +131,8 @@ export async function POST() {
 
     console.log("Final rankings:", rankings);
     console.log("Updating leaderboard in Firestore.");
-    await setDoc(leaderboardRef, {
+    await PbhustleModel.findOneAndUpdate({
+      name:"leaderboard",
       rankings,
       updatedAt: new Date(),
       lastContestCode: ccode,
@@ -147,25 +150,22 @@ export async function POST() {
 
 export async function GET() {
   try {
-    console.log("Initializing Firestore connection for GET request.");
-    const db = getFirestore();
-
+    await connectMongoDB()
     console.log("Fetching latest contest results from Firestore.");
-    const latestDoc = await getDoc(doc(db, "hustle", "latest"));
-
+    const latestDoc = await PbhustleModel.findOne({name:"latest"})
     console.log("Fetching leaderboard data from Firestore.");
-    const leaderboardDoc = await getDoc(doc(db, "hustle", "leaderboard"));
+    const leaderboardDoc = await PbhustleModel.findOne({name:"leaderboard"})
 
     console.log("Fetched data successfully:", {
-      latest: latestDoc.data(),
-      leaderboard: leaderboardDoc.data(),
+      latest: latestDoc,
+      leaderboard: leaderboardDoc,
     });
 
     return NextResponse.json({
       message: "Fetched hustle data successfully",
       data: {
-        latest: latestDoc.data(),
-        leaderboard: leaderboardDoc.data(),
+        latest: latestDoc,
+        leaderboard: leaderboardDoc,
       },
     });
   } catch (error) {
