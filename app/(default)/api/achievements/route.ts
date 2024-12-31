@@ -104,7 +104,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// PUT method: Update an existing achievement based on name
 export async function PUT(request: Request) {
   try {
     const formData = await request.formData();
@@ -155,6 +154,41 @@ export async function PUT(request: Request) {
     console.error("Error updating member:", error);
     return NextResponse.json(
       { error: "An error occurred while updating", details: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    await connectMongoDB();
+    const { searchParams } = new URL(request.url);
+    const name = searchParams.get("name");
+
+    if (!name) {
+      return NextResponse.json(
+        { error: "Name parameter is required for deletion" },
+        { status: 400 }
+      );
+    }
+
+    const deletedMember = await Achievementmodel.findOneAndDelete({ name });
+
+    if (!deletedMember) {
+      return NextResponse.json(
+        { error: `No member found with the name ${name}` },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: `Successfully deleted member: ${name}` },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting member:", error);
+    return NextResponse.json(
+      { error: "An error occurred while deleting the member", details: (error as Error).message },
       { status: 500 }
     );
   }

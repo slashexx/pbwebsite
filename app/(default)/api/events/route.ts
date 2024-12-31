@@ -1,12 +1,3 @@
-import { db } from "@/Firebase";
-import {
-    getDocs,
-    collection,
-    updateDoc,
-    doc,
-    deleteDoc,
-    setDoc
-} from "firebase/firestore";
 import { NextResponse } from "next/server";
 import Eventmodel from "@/models/Events";
 import connectMongoDB from "@/lib/dbConnect";
@@ -117,11 +108,11 @@ export async function PUT(request: Request) {
     await connectMongoDB()
     try {
         const { searchParams } = new URL(request.url);
-        const eventid = searchParams.get("eventid");
-        console.log(eventid)
-        if (!eventid) {
+        const eventName = searchParams.get("eventName");
+        console.log(eventName)
+        if (!eventName) {
             return NextResponse.json(
-                { error: "Event ID is required" },
+                { error: "Event Name is required" },
                 { status: 400 }
             );
         }
@@ -137,7 +128,7 @@ export async function PUT(request: Request) {
         }
 
         const result = await Eventmodel.findOneAndUpdate(
-            { id:eventid },  
+            { eventName:eventName },  
             { 
                 $set: {  
                     ...updatedEvent,
@@ -154,7 +145,7 @@ export async function PUT(request: Request) {
             );
         }
 
-        return NextResponse.json({ id: eventid }, { status: 200 });
+        return NextResponse.json({ eventName: eventName }, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {
             console.error("Error details:", error.message);
@@ -176,16 +167,16 @@ export async function DELETE(request: Request) {
     await connectMongoDB()
     try {
         const { searchParams } = new URL(request.url);
-        const eventid = searchParams.get("eventid");
+        const eventName = searchParams.get("eventName");
 
-        if (!eventid) {
+        if (!eventName) {
             return NextResponse.json(
                 { error: "Event ID is required" },
                 { status: 400 }
             );
         }
 
-        await Eventmodel.deleteOne({id:eventid})
+        await Eventmodel.deleteOne({eventName:eventName})
         return NextResponse.json({ message: "Event deleted successfully" }, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {
