@@ -7,7 +7,7 @@ export interface Members extends Document {
     name: string;
     role: string;
     year: string;
-    imageUrl: number; 
+    imageUrl: string; 
 }
 
 const memberSchema = new mongoose.Schema({
@@ -32,11 +32,11 @@ const memberSchema = new mongoose.Schema({
       required: true
     },
     year: {
-      type: Number,
-      required: false // Assuming year is optional, update if necessary
+      type: String,
+      required: true 
     }
   });
   
-const Membersmodel = mongoose.models.members || mongoose.model<Members>("leads", memberSchema);
+const Membersmodel = mongoose.models.pbmembers || mongoose.model<Members>("pbmembers", memberSchema);
 
 export default Membersmodel;

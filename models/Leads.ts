@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 // Define the Achievement interface
 export interface Lead extends Document {
-    id: string;
+    id:string;
     name: string;
     position: string;
     organization: string;
@@ -11,9 +11,10 @@ export interface Lead extends Document {
 }
 
 const Leadschema: Schema<Lead> = new Schema({
-  id: {
-    type: String,
-    required: true,
+  id:{
+    type:String,
+    required:true,
+    unique:true,
   },
   name: {
     type: String,

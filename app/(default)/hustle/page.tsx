@@ -26,7 +26,7 @@ export default function ResultsTable() {
       try {
         const response = await fetch("/api/hustle");
         const data = await response.json();
-
+        console.log(data)
         if (response.ok && data?.data) {
           const allDocs = data.data;
           const latestData: Result[] = allDocs.latest.results || [];
