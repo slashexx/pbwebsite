@@ -17,11 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-    - name: Checkout
+    - name: Checkout Commit
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
+    - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
@@ -29,14 +28,21 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    - name: Keploy Report
-      uses: keploy/testgpt@main
-      with:
-        working-directory: /
-        delay: 10
-        command: "next dev"
-        keploy-path: ./
+    - name: Install Keploy
+      run: |
+        curl --silent --location 'https://github.com/keploy/keploy/releases/latest/download/keploy_linux_amd64.tar.gz' | tar xz -C /tmp
+        sudo mv /tmp/keploy /usr/local/bin/keploy
+        sudo chmod +x /usr/local/bin/keploy
+
+    - name: Keploy Record (Capture Test Cases)
+      run: |
+        # Start the app in dev mode and record the test cases
+        sudo -E keploy record -c "npm run dev"
+
+    - name: Keploy Test (Replay Recorded Tests)
+      run: |
+        # Replay the recorded tests using the app in dev mode
+        sudo -E keploy test -c "npm run dev" --delay 20 --path ./
     
     env:
       NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}
-
