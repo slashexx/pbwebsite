@@ -22,7 +22,7 @@ jobs:
       with:
         working-directory: /
         delay: 10
-        command: node src/app.js
+        command: npm run dev
         keploy-path: ./
     
     env:
