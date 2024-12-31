@@ -13,36 +13,16 @@ on:
       - feature/**
 
 jobs:
-  keploy:
+  keploy-test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test-Report
+        uses: keploy/testgpt@main
         with:
-          node-version: 18
-
-      - name: Cache Node modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install Keploy CLI
-        run: |
-          curl --silent --location "https://github.com/keploy/keploy/releases/latest/download/keploy_linux_amd64.tar.gz" | tar xz --overwrite -C /tmp
-          sudo mkdir -p /usr/local/bin && sudo mv /tmp/keploy /usr/local/bin/keploy
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Keploy Tests
-        id: keploy-run-test
-        run: keploy test -c "npm run dev" -d 60
+            working-directory: ./
+            command: "npm run dev" 
+          
         env:
-          NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}
+            NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}
