@@ -1,0 +1,50 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-2
+spec:
+    metadata: {}
+    req:
+        method: GET
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/api/events
+        header:
+            Accept: '*/*'
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            Host: localhost:3000
+            Postman-Token: 22473a37-d9ea-4335-88f8-5a429d6fe0c5
+            User-Agent: PostmanRuntime/7.43.0
+        body: ""
+        timestamp: 2024-12-31T16:42:28.191596868+05:30
+    resp:
+        status_code: 200
+        header:
+            Connection: keep-alive
+            Content-Type: application/json
+            Date: Tue, 31 Dec 2024 11:12:28 GMT
+            Keep-Alive: timeout=5
+            Vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+        body: "{\"events\":[{\"id\":\"46d138c0-59fa-4b36-9677-f08aff44d251\",\"eventName\":\"Advaith 2021\",\"description\":\"Advaith 2021 is a tech extravaganza hosted by Point Blank and DSCE ACM-W.        **Sub-events:**        - Coding Marathon        - Capture The Flag (CTF)        - Designing Challenge        - Technical Writing        - Hackathon (YEAH)      \",\"eventDate\":\"2021-12-14\",\"lastDateOfRegistration\":\"2021-12-10\",\"dateCreated\":\"2024-11-21T15:26:55.070Z\",\"dateModified\":\"2024-11-21T15:26:55.070Z\",\"imageURL\":\"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/eventImages%2Fadvaith.png?alt=media&token=0e692f09-1d4f-4513-be20-5db17f13f493\",\"registrationLink\":\"https://example.com/advaith2021/register\"},{\"id\":\"d0cea645-332f-47b5-9c60-a05fe76aa540\",\"eventName\":\"PB CTF\",\"description\":\"CTF Competition held by Point Blank!\",\"eventDate\":\"2024-10-01\",\"lastDateOfRegistration\":\"2024-10-01\",\"dateCreated\":\"2024-11-21T15:40:40.993Z\",\"dateModified\":\"2024-11-21T15:40:40.993Z\",\"imageURL\":\"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/eventImages%2Fpbctf.jpg?alt=media&token=46499713-528d-407b-9cab-0dd9ab1a89c3\",\"registrationLink\":\"https://www.pointblank.club/pbctf\"},{\"id\":\"e2dca17f-1580-43d4-9877-1f0ec93c6aef\",\"eventName\":\"PB recruitment\",\"description\":\"Point Blank is conducting its recruitment test.\U0001F525    Hola\U0001F44B Students of Dayananda Sagar College of Engineering \U0001F60A.  We are recruiting a new batch of passionate people who want to learn and contribute to the programming world. Students who demonstrate exemplary performance in coding skills, general knowledge, and aptitude will be recruited \U0001F4BB    Date: 14th Nov 2024 - Second and Third Years15th Nov 2024 - First YearsTime: 5 PM - 7 PM  Venue: CS Department    Point Blank organizes events to upskill the community in different aspects such as CP, Web and App Dev, ML, and many more. Join us to attend the plethora of events and opportunities that follow.    Registration Link: https://www.pointblank.club/recruitment    WhatsApp Group:  Details will be shared after registration.The Top 3 positions on both days get tickets to wonderla, sponsored by Codebattle.in\U0001F525We look forward to seeing you all in the recruitment\U0001F64C\U0001F3FB\",\"eventDate\":\"2024-11-14\",\"lastDateOfRegistration\":\"2024-11-13\",\"dateCreated\":\"2024-11-21T15:13:32.125Z\",\"dateModified\":\"2024-11-21T15:13:32.125Z\",\"imageURL\":\"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/eventImages%2FWhatsApp%20Image%202024-10-21%20at%2015.06.19_397a7f50.jpg?alt=media&token=3fe84784-df38-4ea9-9316-725ed04433f9\",\"registrationLink\":\"https://www.pointblank.club/recruitment\"},{\"id\":\"e33206b8-df7c-4a75-8c07-7f8a3cffda46\",\"eventName\":\"PB Hustle\",\"description\":\"Weekly coding contests designed for coding enthusiasts.\",\"eventDate\":\"2024-10-01\",\"lastDateOfRegistration\":\"2024-10-10\",\"dateCreated\":\"2024-11-21T15:38:53.906Z\",\"dateModified\":\"2024-11-21T15:38:53.906Z\",\"imageURL\":\"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/eventImages%2Ffile_2024-10-20_05.22.01.png?alt=media&token=a2f41b1d-89d8-44fe-b8f9-d44ccbb1c2ef\",\"registrationLink\":\"https://example.com/pbhustle/register\"},{\"id\":\"59bf186d-20b4-4d9a-acfc-042bbc8f56ea\",\"eventName\":\"Test\",\"description\":\"A test event for checking the keploy integration. This will be deleted soon.\",\"eventDate\":\"2025-12-30T00:00:00Z\",\"lastDateOfRegistration\":\"2024-12-25T23:59:59Z\",\"dateCreated\":\"2024-12-31T11:12:12.827Z\",\"dateModified\":\"2024-12-31T11:12:12.827Z\",\"imageURL\":\"http://test.com/test.jpg\",\"registrationLink\":\"http://example.com/test\"}]}"
+        status_message: OK
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-12-31T16:42:31.023308221+05:30
+    objects: []
+    assertions:
+        noise:
+            body.events.dateCreated: []
+            body.events.dateModified: []
+            body.events.eventDate: []
+            body.events.lastDateOfRegistration: []
+            header.Date: []
+    created: 1735643551
+curl: |
+    curl --request GET \
+      --url http://localhost:3000/api/events \
+      --header 'Host: localhost:3000' \
+      --header 'Accept-Encoding: gzip, deflate, br' \
+      --header 'Connection: keep-alive' \
+      --header 'User-Agent: PostmanRuntime/7.43.0' \
+      --header 'Accept: */*' \
+      --header 'Postman-Token: 22473a37-d9ea-4335-88f8-5a429d6fe0c5' \

@@ -1,0 +1,1198 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: mock-0
+spec:
+    metadata:
+        name: Http
+        operation: GET
+        type: HTTP_CLIENT
+    req:
+        method: GET
+        proto_major: 1
+        proto_minor: 1
+        url: /-/package/next/dist-tags
+        header:
+            Accept: '*/*'
+            Accept-Encoding: br, gzip, deflate
+            Accept-Language: '*'
+            Connection: keep-alive
+            Sec-Fetch-Mode: cors
+            User-Agent: node
+        body: ""
+        timestamp: 0001-01-01T00:00:00Z
+    resp:
+        status_code: 200
+        header:
+            Cf-Cache-Status: DYNAMIC
+            Cf-Ray: 8fa9f6d14c3fa839-DEL
+            Connection: keep-alive
+            Content-Encoding: gzip
+            Content-Length: "191"
+            Content-Type: application/json
+            Date: Tue, 31 Dec 2024 11:35:05 GMT
+            Server: cloudflare
+            Vary: Accept-Encoding
+        body: '{"next-11":"11.1.4","next-12-2-6":"12.2.6","next-12-3-2":"12.3.4","next-14-1":"14.1.1","rc":"15.0.0-rc.1","next-13":"13.5.8","next-14":"14.2.22","latest":"15.1.3","canary":"15.1.1-canary.23"}'
+        status_message: ""
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 0001-01-01T00:00:00Z
+    objects: []
+    created: 1735644905
+    reqTimestampMock: 2024-12-31T17:05:05.626464407+05:30
+    resTimestampMock: 2024-12-31T17:05:05.626464407+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Http
+name: mock-1
+spec:
+    metadata:
+        name: Http
+        operation: POST
+        type: HTTP_CLIENT
+    req:
+        method: POST
+        proto_major: 1
+        proto_minor: 1
+        url: /api/v1/record
+        header:
+            Accept: '*/*'
+            Accept-Encoding: br, gzip, deflate
+            Accept-Language: '*'
+            Connection: keep-alive
+            Content-Length: "1448"
+            Content-Type: application/json
+            Sec-Fetch-Mode: cors
+            User-Agent: node
+        body: '{"context":{"anonymousId":"cae094f5bc28175ec44291924e1656d6cd3fe72d31327b7fc18baea820ae7446","projectId":"ee0afb7c042bf49eb8d99ef0d9651a924884e8764e51194bff13215d8766ac3c","sessionId":"84d35381ea495bf47037d920a6686e794d3d7f48892e631a9d737e78414ba969"},"meta":{"systemPlatform":"linux","systemRelease":"6.11.9-arch1-1","systemArchitecture":"x64","cpuCount":2,"cpuModel":"AMD A6-9225 RADEON R4, 5 COMPUTE CORES 2C+3G","cpuSpeed":2394,"memoryInMb":3802,"isDocker":false,"isNowDev":false,"isWsl":false,"isCI":false,"ciName":null,"nextVersion":"15.0.3"},"events":[{"eventName":"NEXT_CLI_SESSION_STARTED","fields":{"nextVersion":"15.0.3","nodeVersion":"v23.1.0","cliCommand":"dev","isSrcDir":false,"hasNowJson":false,"isCustomServer":false,"hasNextConfig":true,"buildTarget":"default","hasWebpackConfig":false,"hasBabelConfig":false,"imageEnabled":true,"imageFutureEnabled":true,"basePathEnabled":false,"i18nEnabled":false,"locales":null,"localeDomainsCount":null,"localeDetectionEnabled":null,"imageDomainsCount":5,"imageRemotePatternsCount":0,"imageLocalPatternsCount":null,"imageSizes":"16,32,48,64,96,128,256,384","imageLoader":"default","imageFormats":"image/webp","nextConfigOutput":null,"trailingSlashEnabled":false,"reactStrictMode":false,"webpackVersion":5,"turboFlag":false,"appDir":true,"pagesDir":false,"staticStaleTime":300,"dynamicStaleTime":0,"reactCompiler":false,"reactCompilerCompilationMode":null,"reactCompilerPanicThreshold":null}}]}'
+        timestamp: 0001-01-01T00:00:00Z
+    resp:
+        status_code: 204
+        header:
+            Cache-Control: public, max-age=0, must-revalidate
+            Content-Length: "0"
+            Date: Tue, 31 Dec 2024 11:35:08 GMT
+            Server: Vercel
+            Strict-Transport-Security: max-age=63072000
+            X-Matched-Path: /api/v1/record
+            X-Vercel-Cache: MISS
+            X-Vercel-Id: bom1::pdx1::b2dsn-1735644908254-dbae34b73f07
+        body: ""
+        status_message: ""
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 0001-01-01T00:00:00Z
+    objects: []
+    created: 1735644908
+    reqTimestampMock: 2024-12-31T17:05:08.538109133+05:30
+    resTimestampMock: 2024-12-31T17:05:08.538109133+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-2
+spec:
+    metadata:
+        operation: '{ OpQuery flags: [], fullCollectionName: admin.$cmd, numberToSkip: 0, numberToReturn: -1, query: {"ismaster": {"$numberInt":"1"},"helloOk": true,"client": {"driver": {"name": "nodejs|Mongoose","version": "6.12.0|8.9.2"},"platform": "Node.js v23.1.0, LE","os": {"name": "linux","architecture": "x64","version": "6.11.9-arch1-1","type": "Linux"}},"compression": ["none"]}, returnFieldsSelector:  }'
+        type: config
+    requests:
+        - header:
+            length: 301
+            requestId: 1
+            responseTo: 0
+            Opcode: 2004
+          message:
+            flags: 0
+            collection_name: admin.$cmd
+            number_to_skip: 0
+            number_to_return: -1
+            query: '{"ismaster":{"$numberInt":"1"},"helloOk":true,"client":{"driver":{"name":"nodejs|Mongoose","version":"6.12.0|8.9.2"},"platform":"Node.js v23.1.0, LE","os":{"name":"linux","architecture":"x64","version":"6.11.9-arch1-1","type":"Linux"}},"compression":["none"]}'
+            return_fields_selector: ""
+    responses:
+        - header:
+            length: 1104
+            requestId: 7241270
+            responseTo: 1
+            Opcode: 1
+          message:
+            response_flags: 8
+            cursor_id: 0
+            starting_from: 0
+            number_returned: 1
+            documents:
+                - '{"helloOk":true,"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"ismaster":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","workloadType":"OPERATIONAL","provider":"AWS","region":"AP_SOUTH_1","nodeType":"ELECTABLE","availabilityZone":"aps1-az1"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644932,"i":6}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644932000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644932,"i":6}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644932000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644932748"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37029"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644932,"i":6}},"signature":{"hash":{"$binary":{"base64":"DJMNWAAkqnfwV0G+jkHJCGWRDLw=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644932,"i":6}}}'
+          read_delay: 42921177
+    created: 1735644932
+    reqTimestampMock: 2024-12-31T17:05:32.732324719+05:30
+    resTimestampMock: 2024-12-31T17:05:32.775886383+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-3
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                LQEAAAMAAAAAAAAA1AcAAAAAAABhZG1pbi4kY21kAAAAAAD/////BgEAABBpc21hc3Rlcg
+                ABAAAACGhlbGxvT2sAAQNjbGllbnQAwwAAAANkcml2ZXIAOQAAAAJuYW1lABAAAABub2Rl
+                anN8TW9uZ29vc2UAAnZlcnNpb24ADQAAADYuMTIuMHw4LjkuMgAAAnBsYXRmb3JtABQAAA
+                BOb2RlLmpzIHYyMy4xLjAsIExFAANvcwBXAAAAAm5hbWUABgAAAGxpbnV4AAJhcmNoaXRl
+                Y3R1cmUABAAAAHg2NAACdmVyc2lvbgAPAAAANi4xMS45LWFyY2gxLTEAAnR5cGUABgAAAE
+                xpbnV4AAAABGNvbXByZXNzaW9uABEAAAACMAAFAAAAbm9uZQAAAA==
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                aAQAALRJzgADAAAAAQAAAAgAAAAAAAAAAAAAAAAAAAABAAAARAQAAAhoZWxsb09rAAEDdG
+                9wb2xvZ3lWZXJzaW9uAC0AAAAHcHJvY2Vzc0lkAGdyr8IPmc/fQTle/xJjb3VudGVyAAYA
+                AAAAAAAAAARob3N0cwCkAAAAAjAALgAAAHBiY2x1c3Rlci1zaGFyZC0wMC0wMC4ydGo5cC
+                5tb25nb2RiLm5ldDoyNzAxNwACMQAuAAAAcGJjbHVzdGVyLXNoYXJkLTAwLTAxLjJ0ajlw
+                Lm1vbmdvZGIubmV0OjI3MDE3AAIyAC4AAABwYmNsdXN0ZXItc2hhcmQtMDAtMDIuMnRqOX
+                AubW9uZ29kYi5uZXQ6MjcwMTcAAAJzZXROYW1lABUAAABhdGxhcy04M2JpeXgtc2hhcmQt
+                MAAQc2V0VmVyc2lvbgABAAAACGlzbWFzdGVyAAEIc2Vjb25kYXJ5AAACcHJpbWFyeQAuAA
+                AAcGJjbHVzdGVyLXNoYXJkLTAwLTAyLjJ0ajlwLm1vbmdvZGIubmV0OjI3MDE3AAN0YWdz
+                AJgAAAACcmVnaW9uAAsAAABBUF9TT1VUSF8xAAJub2RlVHlwZQAKAAAARUxFQ1RBQkxFAA
+                J3b3JrbG9hZFR5cGUADAAAAE9QRVJBVElPTkFMAAJhdmFpbGFiaWxpdHlab25lAAkAAABh
+                cHMxLWF6MgACcHJvdmlkZXIABAAAAEFXUwACZGlza1N0YXRlAAYAAABSRUFEWQAAAm1lAC
+                4AAABwYmNsdXN0ZXItc2hhcmQtMDAtMDIuMnRqOXAubW9uZ29kYi5uZXQ6MjcwMTcAB2Vs
+                ZWN0aW9uSWQAf////wAAAAAAAAAGA2xhc3RXcml0ZQCHAAAAA29wVGltZQAcAAAAEXRzAA
+                gAAAAE13NnEnQABgAAAAAAAAAACWxhc3RXcml0ZURhdGUAoOd/HJQBAAADbWFqb3JpdHlP
+                cFRpbWUAHAAAABF0cwAIAAAABNdzZxJ0AAYAAAAAAAAAAAltYWpvcml0eVdyaXRlRGF0ZQ
+                Cg538clAEAAAAQbWF4QnNvbk9iamVjdFNpemUAAAAAARBtYXhNZXNzYWdlU2l6ZUJ5dGVz
+                AABs3AIQbWF4V3JpdGVCYXRjaFNpemUAoIYBAAlsb2NhbFRpbWUAFet/HJQBAAAQbG9naW
+                NhbFNlc3Npb25UaW1lb3V0TWludXRlcwAeAAAAEGNvbm5lY3Rpb25JZACXnQAAEG1pbldp
+                cmVWZXJzaW9uAAAAAAAQbWF4V2lyZVZlcnNpb24AGQAAAAhyZWFkT25seQAAAW9rAAAAAA
+                AAAPA/AyRjbHVzdGVyVGltZQBYAAAAEWNsdXN0ZXJUaW1lAAgAAAAE13NnA3NpZ25hdHVy
+                ZQAzAAAABWhhc2gAFAAAAAAMkw1YACSqd/BXQb6OQckIZZEMvBJrZXlJZAAGAAAAjPdiZw
+                AAEW9wZXJhdGlvblRpbWUACAAAAATXc2cA
+    reqtimestampmock: 2024-12-31T17:05:32.867927221+05:30
+    restimestampmock: 2024-12-31T17:05:32.907442632+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-4
+spec:
+    metadata:
+        operation: '{ OpQuery flags: [], fullCollectionName: admin.$cmd, numberToSkip: 0, numberToReturn: -1, query: {"ismaster": {"$numberInt":"1"},"helloOk": true,"client": {"driver": {"name": "nodejs|Mongoose","version": "6.12.0|8.9.2"},"platform": "Node.js v23.1.0, LE","os": {"name": "linux","architecture": "x64","version": "6.11.9-arch1-1","type": "Linux"}},"compression": ["none"],"saslSupportedMechs": "admin.PointBlank","speculativeAuthenticate": {"saslStart": {"$numberInt":"1"},"mechanism": "SCRAM-SHA-256","payload": {"$binary":{"base64":"biwsbj1Qb2ludEJsYW5rLHI9M2dmanROR3c2SDR3cUtvQ1pNU3ZZRUpXZGJiWDdxajQ=","subType":"00"}},"autoAuthorize": {"$numberInt":"1"},"options": {"skipEmptyExchange": true},"db": "admin"}}, returnFieldsSelector:  }'
+        type: config
+    requests:
+        - header:
+            length: 547
+            requestId: 4
+            responseTo: 0
+            Opcode: 2004
+          message:
+            flags: 0
+            collection_name: admin.$cmd
+            number_to_skip: 0
+            number_to_return: -1
+            query: '{"ismaster":{"$numberInt":"1"},"helloOk":true,"client":{"driver":{"name":"nodejs|Mongoose","version":"6.12.0|8.9.2"},"platform":"Node.js v23.1.0, LE","os":{"name":"linux","architecture":"x64","version":"6.11.9-arch1-1","type":"Linux"}},"compression":["none"],"saslSupportedMechs":"admin.PointBlank","speculativeAuthenticate":{"saslStart":{"$numberInt":"1"},"mechanism":"SCRAM-SHA-256","payload":{"$binary":{"base64":"biwsbj1Qb2ludEJsYW5rLHI9M2dmanROR3c2SDR3cUtvQ1pNU3ZZRUpXZGJiWDdxajQ=","subType":"00"}},"autoAuthorize":{"$numberInt":"1"},"options":{"skipEmptyExchange":true},"db":"admin"}}'
+            return_fields_selector: ""
+    responses:
+        - header:
+            length: 1172
+            requestId: 13519323
+            responseTo: 4
+            Opcode: 1
+          message:
+            response_flags: 8
+            cursor_id: 0
+            starting_from: 0
+            number_returned: 1
+            documents:
+                - '{"helloOk":true,"topologyVersion":{"processId":{"$oid":"6772afc20f99cfdf41395eff"},"counter":{"$numberLong":"6"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"ismaster":true,"secondary":false,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"nodeType":"ELECTABLE","availabilityZone":"aps1-az2","diskState":"READY","workloadType":"OPERATIONAL","provider":"AWS","region":"AP_SOUTH_1"},"me":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","electionId":{"$oid":"7fffffff0000000000000006"},"lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644933,"i":2}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644933000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644933,"i":2}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644933000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644933129"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"40341"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644933,"i":2}},"saslSupportedMechs":["SCRAM-SHA-1"]}'
+          read_delay: 38306287
+    created: 1735644933
+    reqTimestampMock: 2024-12-31T17:05:33.110344291+05:30
+    resTimestampMock: 2024-12-31T17:05:33.149080247+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-5
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"saslStart":{"$numberInt":"1"},"mechanism":"SCRAM-SHA-1","payload":{"$binary":{"base64":"biwsbj1Qb2ludEJsYW5rLHI9M2dmanROR3c2SDR3cUtvQ1pNU3ZZRUpXZGJiWDdxajQ=","subType":"00"}},"autoAuthorize":{"$numberInt":"1"},"options":{"skipEmptyExchange":true},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 302
+            requestId: 5
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"saslStart":{"$numberInt":"1"},"mechanism":"SCRAM-SHA-1","payload":{"$binary":{"base64":"biwsbj1Qb2ludEJsYW5rLHI9M2dmanROR3c2SDR3cUtvQ1pNU3ZZRUpXZGJiWDdxajQ=","subType":"00"}},"autoAuthorize":{"$numberInt":"1"},"options":{"skipEmptyExchange":true},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 18406037
+    responses:
+        - header:
+            length: 168
+            requestId: 17
+            responseTo: 5
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"conversationId":{"$numberInt":"1"},"done":false,"payload":{"$binary":{"base64":"cj0zZ2ZqdE5HdzZINHdxS29DWk1TdllFSldkYmJYN3FqNDc5MCtCVVVTUHNtdUwvcFVjZ0hoaVE9PSxzPUw1UUhpSzkvUnpKVkRrUHBuckF3RWc9PSxpPTEwMDAw","subType":"00"}},"ok":{"$numberInt":"1"}} }'
+            checksum: 0
+          read_delay: 38510398
+    created: 1735644933
+    reqTimestampMock: 2024-12-31T17:05:33.167756087+05:30
+    resTimestampMock: 2024-12-31T17:05:33.206778854+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-6
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"saslContinue":{"$numberInt":"1"},"conversationId":{"$numberInt":"1"},"payload":{"$binary":{"base64":"Yz1iaXdzLHI9M2dmanROR3c2SDR3cUtvQ1pNU3ZZRUpXZGJiWDdxajQ3OTArQlVVU1BzbXVML3BVY2dIaGlRPT0scD1OYjYyMUNaeDhmNTRCTUxrbzhhblNUT2V6R289","subType":"00"}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 291
+            requestId: 6
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"saslContinue":{"$numberInt":"1"},"conversationId":{"$numberInt":"1"},"payload":{"$binary":{"base64":"Yz1iaXdzLHI9M2dmanROR3c2SDR3cUtvQ1pNU3ZZRUpXZGJiWDdxajQ3OTArQlVVU1BzbXVML3BVY2dIaGlRPT0scD1OYjYyMUNaeDhmNTRCTUxrbzhhblNUT2V6R289","subType":"00"}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 23134470
+    responses:
+        - header:
+            length: 105
+            requestId: 17
+            responseTo: 6
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"conversationId":{"$numberInt":"1"},"done":true,"payload":{"$binary":{"base64":"dj1TY2xMQzlXNHNWSVloNTY3dFl1Qm5RSkN1emM9","subType":"00"}},"ok":{"$numberInt":"1"}} }'
+            checksum: 0
+          read_delay: 35295959
+    created: 1735644933
+    reqTimestampMock: 2024-12-31T17:05:33.230196771+05:30
+    resTimestampMock: 2024-12-31T17:05:33.265753446+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-7
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"ping":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+    requests:
+        - header:
+            length: 153
+            requestId: 7
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"ping":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 14083929
+    responses:
+        - header:
+            length: 34
+            requestId: 17
+            responseTo: 7
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"ok":{"$numberInt":"1"}} }'
+            checksum: 0
+          read_delay: 35296104
+    created: 1735644933
+    reqTimestampMock: 2024-12-31T17:05:33.280097779+05:30
+    resTimestampMock: 2024-12-31T17:05:33.315643192+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-8
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"create":"leads","lsid":{"id":{"$binary":{"base64":"N6ch+vJdQMCS9uFZtm96kw==","subType":"04"}}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"pbdata"} }], checksum: 0 }'
+    requests:
+        - header:
+            length: 198
+            requestId: 9
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"create":"leads","lsid":{"id":{"$binary":{"base64":"N6ch+vJdQMCS9uFZtm96kw==","subType":"04"}}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":2}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"pbdata"} }'
+            checksum: 0
+          read_delay: 54188658
+    responses:
+        - header:
+            length: 163
+            requestId: 13519357
+            responseTo: 9
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":4}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644933,"i":4}}} }'
+            checksum: 0
+          read_delay: 41017966
+    created: 1735644933
+    reqTimestampMock: 2024-12-31T17:05:33.370233919+05:30
+    resTimestampMock: 2024-12-31T17:05:33.411566311+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-9
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"createIndexes":"leads","indexes":[{"unique":true,"background":true,"name":"id_1","key":{"id":{"$numberInt":"1"}}}],"lsid":{"id":{"$binary":{"base64":"N6ch+vJdQMCS9uFZtm96kw==","subType":"04"}}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":4}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"pbdata"} }], checksum: 0 }'
+    requests:
+        - header:
+            length: 282
+            requestId: 11
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"createIndexes":"leads","indexes":[{"unique":true,"background":true,"name":"id_1","key":{"id":{"$numberInt":"1"}}}],"lsid":{"id":{"$binary":{"base64":"N6ch+vJdQMCS9uFZtm96kw==","subType":"04"}}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":4}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"pbdata"} }'
+            checksum: 0
+          read_delay: 19582833
+    responses:
+        - header:
+            length: 274
+            requestId: 13519371
+            responseTo: 11
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"numIndexesBefore":{"$numberInt":"2"},"numIndexesAfter":{"$numberInt":"2"},"commitQuorum":"votingMembers","note":"all indexes already exist","ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644933,"i":4}},"signature":{"hash":{"$binary":{"base64":"x3ZgfXmpd2PdNLfKUTmSnD3y06E=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644933,"i":4}}} }'
+            checksum: 0
+          read_delay: 75692400
+    created: 1735644933
+    reqTimestampMock: 2024-12-31T17:05:33.431441395+05:30
+    resTimestampMock: 2024-12-31T17:05:33.508320804+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-10
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                IwIAAA0AAAAAAAAA1AcAAAAAAABhZG1pbi4kY21kAAAAAAD//////AEAABBpc21hc3Rlcg
+                ABAAAACGhlbGxvT2sAAQNjbGllbnQAwwAAAANkcml2ZXIAOQAAAAJuYW1lABAAAABub2Rl
+                anN8TW9uZ29vc2UAAnZlcnNpb24ADQAAADYuMTIuMHw4LjkuMgAAAnBsYXRmb3JtABQAAA
+                BOb2RlLmpzIHYyMy4xLjAsIExFAANvcwBXAAAAAm5hbWUABgAAAGxpbnV4AAJhcmNoaXRl
+                Y3R1cmUABAAAAHg2NAACdmVyc2lvbgAPAAAANi4xMS45LWFyY2gxLTEAAnR5cGUABgAAAE
+                xpbnV4AAAABGNvbXByZXNzaW9uABEAAAACMAAFAAAAbm9uZQAAAnNhc2xTdXBwb3J0ZWRN
+                ZWNocwARAAAAYWRtaW4uUG9pbnRCbGFuawADc3BlY3VsYXRpdmVBdXRoZW50aWNhdGUAtA
+                AAABBzYXNsU3RhcnQAAQAAAAJtZWNoYW5pc20ADgAAAFNDUkFNLVNIQS0yNTYABXBheWxv
+                YWQAMgAAAABuLCxuPVBvaW50Qmxhbmsscj02ZVhDMkhnOHdtWGkyYU9DRWVORVBGUlY4Rl
+                NFVDl6bhBhdXRvQXV0aG9yaXplAAEAAAADb3B0aW9ucwAZAAAACHNraXBFbXB0eUV4Y2hh
+                bmdlAAEAAmRiAAYAAABhZG1pbgAAAA==
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                lAQAACFKzgANAAAAAQAAAAgAAAAAAAAAAAAAAAAAAAABAAAAcAQAAAhoZWxsb09rAAEDdG
+                9wb2xvZ3lWZXJzaW9uAC0AAAAHcHJvY2Vzc0lkAGdyr8IPmc/fQTle/xJjb3VudGVyAAYA
+                AAAAAAAAAARob3N0cwCkAAAAAjAALgAAAHBiY2x1c3Rlci1zaGFyZC0wMC0wMC4ydGo5cC
+                5tb25nb2RiLm5ldDoyNzAxNwACMQAuAAAAcGJjbHVzdGVyLXNoYXJkLTAwLTAxLjJ0ajlw
+                Lm1vbmdvZGIubmV0OjI3MDE3AAIyAC4AAABwYmNsdXN0ZXItc2hhcmQtMDAtMDIuMnRqOX
+                AubW9uZ29kYi5uZXQ6MjcwMTcAAAJzZXROYW1lABUAAABhdGxhcy04M2JpeXgtc2hhcmQt
+                MAAQc2V0VmVyc2lvbgABAAAACGlzbWFzdGVyAAEIc2Vjb25kYXJ5AAACcHJpbWFyeQAuAA
+                AAcGJjbHVzdGVyLXNoYXJkLTAwLTAyLjJ0ajlwLm1vbmdvZGIubmV0OjI3MDE3AAN0YWdz
+                AJgAAAACbm9kZVR5cGUACgAAAEVMRUNUQUJMRQACYXZhaWxhYmlsaXR5Wm9uZQAJAAAAYX
+                BzMS1hejIAAmRpc2tTdGF0ZQAGAAAAUkVBRFkAAndvcmtsb2FkVHlwZQAMAAAAT1BFUkFU
+                SU9OQUwAAnByb3ZpZGVyAAQAAABBV1MAAnJlZ2lvbgALAAAAQVBfU09VVEhfMQAAAm1lAC
+                4AAABwYmNsdXN0ZXItc2hhcmQtMDAtMDIuMnRqOXAubW9uZ29kYi5uZXQ6MjcwMTcAB2Vs
+                ZWN0aW9uSWQAf////wAAAAAAAAAGA2xhc3RXcml0ZQCHAAAAA29wVGltZQAcAAAAEXRzAA
+                YAAAAF13NnEnQABgAAAAAAAAAACWxhc3RXcml0ZURhdGUAiOt/HJQBAAADbWFqb3JpdHlP
+                cFRpbWUAHAAAABF0cwAGAAAABddzZxJ0AAYAAAAAAAAAAAltYWpvcml0eVdyaXRlRGF0ZQ
+                CI638clAEAAAAQbWF4QnNvbk9iamVjdFNpemUAAAAAARBtYXhNZXNzYWdlU2l6ZUJ5dGVz
+                AABs3AIQbWF4V3JpdGVCYXRjaFNpemUAoIYBAAlsb2NhbFRpbWUA0e1/HJQBAAAQbG9naW
+                NhbFNlc3Npb25UaW1lb3V0TWludXRlcwAeAAAAEGNvbm5lY3Rpb25JZACYnQAAEG1pbldp
+                cmVWZXJzaW9uAAAAAAAQbWF4V2lyZVZlcnNpb24AGQAAAAhyZWFkT25seQAAAW9rAAAAAA
+                AAAPA/AyRjbHVzdGVyVGltZQBYAAAAEWNsdXN0ZXJUaW1lAAYAAAAF13NnA3NpZ25hdHVy
+                ZQAzAAAABWhhc2gAFAAAAADHdmB9eal3Y900t8pROZKcPfLToRJrZXlJZAAGAAAAjPdiZw
+                AAEW9wZXJhdGlvblRpbWUABgAAAAXXc2cEc2FzbFN1cHBvcnRlZE1lY2hzABgAAAACMAAM
+                AAAAU0NSQU0tU0hBLTEAAAA=
+    reqtimestampmock: 2024-12-31T17:05:33.567272941+05:30
+    restimestampmock: 2024-12-31T17:05:33.605368931+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-11
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                LgEAAA4AAAAAAAAA3QcAAAAAAAAAGQEAABBzYXNsU3RhcnQAAQAAAAJtZWNoYW5pc20ADA
+                AAAFNDUkFNLVNIQS0xAAVwYXlsb2FkADIAAAAAbiwsbj1Qb2ludEJsYW5rLHI9NmVYQzJI
+                Zzh3bVhpMmFPQ0VlTkVQRlJWOEZTRVQ5em4QYXV0b0F1dGhvcml6ZQABAAAAA29wdGlvbn
+                MAGQAAAAhza2lwRW1wdHlFeGNoYW5nZQABAAMkY2x1c3RlclRpbWUAWAAAABFjbHVzdGVy
+                VGltZQAGAAAABddzZwNzaWduYXR1cmUAMwAAAAVoYXNoABQAAAAAx3ZgfXmpd2PdNLfKUT
+                mSnD3y06ESa2V5SWQABgAAAIz3YmcAAAIkZGIABgAAAGFkbWluAAA=
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                qAAAABEAAAAOAAAA3QcAAAAAAAAAkwAAABBjb252ZXJzYXRpb25JZAABAAAACGRvbmUAAA
+                VwYXlsb2FkAF0AAAAAcj02ZVhDMkhnOHdtWGkyYU9DRWVORVBGUlY4RlNFVDl6bnp5Ykd2
+                Z2tJQStzL28vaVROeHozQVE9PSxzPUw1UUhpSzkvUnpKVkRrUHBuckF3RWc9PSxpPTEwMD
+                AwEG9rAAEAAAAA
+    reqtimestampmock: 2024-12-31T17:05:33.61569899+05:30
+    restimestampmock: 2024-12-31T17:05:33.654850347+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-12
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                IwEAAA8AAAAAAAAA3QcAAAAAAAAADgEAABBzYXNsQ29udGludWUAAQAAABBjb252ZXJzYX
+                Rpb25JZAABAAAABXBheWxvYWQAYAAAAABjPWJpd3Mscj02ZVhDMkhnOHdtWGkyYU9DRWVO
+                RVBGUlY4RlNFVDl6bnp5Ykd2Z2tJQStzL28vaVROeHozQVE9PSxwPXluc1JSME83TFRmej
+                NhSm1MQkJ2K1RjUDJudz0DJGNsdXN0ZXJUaW1lAFgAAAARY2x1c3RlclRpbWUABgAAAAXX
+                c2cDc2lnbmF0dXJlADMAAAAFaGFzaAAUAAAAAMd2YH15qXdj3TS3ylE5kpw98tOhEmtleU
+                lkAAYAAACM92JnAAACJGRiAAYAAABhZG1pbgAA
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                aQAAABEAAAAPAAAA3QcAAAAAAAAAVAAAABBjb252ZXJzYXRpb25JZAABAAAACGRvbmUAAQ
+                VwYXlsb2FkAB4AAAAAdj1FOSs3MlNtQVprRmovV0VlaHpnaXdkMEFWMEk9EG9rAAEAAAAA
+    reqtimestampmock: 2024-12-31T17:05:33.66698104+05:30
+    restimestampmock: 2024-12-31T17:05:33.700570914+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-13
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                3wEAABAAAAAAAAAA3QcAAAAAAAAAygEAAAJpbnNlcnQABgAAAGxlYWRzAARkb2N1bWVudH
+                MA8QAAAAMwAOkAAAACaWQAJQAAAGNmNmY4OWJmLTQwNjAtNDQ4OC04YTlmLTg2NGFkMjA0
+                OTRjOQACbmFtZQAHAAAAS2VwbG95AAJwb3NpdGlvbgAIAAAAQ3VycmVudAACb3JnYW5pem
+                F0aW9uAAkAAABBQkMgQ29ycAACYWRkaXRpb25hbEluZm8AHQAAAEpvaG4gaXMgYSBzb2Z0
+                d2FyZSBlbmdpbmVlci4AAmltYWdlVXJsABwAAABodHRwOi8vZXhhbXBsZS5jb20vam9obi
+                5qcGcAB19pZABnc9cFUCnSjOjDxd8QX192AAAAAAAAAAhvcmRlcmVkAAEDbHNpZAAeAAAA
+                BWlkABAAAAAEN6ch+vJdQMCS9uFZtm96kwASdHhuTnVtYmVyAAEAAAAAAAAAAyRjbHVzdG
+                VyVGltZQBYAAAAEWNsdXN0ZXJUaW1lAAYAAAAF13NnA3NpZ25hdHVyZQAzAAAABWhhc2gA
+                FAAAAADHdmB9eal3Y900t8pROZKcPfLToRJrZXlJZAAGAAAAjPdiZwAAAiRkYgAHAAAAcG
+                JkYXRhAAA=
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                5gAAAERKzgAQAAAA3QcAAAAAAAAA0QAAABBuAAEAAAAHZWxlY3Rpb25JZAB/////AAAAAA
+                AAAAYDb3BUaW1lABwAAAARdHMACQAAAAXXc2cSdAAGAAAAAAAAAAABb2sAAAAAAAAA8D8D
+                JGNsdXN0ZXJUaW1lAFgAAAARY2x1c3RlclRpbWUACQAAAAXXc2cDc2lnbmF0dXJlADMAAA
+                AFaGFzaAAUAAAAAMd2YH15qXdj3TS3ylE5kpw98tOhEmtleUlkAAYAAACM92JnAAARb3Bl
+                cmF0aW9uVGltZQAJAAAABddzZwA=
+    reqtimestampmock: 2024-12-31T17:05:33.711433773+05:30
+    restimestampmock: 2024-12-31T17:05:33.750554344+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-14
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 65536, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"maxAwaitTimeMS":{"$numberInt":"10000"},"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644932,"i":6}},"signature":{"hash":{"$binary":{"base64":"DJMNWAAkqnfwV0G+jkHJCGWRDLw=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 236
+            requestId: 8
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 65536
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"maxAwaitTimeMS":{"$numberInt":"10000"},"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644932,"i":6}},"signature":{"hash":{"$binary":{"base64":"DJMNWAAkqnfwV0G+jkHJCGWRDLw=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 533326377
+    responses:
+        - header:
+            length: 1088
+            requestId: 7242355
+            responseTo: 8
+            Opcode: 2013
+          message:
+            flagBits: 2
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","workloadType":"OPERATIONAL","provider":"AWS","region":"AP_SOUTH_1","nodeType":"ELECTABLE","availabilityZone":"aps1-az1"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644943,"i":2}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644943000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644943,"i":2}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644943000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644943334"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37028"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644943,"i":2}},"signature":{"hash":{"$binary":{"base64":"BybXV+Rch83UZ5oj+GkXQoGeYKA=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644943,"i":2}}} }'
+            checksum: 0
+          read_delay: 10044336102
+    created: 1735644943
+    reqTimestampMock: 2024-12-31T17:05:33.309795788+05:30
+    resTimestampMock: 2024-12-31T17:05:43.354545434+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-15
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 65536, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"maxAwaitTimeMS":{"$numberInt":"10000"},"topologyVersion":{"processId":{"$oid":"6772b0fc5991d25a22432324"},"counter":{"$numberLong":"3"}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644932,"i":8}},"signature":{"hash":{"$binary":{"base64":"DJMNWAAkqnfwV0G+jkHJCGWRDLw=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 236
+            requestId: 10
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 65536
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"maxAwaitTimeMS":{"$numberInt":"10000"},"topologyVersion":{"processId":{"$oid":"6772b0fc5991d25a22432324"},"counter":{"$numberLong":"3"}},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644932,"i":8}},"signature":{"hash":{"$binary":{"base64":"DJMNWAAkqnfwV0G+jkHJCGWRDLw=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 569723406
+    responses:
+        - header:
+            length: 1088
+            requestId: 7035160
+            responseTo: 10
+            Opcode: 2013
+          message:
+            flagBits: 2
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772b0fc5991d25a22432324"},"counter":{"$numberLong":"3"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"availabilityZone":"aps1-az3","provider":"AWS","region":"AP_SOUTH_1","diskState":"READY","nodeType":"ELECTABLE","workloadType":"OPERATIONAL"},"me":"pbcluster-shard-00-01.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644943,"i":2}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644943000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644943,"i":2}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644943000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644943407"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"36536"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644943,"i":2}},"signature":{"hash":{"$binary":{"base64":"BybXV+Rch83UZ5oj+GkXQoGeYKA=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644943,"i":2}}} }'
+            checksum: 0
+          read_delay: 10046328986
+    created: 1735644943
+    reqTimestampMock: 2024-12-31T17:05:33.383287795+05:30
+    resTimestampMock: 2024-12-31T17:05:43.431355714+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-16
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                7AAAAAwAAAAAAAAA3QcAAAAAAQAA1wAAABBoZWxsbwABAAAAEG1heEF3YWl0VGltZU1TAB
+                AnAAADdG9wb2xvZ3lWZXJzaW9uAC0AAAAHcHJvY2Vzc0lkAGdyr8IPmc/fQTle/xJjb3Vu
+                dGVyAAYAAAAAAAAAAAMkY2x1c3RlclRpbWUAWAAAABFjbHVzdGVyVGltZQAIAAAABNdzZw
+                NzaWduYXR1cmUAMwAAAAVoYXNoABQAAAAADJMNWAAkqnfwV0G+jkHJCGWRDLwSa2V5SWQA
+                BgAAAIz3YmcAAAIkZGIABgAAAGFkbWluAAA=
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                WAQAAC1PzgAMAAAA3QcAAAIAAAAAQwQAAAN0b3BvbG9neVZlcnNpb24ALQAAAAdwcm9jZX
+                NzSWQAZ3Kvwg+Zz99BOV7/EmNvdW50ZXIABgAAAAAAAAAABGhvc3RzAKQAAAACMAAuAAAA
+                cGJjbHVzdGVyLXNoYXJkLTAwLTAwLjJ0ajlwLm1vbmdvZGIubmV0OjI3MDE3AAIxAC4AAA
+                BwYmNsdXN0ZXItc2hhcmQtMDAtMDEuMnRqOXAubW9uZ29kYi5uZXQ6MjcwMTcAAjIALgAA
+                AHBiY2x1c3Rlci1zaGFyZC0wMC0wMi4ydGo5cC5tb25nb2RiLm5ldDoyNzAxNwAAAnNldE
+                5hbWUAFQAAAGF0bGFzLTgzYml5eC1zaGFyZC0wABBzZXRWZXJzaW9uAAEAAAAIaXNXcml0
+                YWJsZVByaW1hcnkAAQhzZWNvbmRhcnkAAAJwcmltYXJ5AC4AAABwYmNsdXN0ZXItc2hhcm
+                QtMDAtMDIuMnRqOXAubW9uZ29kYi5uZXQ6MjcwMTcAA3RhZ3MAmAAAAAJub2RlVHlwZQAK
+                AAAARUxFQ1RBQkxFAAJyZWdpb24ACwAAAEFQX1NPVVRIXzEAAnByb3ZpZGVyAAQAAABBV1
+                MAAndvcmtsb2FkVHlwZQAMAAAAT1BFUkFUSU9OQUwAAmRpc2tTdGF0ZQAGAAAAUkVBRFkA
+                AmF2YWlsYWJpbGl0eVpvbmUACQAAAGFwczEtYXoyAAACbWUALgAAAHBiY2x1c3Rlci1zaG
+                FyZC0wMC0wMi4ydGo5cC5tb25nb2RiLm5ldDoyNzAxNwAHZWxlY3Rpb25JZAB/////AAAA
+                AAAAAAYDbGFzdFdyaXRlAIcAAAADb3BUaW1lABwAAAARdHMAAgAAAA/Xc2cSdAAGAAAAAA
+                AAAAAJbGFzdFdyaXRlRGF0ZQCYEoAclAEAAANtYWpvcml0eU9wVGltZQAcAAAAEXRzAAIA
+                AAAP13NnEnQABgAAAAAAAAAACW1ham9yaXR5V3JpdGVEYXRlAJgSgByUAQAAABBtYXhCc2
+                9uT2JqZWN0U2l6ZQAAAAABEG1heE1lc3NhZ2VTaXplQnl0ZXMAAGzcAhBtYXhXcml0ZUJh
+                dGNoU2l6ZQCghgEACWxvY2FsVGltZQBZFIAclAEAABBsb2dpY2FsU2Vzc2lvblRpbWVvdX
+                RNaW51dGVzAB4AAAAQY29ubmVjdGlvbklkAJWdAAAQbWluV2lyZVZlcnNpb24AAAAAABBt
+                YXhXaXJlVmVyc2lvbgAZAAAACHJlYWRPbmx5AAABb2sAAAAAAAAA8D8DJGNsdXN0ZXJUaW
+                1lAFgAAAARY2x1c3RlclRpbWUAAgAAAA/Xc2cDc2lnbmF0dXJlADMAAAAFaGFzaAAUAAAA
+                AAcm11fkXIfN1GeaI/hpF0KBnmCgEmtleUlkAAYAAACM92JnAAARb3BlcmF0aW9uVGltZQ
+                ACAAAAD9dzZwA=
+    reqtimestampmock: 2024-12-31T17:05:33.432328288+05:30
+    restimestampmock: 2024-12-31T17:05:43.469225145+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-17
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                0QAAABQAAAAAAAAA3QcAAAAAAAAAvAAAAAJmaW5kAAYAAABsZWFkcwADZmlsdGVyAAUAAA
+                AAA2xzaWQAHgAAAAVpZAAQAAAABDenIfryXUDAkvbhWbZvepMAAyRjbHVzdGVyVGltZQBY
+                AAAAEWNsdXN0ZXJUaW1lAAkAAAAF13NnA3NpZ25hdHVyZQAzAAAABWhhc2gAFAAAAADHdm
+                B9eal3Y900t8pROZKcPfLToRJrZXlJZAAGAAAAjPdiZwAAAiRkYgAHAAAAcGJkYXRhAAA=
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                MA0AAKVPzgAUAAAA3QcAAAAAAAAAGw0AAANjdXJzb3IAhQwAAARmaXJzdEJhdGNoAFMMAA
+                ADMACsAAAAB19pZABncQor2RyXvs1VVpsCbmFtZQAXAAAARGViYXlhbiBHaG9zaCBEYXN0
+                aWRlcgACcG9zaXRpb24ABwAAAEFsdW1uaQACaW1hZ2VVcmwANQAAAGh0dHBzOi8vYXZhdG
+                Fycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83NzE5OTM3Mz92PTQAAmlkABUAAAAzY0RN
+                aXdSdjhuVnlyWWhEb1ZvegAAAzEAzgAAAAdfaWQAZ3EKK9kcl77NVVacAm9yZ2FuaXphdG
+                lvbgABAAAAAAJpbWFnZVVybAA1AAAAaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250
+                ZW50LmNvbS91LzM3MzU5Njc5P3Y9NAACbmFtZQARAAAAQmFwdSBQcnV0aHZpZGhhcgACYW
+                RkaXRpb25hbEluZm8AAQAAAAACcG9zaXRpb24ABwAAAEFsdW1uaQACaWQAFQAAADVWbDY3
+                dEhhUkNmOUJ2aThVRXl6AAADMgA4AQAAB19pZABncQor2RyXvs1VVp4CaWQAFQAAAERHcz
+                U2YXJzU3NUZ2g1TTFNSTVQAAJuYW1lAA4AAABQcmF0aGlrIFNpbmdoAAJhZGRpdGlvbmFs
+                SW5mbwABAAAAAAJwb3NpdGlvbgAHAAAAQWx1bW5pAAJpbWFnZVVybACcAAAAaHR0cHM6Ly
+                9maXJlYmFzZXN0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vdjAvYi9wYndlYnNpdGUtZDcwYTMu
+                YXBwc3BvdC5jb20vby9pbWFnZXMlMkZQcmF0aWslMjBTaW5naC5qcGVnP2FsdD1tZWRpYS
+                Z0b2tlbj0yZTFmNGQxNS1lNTZhLTRhMDgtODIzZS1lZjc0ODA2NDE2YTAAAm9yZ2FuaXph
+                dGlvbgAHAAAAR2l0bGFiAAADMwDKAAAAB19pZABncQor2RyXvs1VVp8CYWRkaXRpb25hbE
+                luZm8AAQAAAAACcG9zaXRpb24ABwAAAEFsdW1uaQACb3JnYW5pemF0aW9uAAEAAAAAAmlt
+                YWdlVXJsADUAAABodHRwczovL2F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3UvNz
+                czNTQxMzg/dj00AAJuYW1lAA0AAABNYWRodXIgTWVodGEAAmlkABUAAABJWEhNSm80UElQ
+                OUkyaDVxd1dSaQAAAzQAQQEAAAdfaWQAZ3EKK9kcl77NVVagAmlkABUAAABNTjBJUlVwbX
+                ZwOXNmZms1S29DaAACaW1hZ2VVcmwAnQAAAGh0dHBzOi8vZmlyZWJhc2VzdG9yYWdlLmdv
+                b2dsZWFwaXMuY29tL3YwL2IvcGJ3ZWJzaXRlLWQ3MGEzLmFwcHNwb3QuY29tL28vaW1hZ2
+                VzJTJGU2FhbGltJTIwUXVhZHJpLmpwZWc/YWx0PW1lZGlhJnRva2VuPWNlYzYwMWViLTVh
+                ZTgtNGIwYi1iOWQ3LWNlZTUzZTAwOGExYwACbmFtZQAOAAAAU2FhbGltIFF1YWRyaQACb3
+                JnYW5pemF0aW9uAAgAAABWaXNwZXJvAAJhZGRpdGlvbmFsSW5mbwAHAAAATEZYIDIzAAJw
+                b3NpdGlvbgAIAAAAQ3VycmVudAAAAzUAQAEAAAdfaWQAZ3EKK9kcl77NVVahAmltYWdlVX
+                JsAJ4AAABodHRwczovL2ZpcmViYXNlc3RvcmFnZS5nb29nbGVhcGlzLmNvbS92MC9iL3Bi
+                d2Vic2l0ZS1kNzBhMy5hcHBzcG90LmNvbS9vL21lbWJlcnMlMkZ5dXZyYWpfc2hvcmV3YW
+                xhLnBuZz9hbHQ9bWVkaWEmdG9rZW49ZGRlNGQwMTEtMzNhZi00YmZiLTk4ZmEtM2M5OTE5
+                MmI3OTYzAAJhZGRpdGlvbmFsSW5mbwAIAAAAQ1AgbGVhZAACbmFtZQASAAAAWXV2cmFqIF
+                Nob3Jld2FsYSAAAm9yZ2FuaXphdGlvbgABAAAAAAJwb3NpdGlvbgAIAAAAQ3VycmVudAAC
+                aWQAFQAAAFJjZzRSY1RyRUtqM1BPYjZ6bXlPAAADNgA4AQAAB19pZABncQor2RyXvs1VVq
+                ICaW1hZ2VVcmwAlgAAAGh0dHBzOi8vZmlyZWJhc2VzdG9yYWdlLmdvb2dsZWFwaXMuY29t
+                L3YwL2IvcGJ3ZWJzaXRlLWQ3MGEzLmFwcHNwb3QuY29tL28vaW1hZ2VzJTJGQWthc2glMj
+                BTaW5naD9hbHQ9bWVkaWEmdG9rZW49YjdjOTgyYjQtODY5ZS00ZTU0LTk0ZmQtZTExNmEw
+                NWU1YTRkAAJuYW1lAA0AAABBa2FzaCBTaW5naCAAAnBvc2l0aW9uAAgAAABDdXJyZW50AA
+                JhZGRpdGlvbmFsSW5mbwAIAAAAR3NvYyAyNAACaWQAFQAAAFd5SW00ek9QQjNIdXltWUhy
+                cFV3AAJvcmdhbml6YXRpb24ABgAAAFZhbmNlAAADNwAmAQAAB19pZABncQor2RyXvs1VVq
+                MCYWRkaXRpb25hbEluZm8ADAAAAEdzb2MgMjMsIDI0AAJpZAAVAAAAYm1ZdzdkSnljOGpL
+                ekt1ekFzajQAAnBvc2l0aW9uAAcAAABBbHVtbmkAAm9yZ2FuaXphdGlvbgALAAAAVWx0cm
+                FodW1hbgACaW1hZ2VVcmwAegAAAGh0dHBzOi8vZ2l0aHViLXByb2R1Y3Rpb24tdXNlci1h
+                c3NldC02MjEwZGYuczMuYW1hem9uYXdzLmNvbS85MDAyNjk1Mi8yNzk2OTQ5MTUtYzc2OT
+                MzNjMtNjYyMy00YmQyLTk1MDMtZWUwOTJiMGUzNTkzLmpwZWcAAm5hbWUADwAAAFByYXR5
+                dXNoIFNpbmdoAAADOADKAAAAB19pZABncQor2RyXvs1VVqQCb3JnYW5pemF0aW9uAAEAAA
+                AAAmltYWdlVXJsADUAAABodHRwczovL2F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29t
+                L3UvNjQ2NjkzMjY/dj00AAJuYW1lAA0AAABBbnVrdWwgQW5hbmQAAmFkZGl0aW9uYWxJbm
+                ZvAAEAAAAAAnBvc2l0aW9uAAcAAABBbHVtbmkAAmlkABUAAABoamQwSGJwbFA2WGtISlNp
+                U1kxSQAAAzkAzwAAAAdfaWQAZ3EKK9kcl77NVValAmltYWdlVXJsADUAAABodHRwczovL2
+                F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3UvMzYzNTM1MDc/dj00AAJuYW1lABAA
+                AABBc2h1dG9zaCBQYW5kZXkAAmFkZGl0aW9uYWxJbmZvAAEAAAAAAnBvc2l0aW9uAAcAAA
+                BBbHVtbmkAAmlkABUAAABwWjlNNVRXeHM3WEZxZmt5WGk0RQACb3JnYW5pemF0aW9uAAMA
+                AAAgIAAAAzEwAEsBAAAHX2lkAGdxCivZHJe+zVVWnQJhZGRpdGlvbmFsSW5mbwAIAAAAQ1
+                AgTGVhZAACaW1hZ2VVcmwAmwAAAGh0dHBzOi8vZmlyZWJhc2VzdG9yYWdlLmdvb2dsZWFw
+                aXMuY29tL3YwL2IvcGJ3ZWJzaXRlLWQ3MGEzLmFwcHNwb3QuY29tL28vbWVtYmVycyUyRk
+                FkaXR5YSUyMFJhai5qcGVnP2FsdD1tZWRpYSZ0b2tlbj00YzYxMjcyMy01MjQ4LTQ0MTct
+                YWFjYy0zNWI5NTY1MDVmY2IAAm5hbWUADAAAAEFkaXRoeWEgUmFqAAJvcmdhbmlzYXRpb2
+                4AAQAAAAACcG9zaXRpb24ACAAAAEN1cnJlbnQAAmlkABUAAAA2UkNjdG44SGE1ZHdVMW5N
+                aGFFRwACb3JnYW5pemF0aW9uAAIAAAAgAAADMTEA6QAAAAdfaWQAZ3PXBVAp0ozow8XfAm
+                lkACUAAABjZjZmODliZi00MDYwLTQ0ODgtOGE5Zi04NjRhZDIwNDk0YzkAAm5hbWUABwAA
+                AEtlcGxveQACcG9zaXRpb24ACAAAAEN1cnJlbnQAAm9yZ2FuaXphdGlvbgAJAAAAQUJDIE
+                NvcnAAAmFkZGl0aW9uYWxJbmZvAB0AAABKb2huIGlzIGEgc29mdHdhcmUgZW5naW5lZXIu
+                AAJpbWFnZVVybAAcAAAAaHR0cDovL2V4YW1wbGUuY29tL2pvaG4uanBnABBfX3YAAAAAAA
+                AAEmlkAAAAAAAAAAAAAm5zAA0AAABwYmRhdGEubGVhZHMAAAFvawAAAAAAAADwPwMkY2x1
+                c3RlclRpbWUAWAAAABFjbHVzdGVyVGltZQAEAAAAENdzZwNzaWduYXR1cmUAMwAAAAVoYX
+                NoABQAAAAA4FTCOuT80MBS8068VvNck4ahiE0Sa2V5SWQABgAAAIz3YmcAABFvcGVyYXRp
+                b25UaW1lAAQAAAAQ13NnAA==
+    reqtimestampmock: 2024-12-31T17:05:44.350433388+05:30
+    restimestampmock: 2024-12-31T17:05:44.385359834+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-18
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644943,"i":2}},"signature":{"hash":{"$binary":{"base64":"BybXV+Rch83UZ5oj+GkXQoGeYKA=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 21
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644943,"i":2}},"signature":{"hash":{"$binary":{"base64":"BybXV+Rch83UZ5oj+GkXQoGeYKA=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10029823904
+    responses:
+        - header:
+            length: 1088
+            requestId: 7243200
+            responseTo: 21
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","provider":"AWS","workloadType":"OPERATIONAL","nodeType":"ELECTABLE","region":"AP_SOUTH_1","availabilityZone":"aps1-az1"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644953,"i":4}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644953000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644953,"i":4}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644953000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644953543"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37034"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644953,"i":4}},"signature":{"hash":{"$binary":{"base64":"gk+KDJi9oBHaFhxjKS1Oe0wFe/M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644953,"i":4}}} }'
+            checksum: 0
+          read_delay: 34998251
+    created: 1735644953
+    reqTimestampMock: 2024-12-31T17:05:53.528664713+05:30
+    resTimestampMock: 2024-12-31T17:05:53.566011202+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-19
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644943,"i":3}},"signature":{"hash":{"$binary":{"base64":"BybXV+Rch83UZ5oj+GkXQoGeYKA=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 22
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644943,"i":3}},"signature":{"hash":{"$binary":{"base64":"BybXV+Rch83UZ5oj+GkXQoGeYKA=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10008719289
+    responses:
+        - header:
+            length: 1088
+            requestId: 7036024
+            responseTo: 22
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772b0fc5991d25a22432324"},"counter":{"$numberLong":"3"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","workloadType":"OPERATIONAL","nodeType":"ELECTABLE","availabilityZone":"aps1-az3","provider":"AWS","region":"AP_SOUTH_1"},"me":"pbcluster-shard-00-01.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644953,"i":6}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644953000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644953,"i":6}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644953000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644953634"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"36544"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644953,"i":6}},"signature":{"hash":{"$binary":{"base64":"gk+KDJi9oBHaFhxjKS1Oe0wFe/M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644953,"i":6}}} }'
+            checksum: 0
+          read_delay: 34235995
+    created: 1735644953
+    reqTimestampMock: 2024-12-31T17:05:53.619858329+05:30
+    resTimestampMock: 2024-12-31T17:05:53.654445559+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-20
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                CgEAABgAAAAAAAAA3QcAAAAAAAAA9QAAAAJmaW5kAAYAAABsZWFkcwADZmlsdGVyABYAAA
+                ACbmFtZQAHAAAAS2VwbG95AAAQbGltaXQAAQAAAAhzaW5nbGVCYXRjaAABEGJhdGNoU2l6
+                ZQABAAAAA2xzaWQAHgAAAAVpZAAQAAAABDenIfryXUDAkvbhWbZvepMAAyRjbHVzdGVyVG
+                ltZQBYAAAAEWNsdXN0ZXJUaW1lAAQAAAAQ13NnA3NpZ25hdHVyZQAzAAAABWhhc2gAFAAA
+                AADgVMI65PzQwFLzTrxW81yThqGITRJrZXlJZAAGAAAAjPdiZwAAAiRkYgAHAAAAcGJkYX
+                RhAAA=
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                zgEAALVWzgAYAAAA3QcAAAAAAAAAuQEAAANjdXJzb3IAIwEAAARmaXJzdEJhdGNoAPEAAA
+                ADMADpAAAAB19pZABnc9cFUCnSjOjDxd8CaWQAJQAAAGNmNmY4OWJmLTQwNjAtNDQ4OC04
+                YTlmLTg2NGFkMjA0OTRjOQACbmFtZQAHAAAAS2VwbG95AAJwb3NpdGlvbgAIAAAAQ3Vycm
+                VudAACb3JnYW5pemF0aW9uAAkAAABBQkMgQ29ycAACYWRkaXRpb25hbEluZm8AHQAAAEpv
+                aG4gaXMgYSBzb2Z0d2FyZSBlbmdpbmVlci4AAmltYWdlVXJsABwAAABodHRwOi8vZXhhbX
+                BsZS5jb20vam9obi5qcGcAEF9fdgAAAAAAAAASaWQAAAAAAAAAAAACbnMADQAAAHBiZGF0
+                YS5sZWFkcwAAAW9rAAAAAAAAAPA/AyRjbHVzdGVyVGltZQBYAAAAEWNsdXN0ZXJUaW1lAA
+                IAAAAe13NnA3NpZ25hdHVyZQAzAAAABWhhc2gAFAAAAACppla1yn9XuZ383uCe0oBNzG+x
+                rBJrZXlJZAAGAAAAjPdiZwAAEW9wZXJhdGlvblRpbWUAAgAAAB7Xc2cA
+    reqtimestampmock: 2024-12-31T17:05:59.007592808+05:30
+    restimestampmock: 2024-12-31T17:05:59.042833928+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-21
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                zAEAABkAAAAAAAAA3QcAAAAAAAAAtwEAAAJmaW5kQW5kTW9kaWZ5AAYAAABsZWFkcwADcX
+                VlcnkAFgAAAAdfaWQAZ3PXBVAp0ozow8XfAAhyZW1vdmUAAAhuZXcAAQh1cHNlcnQAAAN1
+                cGRhdGUArwAAAAMkc2V0AKQAAAACaW1hZ2VVcmwAHgAAAGh0dHBzOi8vZXhhbXBsZS5jb2
+                0vaW1hZ2UuanBnAAJhZGRpdGlvbmFsSW5mbwAcAAAATGVhZCBkZXZlbG9wZXIgYXQgQWNt
+                ZSBDb3JwAAJvcmdhbml6YXRpb24ACgAAAEFjbWUgQ29ycAACcG9zaXRpb24ACAAAAEN1cn
+                JlbnQAAm5hbWUABwAAAEtlcGxveQAAAANsc2lkAB4AAAAFaWQAEAAAAAQ3pyH68l1AwJL2
+                4Vm2b3qTABJ0eG5OdW1iZXIAAgAAAAAAAAADJGNsdXN0ZXJUaW1lAFgAAAARY2x1c3Rlcl
+                RpbWUAAgAAAB7Xc2cDc2lnbmF0dXJlADMAAAAFaGFzaAAUAAAAAKmmVrXKf1e5nfze4J7S
+                gE3Mb7GsEmtleUlkAAYAAACM92JnAAACJGRiAAcAAABwYmRhdGEAAA==
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                xAEAAMJWzgAZAAAA3QcAAAAAAAAArwEAAANsYXN0RXJyb3JPYmplY3QAHgAAABBuAAEAAA
+                AIdXBkYXRlZEV4aXN0aW5nAAEAA3ZhbHVlAOsAAAAHX2lkAGdz1wVQKdKM6MPF3wJpZAAl
+                AAAAY2Y2Zjg5YmYtNDA2MC00NDg4LThhOWYtODY0YWQyMDQ5NGM5AAJuYW1lAAcAAABLZX
+                Bsb3kAAnBvc2l0aW9uAAgAAABDdXJyZW50AAJvcmdhbml6YXRpb24ACgAAAEFjbWUgQ29y
+                cAACYWRkaXRpb25hbEluZm8AHAAAAExlYWQgZGV2ZWxvcGVyIGF0IEFjbWUgQ29ycAACaW
+                1hZ2VVcmwAHgAAAGh0dHBzOi8vZXhhbXBsZS5jb20vaW1hZ2UuanBnABBfX3YAAAAAAAAB
+                b2sAAAAAAAAA8D8DJGNsdXN0ZXJUaW1lAFgAAAARY2x1c3RlclRpbWUAAgAAAB/Xc2cDc2
+                lnbmF0dXJlADMAAAAFaGFzaAAUAAAAAMmH3AgpLNQxDknbAZ4lPR96EZ8GEmtleUlkAAYA
+                AACM92JnAAARb3BlcmF0aW9uVGltZQACAAAAH9dzZwA=
+    reqtimestampmock: 2024-12-31T17:05:59.062498454+05:30
+    restimestampmock: 2024-12-31T17:05:59.099303679+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-22
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644953,"i":4}},"signature":{"hash":{"$binary":{"base64":"gk+KDJi9oBHaFhxjKS1Oe0wFe/M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 26
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644953,"i":4}},"signature":{"hash":{"$binary":{"base64":"gk+KDJi9oBHaFhxjKS1Oe0wFe/M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10008038908
+    responses:
+        - header:
+            length: 1088
+            requestId: 7244179
+            responseTo: 26
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","provider":"AWS","workloadType":"OPERATIONAL","nodeType":"ELECTABLE","region":"AP_SOUTH_1","availabilityZone":"aps1-az1"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644963,"i":167}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644963000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644963,"i":167}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644963000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644963588"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37040"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644963,"i":167}},"signature":{"hash":{"$binary":{"base64":"v9VUTMos3dqQ/tHI77fdms0rKIQ=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644963,"i":167}}} }'
+            checksum: 0
+          read_delay: 34242553
+    created: 1735644963
+    reqTimestampMock: 2024-12-31T17:06:03.574267634+05:30
+    resTimestampMock: 2024-12-31T17:06:03.608855868+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-23
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644953,"i":6}},"signature":{"hash":{"$binary":{"base64":"gk+KDJi9oBHaFhxjKS1Oe0wFe/M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 27
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644953,"i":6}},"signature":{"hash":{"$binary":{"base64":"gk+KDJi9oBHaFhxjKS1Oe0wFe/M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10003613585
+    responses:
+        - header:
+            length: 1088
+            requestId: 7036981
+            responseTo: 27
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772b0fc5991d25a22432324"},"counter":{"$numberLong":"3"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","workloadType":"OPERATIONAL","nodeType":"ELECTABLE","availabilityZone":"aps1-az3","provider":"AWS","region":"AP_SOUTH_1"},"me":"pbcluster-shard-00-01.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644963,"i":167}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644963000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644963,"i":167}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644963000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644963672"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"36547"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644963,"i":167}},"signature":{"hash":{"$binary":{"base64":"v9VUTMos3dqQ/tHI77fdms0rKIQ=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644963,"i":167}}} }'
+            checksum: 0
+          read_delay: 34464645
+    created: 1735644963
+    reqTimestampMock: 2024-12-31T17:06:03.658321287+05:30
+    resTimestampMock: 2024-12-31T17:06:03.693219668+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-24
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                FQEAAB0AAAAAAAAA3QcAAAAAAAAAAAEAAAJmaW5kQW5kTW9kaWZ5AAYAAABsZWFkcwADcX
+                VlcnkAFgAAAAJuYW1lAAcAAABLZXBsb3kAAAhyZW1vdmUAAQhuZXcAAAh1cHNlcnQAAANs
+                c2lkAB4AAAAFaWQAEAAAAAQ3pyH68l1AwJL24Vm2b3qTABJ0eG5OdW1iZXIAAwAAAAAAAA
+                ADJGNsdXN0ZXJUaW1lAFgAAAARY2x1c3RlclRpbWUAAgAAAB/Xc2cDc2lnbmF0dXJlADMA
+                AAAFaGFzaAAUAAAAAMmH3AgpLNQxDknbAZ4lPR96EZ8GEmtleUlkAAYAAACM92JnAAACJG
+                RiAAcAAABwYmRhdGEAAA==
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                sgEAAPxbzgAdAAAA3QcAAAAAAAAAnQEAAANsYXN0RXJyb3JPYmplY3QADAAAABBuAAEAAA
+                AAA3ZhbHVlAOsAAAAHX2lkAGdz1wVQKdKM6MPF3wJpZAAlAAAAY2Y2Zjg5YmYtNDA2MC00
+                NDg4LThhOWYtODY0YWQyMDQ5NGM5AAJuYW1lAAcAAABLZXBsb3kAAnBvc2l0aW9uAAgAAA
+                BDdXJyZW50AAJvcmdhbml6YXRpb24ACgAAAEFjbWUgQ29ycAACYWRkaXRpb25hbEluZm8A
+                HAAAAExlYWQgZGV2ZWxvcGVyIGF0IEFjbWUgQ29ycAACaW1hZ2VVcmwAHgAAAGh0dHBzOi
+                8vZXhhbXBsZS5jb20vaW1hZ2UuanBnABBfX3YAAAAAAAABb2sAAAAAAAAA8D8DJGNsdXN0
+                ZXJUaW1lAFgAAAARY2x1c3RlclRpbWUABAAAACbXc2cDc2lnbmF0dXJlADMAAAAFaGFzaA
+                AUAAAAACTTsje3op9oZZCHHxP5MGKjSyRxEmtleUlkAAYAAACM92JnAAARb3BlcmF0aW9u
+                VGltZQAEAAAAJtdzZwA=
+    reqtimestampmock: 2024-12-31T17:06:06.130204306+05:30
+    restimestampmock: 2024-12-31T17:06:06.170541667+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Redis
+name: mock-25
+spec:
+    metadata:
+        type: config
+    redisrequests:
+        - origin: client
+          message:
+            - type: string
+              data: !!binary |
+                0QAAAB4AAAAAAAAA3QcAAAAAAAAAvAAAAAJmaW5kAAYAAABsZWFkcwADZmlsdGVyAAUAAA
+                AAA2xzaWQAHgAAAAVpZAAQAAAABDenIfryXUDAkvbhWbZvepMAAyRjbHVzdGVyVGltZQBY
+                AAAAEWNsdXN0ZXJUaW1lAAQAAAAm13NnA3NpZ25hdHVyZQAzAAAABWhhc2gAFAAAAAAk07
+                I3t6KfaGWQhx8T+TBio0skcRJrZXlJZAAGAAAAjPdiZwAAAiRkYgAHAAAAcGJkYXRhAAA=
+    redisresponses:
+        - origin: server
+          message:
+            - type: string
+              data: !!binary |
+                QwwAACFgzgAeAAAA3QcAAAAAAAAALgwAAANjdXJzb3IAmAsAAARmaXJzdEJhdGNoAGYLAA
+                ADMACsAAAAB19pZABncQor2RyXvs1VVpsCbmFtZQAXAAAARGViYXlhbiBHaG9zaCBEYXN0
+                aWRlcgACcG9zaXRpb24ABwAAAEFsdW1uaQACaW1hZ2VVcmwANQAAAGh0dHBzOi8vYXZhdG
+                Fycy5naXRodWJ1c2VyY29udGVudC5jb20vdS83NzE5OTM3Mz92PTQAAmlkABUAAAAzY0RN
+                aXdSdjhuVnlyWWhEb1ZvegAAAzEAzgAAAAdfaWQAZ3EKK9kcl77NVVacAm9yZ2FuaXphdG
+                lvbgABAAAAAAJpbWFnZVVybAA1AAAAaHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250
+                ZW50LmNvbS91LzM3MzU5Njc5P3Y9NAACbmFtZQARAAAAQmFwdSBQcnV0aHZpZGhhcgACYW
+                RkaXRpb25hbEluZm8AAQAAAAACcG9zaXRpb24ABwAAAEFsdW1uaQACaWQAFQAAADVWbDY3
+                dEhhUkNmOUJ2aThVRXl6AAADMgA4AQAAB19pZABncQor2RyXvs1VVp4CaWQAFQAAAERHcz
+                U2YXJzU3NUZ2g1TTFNSTVQAAJuYW1lAA4AAABQcmF0aGlrIFNpbmdoAAJhZGRpdGlvbmFs
+                SW5mbwABAAAAAAJwb3NpdGlvbgAHAAAAQWx1bW5pAAJpbWFnZVVybACcAAAAaHR0cHM6Ly
+                9maXJlYmFzZXN0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vdjAvYi9wYndlYnNpdGUtZDcwYTMu
+                YXBwc3BvdC5jb20vby9pbWFnZXMlMkZQcmF0aWslMjBTaW5naC5qcGVnP2FsdD1tZWRpYS
+                Z0b2tlbj0yZTFmNGQxNS1lNTZhLTRhMDgtODIzZS1lZjc0ODA2NDE2YTAAAm9yZ2FuaXph
+                dGlvbgAHAAAAR2l0bGFiAAADMwDKAAAAB19pZABncQor2RyXvs1VVp8CYWRkaXRpb25hbE
+                luZm8AAQAAAAACcG9zaXRpb24ABwAAAEFsdW1uaQACb3JnYW5pemF0aW9uAAEAAAAAAmlt
+                YWdlVXJsADUAAABodHRwczovL2F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3UvNz
+                czNTQxMzg/dj00AAJuYW1lAA0AAABNYWRodXIgTWVodGEAAmlkABUAAABJWEhNSm80UElQ
+                OUkyaDVxd1dSaQAAAzQAQQEAAAdfaWQAZ3EKK9kcl77NVVagAmlkABUAAABNTjBJUlVwbX
+                ZwOXNmZms1S29DaAACaW1hZ2VVcmwAnQAAAGh0dHBzOi8vZmlyZWJhc2VzdG9yYWdlLmdv
+                b2dsZWFwaXMuY29tL3YwL2IvcGJ3ZWJzaXRlLWQ3MGEzLmFwcHNwb3QuY29tL28vaW1hZ2
+                VzJTJGU2FhbGltJTIwUXVhZHJpLmpwZWc/YWx0PW1lZGlhJnRva2VuPWNlYzYwMWViLTVh
+                ZTgtNGIwYi1iOWQ3LWNlZTUzZTAwOGExYwACbmFtZQAOAAAAU2FhbGltIFF1YWRyaQACb3
+                JnYW5pemF0aW9uAAgAAABWaXNwZXJvAAJhZGRpdGlvbmFsSW5mbwAHAAAATEZYIDIzAAJw
+                b3NpdGlvbgAIAAAAQ3VycmVudAAAAzUAQAEAAAdfaWQAZ3EKK9kcl77NVVahAmltYWdlVX
+                JsAJ4AAABodHRwczovL2ZpcmViYXNlc3RvcmFnZS5nb29nbGVhcGlzLmNvbS92MC9iL3Bi
+                d2Vic2l0ZS1kNzBhMy5hcHBzcG90LmNvbS9vL21lbWJlcnMlMkZ5dXZyYWpfc2hvcmV3YW
+                xhLnBuZz9hbHQ9bWVkaWEmdG9rZW49ZGRlNGQwMTEtMzNhZi00YmZiLTk4ZmEtM2M5OTE5
+                MmI3OTYzAAJhZGRpdGlvbmFsSW5mbwAIAAAAQ1AgbGVhZAACbmFtZQASAAAAWXV2cmFqIF
+                Nob3Jld2FsYSAAAm9yZ2FuaXphdGlvbgABAAAAAAJwb3NpdGlvbgAIAAAAQ3VycmVudAAC
+                aWQAFQAAAFJjZzRSY1RyRUtqM1BPYjZ6bXlPAAADNgA4AQAAB19pZABncQor2RyXvs1VVq
+                ICaW1hZ2VVcmwAlgAAAGh0dHBzOi8vZmlyZWJhc2VzdG9yYWdlLmdvb2dsZWFwaXMuY29t
+                L3YwL2IvcGJ3ZWJzaXRlLWQ3MGEzLmFwcHNwb3QuY29tL28vaW1hZ2VzJTJGQWthc2glMj
+                BTaW5naD9hbHQ9bWVkaWEmdG9rZW49YjdjOTgyYjQtODY5ZS00ZTU0LTk0ZmQtZTExNmEw
+                NWU1YTRkAAJuYW1lAA0AAABBa2FzaCBTaW5naCAAAnBvc2l0aW9uAAgAAABDdXJyZW50AA
+                JhZGRpdGlvbmFsSW5mbwAIAAAAR3NvYyAyNAACaWQAFQAAAFd5SW00ek9QQjNIdXltWUhy
+                cFV3AAJvcmdhbml6YXRpb24ABgAAAFZhbmNlAAADNwAmAQAAB19pZABncQor2RyXvs1VVq
+                MCYWRkaXRpb25hbEluZm8ADAAAAEdzb2MgMjMsIDI0AAJpZAAVAAAAYm1ZdzdkSnljOGpL
+                ekt1ekFzajQAAnBvc2l0aW9uAAcAAABBbHVtbmkAAm9yZ2FuaXphdGlvbgALAAAAVWx0cm
+                FodW1hbgACaW1hZ2VVcmwAegAAAGh0dHBzOi8vZ2l0aHViLXByb2R1Y3Rpb24tdXNlci1h
+                c3NldC02MjEwZGYuczMuYW1hem9uYXdzLmNvbS85MDAyNjk1Mi8yNzk2OTQ5MTUtYzc2OT
+                MzNjMtNjYyMy00YmQyLTk1MDMtZWUwOTJiMGUzNTkzLmpwZWcAAm5hbWUADwAAAFByYXR5
+                dXNoIFNpbmdoAAADOADKAAAAB19pZABncQor2RyXvs1VVqQCb3JnYW5pemF0aW9uAAEAAA
+                AAAmltYWdlVXJsADUAAABodHRwczovL2F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29t
+                L3UvNjQ2NjkzMjY/dj00AAJuYW1lAA0AAABBbnVrdWwgQW5hbmQAAmFkZGl0aW9uYWxJbm
+                ZvAAEAAAAAAnBvc2l0aW9uAAcAAABBbHVtbmkAAmlkABUAAABoamQwSGJwbFA2WGtISlNp
+                U1kxSQAAAzkAzwAAAAdfaWQAZ3EKK9kcl77NVValAmltYWdlVXJsADUAAABodHRwczovL2
+                F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3UvMzYzNTM1MDc/dj00AAJuYW1lABAA
+                AABBc2h1dG9zaCBQYW5kZXkAAmFkZGl0aW9uYWxJbmZvAAEAAAAAAnBvc2l0aW9uAAcAAA
+                BBbHVtbmkAAmlkABUAAABwWjlNNVRXeHM3WEZxZmt5WGk0RQACb3JnYW5pemF0aW9uAAMA
+                AAAgIAAAAzEwAEsBAAAHX2lkAGdxCivZHJe+zVVWnQJhZGRpdGlvbmFsSW5mbwAIAAAAQ1
+                AgTGVhZAACaW1hZ2VVcmwAmwAAAGh0dHBzOi8vZmlyZWJhc2VzdG9yYWdlLmdvb2dsZWFw
+                aXMuY29tL3YwL2IvcGJ3ZWJzaXRlLWQ3MGEzLmFwcHNwb3QuY29tL28vbWVtYmVycyUyRk
+                FkaXR5YSUyMFJhai5qcGVnP2FsdD1tZWRpYSZ0b2tlbj00YzYxMjcyMy01MjQ4LTQ0MTct
+                YWFjYy0zNWI5NTY1MDVmY2IAAm5hbWUADAAAAEFkaXRoeWEgUmFqAAJvcmdhbmlzYXRpb2
+                4AAQAAAAACcG9zaXRpb24ACAAAAEN1cnJlbnQAAmlkABUAAAA2UkNjdG44SGE1ZHdVMW5N
+                aGFFRwACb3JnYW5pemF0aW9uAAIAAAAgAAAAEmlkAAAAAAAAAAAAAm5zAA0AAABwYmRhdG
+                EubGVhZHMAAAFvawAAAAAAAADwPwMkY2x1c3RlclRpbWUAWAAAABFjbHVzdGVyVGltZQAC
+                AAAALddzZwNzaWduYXR1cmUAMwAAAAVoYXNoABQAAAAAPzdD8JKXlIARsiyEBiSW6ttD5b
+                ESa2V5SWQABgAAAIz3YmcAABFvcGVyYXRpb25UaW1lAAIAAAAt13NnAA==
+    reqtimestampmock: 2024-12-31T17:06:13.453089688+05:30
+    restimestampmock: 2024-12-31T17:06:13.488753354+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-26
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644963,"i":167}},"signature":{"hash":{"$binary":{"base64":"v9VUTMos3dqQ/tHI77fdms0rKIQ=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 31
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644963,"i":167}},"signature":{"hash":{"$binary":{"base64":"v9VUTMos3dqQ/tHI77fdms0rKIQ=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10009388944
+    responses:
+        - header:
+            length: 1088
+            requestId: 7245048
+            responseTo: 31
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"nodeType":"ELECTABLE","region":"AP_SOUTH_1","workloadType":"OPERATIONAL","availabilityZone":"aps1-az1","diskState":"READY","provider":"AWS"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644973,"i":2}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644973000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644973,"i":2}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644973000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644973634"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37047"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644973,"i":2}},"signature":{"hash":{"$binary":{"base64":"PzdD8JKXlIARsiyEBiSW6ttD5bE=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644973,"i":2}}} }'
+            checksum: 0
+          read_delay: 35507516
+    created: 1735644973
+    reqTimestampMock: 2024-12-31T17:06:13.619984924+05:30
+    resTimestampMock: 2024-12-31T17:06:13.655822869+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-27
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644973,"i":2}},"signature":{"hash":{"$binary":{"base64":"PzdD8JKXlIARsiyEBiSW6ttD5bE=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 34
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644973,"i":2}},"signature":{"hash":{"$binary":{"base64":"PzdD8JKXlIARsiyEBiSW6ttD5bE=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10008833278
+    responses:
+        - header:
+            length: 1088
+            requestId: 7245927
+            responseTo: 34
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"diskState":"READY","region":"AP_SOUTH_1","nodeType":"ELECTABLE","workloadType":"OPERATIONAL","provider":"AWS","availabilityZone":"aps1-az1"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644983,"i":6}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644983000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644983,"i":6}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644983000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644983680"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37048"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644983,"i":6}},"signature":{"hash":{"$binary":{"base64":"PkkzJ3vmzq+758/DnY2M67U18dc=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644983,"i":6}}} }'
+            checksum: 0
+          read_delay: 36431212
+    created: 1735644983
+    reqTimestampMock: 2024-12-31T17:06:23.665124616+05:30
+    resTimestampMock: 2024-12-31T17:06:23.702781563+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-28
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644983,"i":6}},"signature":{"hash":{"$binary":{"base64":"PkkzJ3vmzq+758/DnY2M67U18dc=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 38
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644983,"i":6}},"signature":{"hash":{"$binary":{"base64":"PkkzJ3vmzq+758/DnY2M67U18dc=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10006369646
+    responses:
+        - header:
+            length: 1088
+            requestId: 7246827
+            responseTo: 38
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772aeaa75023cc42a45e23c"},"counter":{"$numberLong":"4"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":false,"secondary":true,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"nodeType":"ELECTABLE","provider":"AWS","workloadType":"OPERATIONAL","availabilityZone":"aps1-az1","diskState":"READY","region":"AP_SOUTH_1"},"me":"pbcluster-shard-00-00.2tj9p.mongodb.net:27017","lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644993,"i":8}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644993000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644993,"i":8}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644993000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644993723"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"37052"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644993,"i":8}},"signature":{"hash":{"$binary":{"base64":"7VAvZXJPWAAw7FXRe/3XLlS3M1M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644993,"i":8}}} }'
+            checksum: 0
+          read_delay: 34829864
+    created: 1735644993
+    reqTimestampMock: 2024-12-31T17:06:33.709470222+05:30
+    resTimestampMock: 2024-12-31T17:06:33.744788953+05:30
+---
+version: api.keploy.io/v1beta1
+kind: Mongo
+name: mock-29
+spec:
+    metadata:
+        operation: '{ OpMsg flags: 0, sections: [{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644983,"i":8}},"signature":{"hash":{"$binary":{"base64":"PkkzJ3vmzq+758/DnY2M67U18dc=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }], checksum: 0 }'
+        type: config
+    requests:
+        - header:
+            length: 154
+            requestId: 40
+            responseTo: 0
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"hello":{"$numberInt":"1"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644983,"i":8}},"signature":{"hash":{"$binary":{"base64":"PkkzJ3vmzq+758/DnY2M67U18dc=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"$db":"admin"} }'
+            checksum: 0
+          read_delay: 10002903013
+    responses:
+        - header:
+            length: 1112
+            requestId: 13527603
+            responseTo: 40
+            Opcode: 2013
+          message:
+            flagBits: 0
+            sections:
+                - '{ SectionSingle msg: {"topologyVersion":{"processId":{"$oid":"6772afc20f99cfdf41395eff"},"counter":{"$numberLong":"6"}},"hosts":["pbcluster-shard-00-00.2tj9p.mongodb.net:27017","pbcluster-shard-00-01.2tj9p.mongodb.net:27017","pbcluster-shard-00-02.2tj9p.mongodb.net:27017"],"setName":"atlas-83biyx-shard-0","setVersion":{"$numberInt":"1"},"isWritablePrimary":true,"secondary":false,"primary":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","tags":{"region":"AP_SOUTH_1","nodeType":"ELECTABLE","workloadType":"OPERATIONAL","availabilityZone":"aps1-az2","provider":"AWS","diskState":"READY"},"me":"pbcluster-shard-00-02.2tj9p.mongodb.net:27017","electionId":{"$oid":"7fffffff0000000000000006"},"lastWrite":{"opTime":{"ts":{"$timestamp":{"t":1735644993,"i":8}},"t":{"$numberLong":"6"}},"lastWriteDate":{"$date":{"$numberLong":"1735644993000"}},"majorityOpTime":{"ts":{"$timestamp":{"t":1735644993,"i":8}},"t":{"$numberLong":"6"}},"majorityWriteDate":{"$date":{"$numberLong":"1735644993000"}}},"maxBsonObjectSize":{"$numberInt":"16777216"},"maxMessageSizeBytes":{"$numberInt":"48000000"},"maxWriteBatchSize":{"$numberInt":"100000"},"localTime":{"$date":{"$numberLong":"1735644993857"}},"logicalSessionTimeoutMinutes":{"$numberInt":"30"},"connectionId":{"$numberInt":"40370"},"minWireVersion":{"$numberInt":"0"},"maxWireVersion":{"$numberInt":"25"},"readOnly":false,"ok":{"$numberDouble":"1.0"},"$clusterTime":{"clusterTime":{"$timestamp":{"t":1735644993,"i":8}},"signature":{"hash":{"$binary":{"base64":"7VAvZXJPWAAw7FXRe/3XLlS3M1M=","subType":"00"}},"keyId":{"$numberLong":"7449788914291703814"}}},"operationTime":{"$timestamp":{"t":1735644993,"i":8}}} }'
+            checksum: 0
+          read_delay: 33940014
+    created: 1735644993
+    reqTimestampMock: 2024-12-31T17:06:33.84466728+05:30
+    resTimestampMock: 2024-12-31T17:06:33.879168318+05:30

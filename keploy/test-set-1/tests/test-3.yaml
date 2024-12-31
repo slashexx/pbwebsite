@@ -1,0 +1,59 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-3
+spec:
+    metadata: {}
+    req:
+        method: PUT
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/api/leads?name=Keploy
+        url_params:
+            name: Keploy
+        header:
+            Accept: '*/*'
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            Content-Length: "212"
+            Content-Type: application/json
+            Host: localhost:3000
+            Postman-Token: ad8d92c1-af5f-49ba-abe5-1d3bdec091c4
+            User-Agent: PostmanRuntime/7.43.0
+        body: |-
+            {
+                    "name": "Keploy",
+                    "position": "Current",
+                    "organization": "Acme Corp",
+                    "additionalInfo": "Lead developer at Acme Corp",
+                    "imageUrl": "https://example.com/image.jpg"
+                  }
+        timestamp: 2024-12-31T17:05:58.969126041+05:30
+    resp:
+        status_code: 200
+        header:
+            Connection: keep-alive
+            Content-Type: application/json
+            Date: Tue, 31 Dec 2024 11:35:59 GMT
+            Keep-Alive: timeout=5
+            Vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+        body: '{"_id":"6773d7055029d28ce8c3c5df","id":"cf6f89bf-4060-4488-8a9f-864ad20494c9","name":"Keploy","position":"Current","organization":"Acme Corp","additionalInfo":"Lead developer at Acme Corp","imageUrl":"https://example.com/image.jpg","__v":0}'
+        status_message: OK
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-12-31T17:06:01.159397178+05:30
+    objects: []
+    assertions:
+        noise:
+            header.Date: []
+    created: 1735644961
+curl: |-
+    curl --request PUT \
+      --url http://localhost:3000/api/leads?name=Keploy \
+      --header 'Connection: keep-alive' \
+      --header 'Content-Type: application/json' \
+      --header 'User-Agent: PostmanRuntime/7.43.0' \
+      --header 'Accept: */*' \
+      --header 'Postman-Token: ad8d92c1-af5f-49ba-abe5-1d3bdec091c4' \
+      --header 'Host: localhost:3000' \
+      --header 'Accept-Encoding: gzip, deflate, br' \
+      --data "{\n        \"name\": \"Keploy\",\n        \"position\": \"Current\",\n        \"organization\": \"Acme Corp\",\n        \"additionalInfo\": \"Lead developer at Acme Corp\",\n        \"imageUrl\": \"https://example.com/image.jpg\"\n      }"

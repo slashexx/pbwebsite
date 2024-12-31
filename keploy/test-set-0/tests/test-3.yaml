@@ -1,0 +1,60 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-3
+spec:
+    metadata: {}
+    req:
+        method: PUT
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/api/events?eventName=Test
+        url_params:
+            eventName: Test
+        header:
+            Accept: '*/*'
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            Content-Length: "297"
+            Content-Type: application/json
+            Host: localhost:3000
+            Postman-Token: 71254c39-bb53-4d41-b5b4-10b8abbc33b2
+            User-Agent: PostmanRuntime/7.43.0
+        body: |-
+            {
+                "eventName": "Test",
+                "eventDate": "2025-01-01T00:00:00Z",
+                "lastDateOfRegistration": "2024-12-30T23:59:59Z",
+                "description": "Updated test event description.",
+                "imageURL": "http://example.com/updated-image.jpg",
+                "registrationLink": "http://example.com/updated-register"
+              }
+        timestamp: 2024-12-31T16:45:19.694144304+05:30
+    resp:
+        status_code: 200
+        header:
+            Connection: keep-alive
+            Content-Type: application/json
+            Date: Tue, 31 Dec 2024 11:15:21 GMT
+            Keep-Alive: timeout=5
+            Vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+        body: '{"eventName":"Test"}'
+        status_message: OK
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-12-31T16:45:23.515778374+05:30
+    objects: []
+    assertions:
+        noise:
+            header.Date: []
+    created: 1735643723
+curl: |-
+    curl --request PUT \
+      --url http://localhost:3000/api/events?eventName=Test \
+      --header 'Connection: keep-alive' \
+      --header 'Content-Type: application/json' \
+      --header 'User-Agent: PostmanRuntime/7.43.0' \
+      --header 'Accept: */*' \
+      --header 'Postman-Token: 71254c39-bb53-4d41-b5b4-10b8abbc33b2' \
+      --header 'Host: localhost:3000' \
+      --header 'Accept-Encoding: gzip, deflate, br' \
+      --data "{\n    \"eventName\": \"Test\",\n    \"eventDate\": \"2025-01-01T00:00:00Z\",\n    \"lastDateOfRegistration\": \"2024-12-30T23:59:59Z\",\n    \"description\": \"Updated test event description.\",\n    \"imageURL\": \"http://example.com/updated-image.jpg\",\n    \"registrationLink\": \"http://example.com/updated-register\"\n  }"

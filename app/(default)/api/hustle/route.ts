@@ -3,13 +3,6 @@ import axios from "axios";
 // import { JSDOM } from "jsdom";
 import puppeteer from "puppeteer";
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-} from "firebase/firestore";
-import { app } from "@/Firebase";
 import connectMongoDB from "@/lib/dbConnect";
 import PbhustleModel from "@/models/PbHustel"; 
 

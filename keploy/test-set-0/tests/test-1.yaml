@@ -1,0 +1,58 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-1
+spec:
+    metadata: {}
+    req:
+        method: POST
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/api/events
+        header:
+            Accept: '*/*'
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            Content-Length: "318"
+            Content-Type: application/json
+            Host: localhost:3000
+            Postman-Token: 004779b1-ef34-4eda-8c4c-1ccb90dab9c7
+            User-Agent: PostmanRuntime/7.43.0
+        body: |-
+            {
+                "eventName": "Test",
+                "eventDate": "2025-12-30T00:00:00Z",
+                "lastDateOfRegistration": "2024-12-25T23:59:59Z",
+                "description": "A test event for checking the keploy integration. This will be deleted soon.",
+                "imageURL": "http://test.com/test.jpg",
+                "registrationLink": "http://example.com/test"
+              }
+        timestamp: 2024-12-31T16:41:53.394523915+05:30
+    resp:
+        status_code: 201
+        header:
+            Connection: keep-alive
+            Content-Type: application/json
+            Date: Tue, 31 Dec 2024 11:12:13 GMT
+            Keep-Alive: timeout=5
+            Vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+        body: '{"id":"59bf186d-20b4-4d9a-acfc-042bbc8f56ea"}'
+        status_message: Created
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-12-31T16:42:15.562846922+05:30
+    objects: []
+    assertions:
+        noise:
+            header.Date: []
+    created: 1735643535
+curl: |-
+    curl --request POST \
+      --url http://localhost:3000/api/events \
+      --header 'User-Agent: PostmanRuntime/7.43.0' \
+      --header 'Accept: */*' \
+      --header 'Postman-Token: 004779b1-ef34-4eda-8c4c-1ccb90dab9c7' \
+      --header 'Host: localhost:3000' \
+      --header 'Accept-Encoding: gzip, deflate, br' \
+      --header 'Connection: keep-alive' \
+      --header 'Content-Type: application/json' \
+      --data "{\n    \"eventName\": \"Test\",\n    \"eventDate\": \"2025-12-30T00:00:00Z\",\n    \"lastDateOfRegistration\": \"2024-12-25T23:59:59Z\",\n    \"description\": \"A test event for checking the keploy integration. This will be deleted soon.\",\n    \"imageURL\": \"http://test.com/test.jpg\",\n    \"registrationLink\": \"http://example.com/test\"\n  }"

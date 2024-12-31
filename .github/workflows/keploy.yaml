@@ -1,0 +1,45 @@
+name: Keploy test
+
+on:
+  push:
+    branches:
+      - prod
+      - staging
+      - feature/**
+  pull_request:
+    branches:
+      - prod
+      - staging
+      - feature/**
+
+jobs:
+  keploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Cache Node modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Keploy Tests
+        id: keploy-run-test
+        run: |
+          set -e
+          curl --silent --location "https://github.com/keploy/keploy/releases/latest/download/keploy_linux_amd64.tar.gz" | tar xz --overwrite -C /tmp
+          sudo mkdir -p /usr/local/bin && sudo mv /tmp/keploy /usr/local/bin/keploy
+          npm install
+          keploy test -c "node src/app.js"
+        env:
+          NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}  

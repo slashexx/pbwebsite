@@ -1,0 +1,48 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-5
+spec:
+    metadata: {}
+    req:
+        method: GET
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/api/leads
+        header:
+            Accept: '*/*'
+            Accept-Encoding: gzip, deflate, br
+            Connection: keep-alive
+            Content-Type: application/json
+            Host: localhost:3000
+            Postman-Token: dc839fc6-27df-46e7-9afd-0a16048cd6bb
+            User-Agent: PostmanRuntime/7.43.0
+        body: ""
+        timestamp: 2024-12-31T17:06:13.39664489+05:30
+    resp:
+        status_code: 200
+        header:
+            Connection: keep-alive
+            Content-Type: application/json
+            Date: Tue, 31 Dec 2024 11:36:13 GMT
+            Keep-Alive: timeout=5
+            Vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+        body: '{"currentLeads":[{"_id":"67710a2bd91c97becd5556a0","id":"MN0IRUpmvp9sffk5KoCh","imageUrl":"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/images%2FSaalim%20Quadri.jpeg?alt=media&token=cec601eb-5ae8-4b0b-b9d7-cee53e008a1c","name":"Saalim Quadri","organization":"Vispero","additionalInfo":"LFX 23","position":"Current"},{"_id":"67710a2bd91c97becd5556a1","imageUrl":"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/members%2Fyuvraj_shorewala.png?alt=media&token=dde4d011-33af-4bfb-98fa-3c99192b7963","additionalInfo":"CP lead","name":"Yuvraj Shorewala ","organization":"","position":"Current","id":"Rcg4RcTrEKj3POb6zmyO"},{"_id":"67710a2bd91c97becd5556a2","imageUrl":"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/images%2FAkash%20Singh?alt=media&token=b7c982b4-869e-4e54-94fd-e116a05e5a4d","name":"Akash Singh ","position":"Current","additionalInfo":"Gsoc 24","id":"WyIm4zOPB3HuymYHrpUw","organization":"Vance"},{"_id":"67710a2bd91c97becd55569d","additionalInfo":"CP Lead","imageUrl":"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/members%2FAditya%20Raj.jpeg?alt=media&token=4c612723-5248-4417-aacc-35b956505fcb","name":"Adithya Raj","organisation":"","position":"Current","id":"6RCctn8Ha5dwU1nMhaEG","organization":" "}],"alumniLeads":[{"_id":"67710a2bd91c97becd55569b","name":"Debayan Ghosh Dastider","position":"Alumni","imageUrl":"https://avatars.githubusercontent.com/u/77199373?v=4","id":"3cDMiwRv8nVyrYhDoVoz"},{"_id":"67710a2bd91c97becd55569c","organization":"","imageUrl":"https://avatars.githubusercontent.com/u/37359679?v=4","name":"Bapu Pruthvidhar","additionalInfo":"","position":"Alumni","id":"5Vl67tHaRCf9Bvi8UEyz"},{"_id":"67710a2bd91c97becd55569e","id":"DGs56arsSsTgh5M1MI5P","name":"Prathik Singh","additionalInfo":"","position":"Alumni","imageUrl":"https://firebasestorage.googleapis.com/v0/b/pbwebsite-d70a3.appspot.com/o/images%2FPratik%20Singh.jpeg?alt=media&token=2e1f4d15-e56a-4a08-823e-ef74806416a0","organization":"Gitlab"},{"_id":"67710a2bd91c97becd55569f","additionalInfo":"","position":"Alumni","organization":"","imageUrl":"https://avatars.githubusercontent.com/u/77354138?v=4","name":"Madhur Mehta","id":"IXHMJo4PIP9I2h5qwWRi"},{"_id":"67710a2bd91c97becd5556a3","additionalInfo":"Gsoc 23, 24","id":"bmYw7dJyc8jKzKuzAsj4","position":"Alumni","organization":"Ultrahuman","imageUrl":"https://github-production-user-asset-6210df.s3.amazonaws.com/90026952/279694915-c7693363-6623-4bd2-9503-ee092b0e3593.jpeg","name":"Pratyush Singh"},{"_id":"67710a2bd91c97becd5556a4","organization":"","imageUrl":"https://avatars.githubusercontent.com/u/64669326?v=4","name":"Anukul Anand","additionalInfo":"","position":"Alumni","id":"hjd0HbplP6XkHJSiSY1I"},{"_id":"67710a2bd91c97becd5556a5","imageUrl":"https://avatars.githubusercontent.com/u/36353507?v=4","name":"Ashutosh Pandey","additionalInfo":"","position":"Alumni","id":"pZ9M5TWxs7XFqfkyXi4E","organization":"  "}]}'
+        status_message: OK
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-12-31T17:06:15.542307117+05:30
+    objects: []
+    assertions:
+        noise:
+            header.Date: []
+    created: 1735644975
+curl: |
+    curl --request GET \
+      --url http://localhost:3000/api/leads \
+      --header 'Content-Type: application/json' \
+      --header 'User-Agent: PostmanRuntime/7.43.0' \
+      --header 'Accept: */*' \
+      --header 'Postman-Token: dc839fc6-27df-46e7-9afd-0a16048cd6bb' \
+      --header 'Host: localhost:3000' \
+      --header 'Accept-Encoding: gzip, deflate, br' \
+      --header 'Connection: keep-alive' \

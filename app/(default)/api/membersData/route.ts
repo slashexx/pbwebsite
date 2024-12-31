@@ -1,17 +1,6 @@
 import { NextResponse } from "next/server";
 import { db, storage } from "@/Firebase";
 import {
-  collection,
-  addDoc,
-  getDocs,
-  DocumentData,
-  DocumentSnapshot,
-  doc,
-  updateDoc,
-  deleteDoc,
-  getDoc,
-} from "firebase/firestore";
-import {
   ref,
   uploadBytes,
   getDownloadURL,

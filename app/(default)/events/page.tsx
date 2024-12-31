@@ -69,12 +69,12 @@ const EventsPage = () => {
   }, []);
 
   // Deleting an event
-  const deleteEvent = async (eventId: string , event : any) => {
+  const deleteEvent = async (eventName: string , event : any) => {
     try {
-      await fetch(`/api/events/?eventid=${eventId}`, {
+      await fetch(`/api/events/?eventName=${eventName}`, {
         method: "DELETE",
       });
-      setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
+      setEvents((prevEvents) => prevEvents.filter((event) => event.eventName !== eventName));
     } catch (error) {
       console.error("Error deleting document: ", error);
     }

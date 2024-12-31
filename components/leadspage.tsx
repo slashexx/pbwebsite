@@ -107,10 +107,10 @@ const Leads: React.FC = () => {
         imageUrl: imageUrl, // Ensure the Firebase URL is used
       };
 
-      if (selectedLead.id) {
+      if (selectedLead.name) {
         // Update lead in Firestore
         try {
-          await fetch(`/api/leads/?id=${selectedLead.id}`, {
+          await fetch(`/api/leads/?name=${selectedLead.name}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -159,9 +159,9 @@ const Leads: React.FC = () => {
     setShowForm(true);
   };
 
-  const handleDeleteLead = async (id: string) => {
+  const handleDeleteLead = async (name: string) => {
     try {
-      await fetch(`/api/leads/?id=${id}`, {
+      await fetch(`/api/leads/?name=${name}`, {
         method: "DELETE",
       });
       alert("Lead deleted successfully");

@@ -95,12 +95,12 @@ export async function PUT(request: Request) {
   try {
     const leadData = await request.json();
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
-    const user= await Leadsmodel.findOne({id})
+    const name = searchParams.get("name");
+    const user= await Leadsmodel.findOne({name})
     const _id=user._id
     console.log(_id)
-    if (!id) {
-      return NextResponse.json({ error: "Lead ID is required" }, { status: 400 });
+    if (!name) {
+      return NextResponse.json({ error: "Lead name is required" }, { status: 400 });
     }
 
     // Validate the incoming lead data
@@ -134,19 +134,19 @@ export async function DELETE(request: Request) {
   await connectMongoDB();
   try {
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
+    const name = searchParams.get("name");
 
-    if (!id) {
-      return NextResponse.json({ error: "Lead ID is required" }, { status: 400 });
+    if (!name) {
+      return NextResponse.json({ error: "Lead name is required" }, { status: 400 });
     }
 
-    const deletedLead = await Leadsmodel.findOneAndDelete({ id });
+    const deletedLead = await Leadsmodel.findOneAndDelete({ name });
 
     if (!deletedLead) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ id }, { status: 200 });
+    return NextResponse.json({ name }, { status: 200 });
   } catch (error) {
     console.error("Error deleting lead:", error);
     return NextResponse.json(
