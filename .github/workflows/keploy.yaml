@@ -36,7 +36,7 @@ jobs:
 
     - name: Keploy Test (Replay Recorded Tests)
       run: |
-        sudo -E keploy test -c "npm run dev" --delay 20 --path ./
+        sudo -E keploy test -c "npm run dev" --delay 30 --path ./
     
     env:
       NEXT_PUBLIC_MONGODB_URI: ${{ secrets.NEXT_PUBLIC_MONGODB_URI }}
