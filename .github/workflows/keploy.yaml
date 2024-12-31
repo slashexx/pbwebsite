@@ -21,7 +21,6 @@ jobs:
       - name: Test-Report
         uses: keploy/testgpt@main
         with:
-            working-directory: ./
             command: "npm run dev" 
           
         env:
